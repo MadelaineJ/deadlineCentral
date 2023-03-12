@@ -22,9 +22,15 @@ push2: # run `make push2 b=<yourbranch>`
 # This will not delete any of your work
 # you will likely have merge issues
 # Note: makefile will say there was an error if you didn't have any changes to stash, you can ignore that
+
+# git pull b=<yourbranch>
 pull:
 	git stash
 	git fetch
+	git checkout master
+	git pull
+	git reset --hard origin/master
+	git checkout ${b}
 	git rebase master
 	git stash pop
 
