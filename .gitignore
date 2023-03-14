@@ -5,3 +5,5 @@
 core
 *.core
 a.out
+project/build/*
+project/bin/*
