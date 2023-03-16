@@ -1,19 +1,21 @@
 // Test main program to access oracle
 #include <iostream>
-#include <occi.h>  // Oracle's C++ call level interface library package
+#include "occi.h"  // Oracle's C++ call level interface library package
 #include <termios.h>
 #include <unistd.h>
 using namespace std;
 using namespace oracle::occi;
 
-const string userName = "CSCI375A";
-const string password = "c9MIb9y1";
-const string connectString = "sunfire.csci.viu.ca";
+const string userName = "team1";
+const string password = "teamwon1";
+const string connectString = "192.168.56.101:1539/XEPDB1";
 
 int main()
 {
     try {
         // set connection
+        cout << "hi" << endl;
+        cout << connectString << endl;
         Environment *env = Environment::createEnvironment();
         Connection *conn = env->createConnection(userName, password, connectString);
 

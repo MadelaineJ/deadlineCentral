@@ -9,9 +9,9 @@
 using namespace std;
 using namespace oracle::occi;
 
-const string userName = "CSCI375A";
-const string password = "c9MIb9y1";
-const string connectString = "sunfire.csci.viu.ca";
+const string userName = "team1";
+const string password = "teamwon1";
+const string connectString = "192.168.56.101:1539/XEPDB1";
 
 void helloWorldDb()
 {
