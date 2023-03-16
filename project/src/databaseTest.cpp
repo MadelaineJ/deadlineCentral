@@ -13,7 +13,7 @@ const string userName = "team1";
 const string password = "teamwon1";
 const string connectString = "192.168.56.101:1539/XEPDB1";
 
-void helloWorldDb()
+int main()
 {
     try {
         // set connection

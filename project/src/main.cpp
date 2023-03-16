@@ -1,10 +1,9 @@
-#include "databaseTest.hpp"
+#include "controllerDb.hpp"
 
-
-
+using namespace std;
 
 int main() {
 
-    helloWorldDb();
+    controllerDb();
 
 }
