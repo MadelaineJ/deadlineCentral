@@ -3,11 +3,10 @@
 
 # Required so that deadline cental uses the latest version of oracle for compilation
 .EXPORT_ALL_VARIABLES:
-	export ORACLE_BASE=/.jonesme/oracle-libraries
-	export ORACLE_HOME=/.jonesme/oracle-libraries/instantclient_21_9
+	export ORACLE_BASE=/srv/export/CSCI375a/oracle-libraries/
+	export ORACLE_HOME=/srv/export/CSCI375a/oracle-libraries/instantclient_21_9/
 	export LD_LIBRARY_PATH=$ORACLE_HOME
 	export PATH=$ORACLE_HOME:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:~/bin
-
 
 # Flags
 WFLAG = -Wall

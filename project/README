@@ -1,0 +1,8 @@
+project files for TeamWon
+
+
+to run deadline central:
+`make run`
+
+to run demo db example application:
+`make run-example

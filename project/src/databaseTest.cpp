@@ -11,7 +11,7 @@ using namespace oracle::occi;
 
 const string userName = "team1";
 const string password = "teamwon1";
-const string connectString = "192.168.56.101:1539/XEPDB1";
+const string connectString = "192.168.18.58:1539/XEPDB1";
 
 int main()
 {
