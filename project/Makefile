@@ -8,7 +8,7 @@
 	export LD_LIBRARY_PATH=$ORACLE_HOME
 	export PATH=$ORACLE_HOME:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:~/bin
 
-# Flags
+# Basic Compilation Flags
 WFLAG = -Wall
 CFLAG = -c
 OFLAG = -o
@@ -16,9 +16,12 @@ IFLAG = -I
 DFLAG = -ggdb
 
 
-# folders
+# Directories
 SOURCE = src
 DATALAYER = datalayer
+CONTROL = controllers
+MODEL = models
+VIEW = viewlayer
 INCLUDE = include
 BINARY = bin
 TESTS = test
@@ -33,49 +36,116 @@ LFLAGS = -L $(ORACLE_HOME) -locci -m64 -lclntsh
 AUTH = -D_GLIBCXX_USE_CXX11_ABI=0
 
 
+# If you want to add an new file to deadline central, add the .o to ${BINARY}/deadlineCentral: , run: , and the .hpp to ${BUILDS}/main.o:
+# Add it as a dependency for all 3 and in the compilation command for ${BINARY}/deadlineCentral. Follow the pre-established pattern
+
+
 all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral
 
 
 # deadline central
-${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o
-	${CC} ${WFLAG} ${OFLAG} ${BINARY}/deadlineCentral ${BUILDS}/controllerDb.o ${BUILDS}/subscriptionDb.o ${BUILDS}/mainDb.o ${BUILDS}/main.o $(LFLAGS)
-
+${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
+${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o \
+${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o \
+${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o \
+${BUILDS}/student.o ${BUILDS}/task.o
+	${CC} ${WFLAG} ${OFLAG} ${BINARY}/deadlineCentral ${BUILDS}/controllerDb.o ${BUILDS}/subscriptionDb.o \
+	${BUILDS}/mainDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o \
+	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
+	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
+	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o \
+	$(LFLAGS)
 
 
 # Data Layer
 ${BUILDS}/controllerDb.o: ${SOURCE}/${DATALAYER}/controllerDb.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/controllerDb.o ${SOURCE}/${DATALAYER}/controllerDb.cpp $(CFLAGS)
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/controllerDb.o \
+	${SOURCE}/${DATALAYER}/controllerDb.cpp $(CFLAGS)
 
 ${BUILDS}/mainDb.o: ${SOURCE}/${DATALAYER}/mainDb.cpp ${INCLUDE}/${DATALAYER}/mainDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/mainDb.o ${SOURCE}/${DATALAYER}/mainDb.cpp $(CFLAGS)
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/mainDb.o ${SOURCE}/${DATALAYER}/mainDb.cpp \
+	$(CFLAGS)
 
 ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/subscriptionDb.o ${SOURCE}/${DATALAYER}/subscriptionDb.cpp $(CFLAGS)
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/subscriptionDb.o \
+	${SOURCE}/${DATALAYER}/subscriptionDb.cpp \
+	$(CFLAGS)
 
-#TODO add view layer compilation
+# View layer compilation
+${BUILDS}/commandHandler.o: ${SOURCE}/${VIEW}/commandHandler.cpp ${INCLUDE}/${VIEW}/commandHandler.hpp
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/commandHandler.o \
+	${SOURCE}/${VIEW}/commandHandler.cpp
 
-#TODO add model layer compilation
+# Controllers compilation
+${BUILDS}/aggregateDeadlinesController.o: ${SOURCE}/${CONTROL}/aggregateDeadlinesController.cpp \
+${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/aggregateDeadlinesController.o \
+	${SOURCE}/${CONTROL}/aggregateDeadlinesController.cpp
+
+${BUILDS}/courseController.o: ${SOURCE}/${CONTROL}/courseController.cpp ${INCLUDE}/${CONTROL}/courseController.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/courseController.o \
+	${SOURCE}/${CONTROL}/courseController.cpp
+
+${BUILDS}/filterTaskController.o: ${SOURCE}/${CONTROL}/filterTaskController.cpp ${INCLUDE}/${CONTROL}/filterTaskController.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/filterTaskController.o \
+	${SOURCE}/${CONTROL}/filterTaskController.cpp
+
+${BUILDS}/subscriptionController.o: ${SOURCE}/${CONTROL}/subscriptionController.cpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/subscriptionController.o \
+	${SOURCE}/${CONTROL}/subscriptionController.cpp
+
+${BUILDS}/taskController.o: ${SOURCE}/${CONTROL}/taskController.cpp ${INCLUDE}/${CONTROL}/taskController.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/taskController.o \
+	${SOURCE}/${CONTROL}/taskController.cpp
+
+${BUILDS}/userController.o: ${SOURCE}/${CONTROL}/userController.cpp ${INCLUDE}/${CONTROL}/userController.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/userController.o \
+	${SOURCE}/${CONTROL}/userController.cpp
+
+# Models compilation
+${BUILDS}/course.o: ${SOURCE}/${MODEL}/course.cpp ${INCLUDE}/${MODEL}/course.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/course.o \
+	${SOURCE}/${MODEL}/course.cpp
+
+${BUILDS}/instructor.o: ${SOURCE}/${MODEL}/instructor.cpp ${INCLUDE}/${MODEL}/instructor.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/instructor.o \
+	${SOURCE}/${MODEL}/instructor.cpp
+
+${BUILDS}/student.o: ${SOURCE}/${MODEL}/student.cpp ${INCLUDE}/${MODEL}/student.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/student.o \
+	${SOURCE}/${MODEL}/student.cpp
+
+${BUILDS}/task.o: ${SOURCE}/${MODEL}/task.cpp ${INCLUDE}/${MODEL}/task.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/task.o \
+	${SOURCE}/${MODEL}/task.cpp
+
+${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
+	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/user.o \
+	${SOURCE}/${MODEL}/user.cpp
+
 
 
 # Main
-${BUILDS}/main.o: ${SOURCE}/main.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp ${INCLUDE}/${DATALAYER}/mainDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/main.o ${SOURCE}/main.cpp ${CFLAGS}
+${BUILDS}/main.o: ${SOURCE}/main.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp \
+${INCLUDE}/${DATALAYER}/mainDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
+${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp \
+${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
+${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
+${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
+${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
+${INCLUDE}/${MODEL}/user.hpp
+	${CC} ${CFLAG} ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
+	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} \
+	${OFLAG} ${BUILDS}/main.o ${SOURCE}/main.cpp \
 
 
-run: ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o
+run: ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
+${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
+${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
+${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o
 	${BINARY}/deadlineCentral
 
-
-# compile the tests
-${TESTS}/${BUILDS}/databaseTest.o: ${TESTS}/${SOURCE}/databaseTest.cpp ${INCLUDE}/sqrt.hpp
-	${CC} ${WFLAG} ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${TESTS}/${BUILDS}/sqrt_test.o ${TESTS}/${SOURCE}/sqrt_test.cpp
-
-
-
-# run the unit tests
-test: ${BINARY}/exampleProg ${TESTS}/${BINARY}/deadlineCentralTests ${TESTS}/${BUILDS}/sqrt_test.o
-	${TESTS}/${BINARY}/sqrtTest --log_level=all --run_test=first_test \
-		-- bin/test
+# Testing
 
 .PHONY: clean
 
