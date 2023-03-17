@@ -2,18 +2,21 @@
 # Makefile to build a Deadline Central (and a hello world database connection file)
 
 # Required so that deadline cental uses the latest version of oracle for compilation
+
 .EXPORT_ALL_VARIABLES:
-	export ORACLE_BASE=/srv/export/CSCI375a/oracle-libraries/
-	export ORACLE_HOME=/srv/export/CSCI375a/oracle-libraries/instantclient_21_9/
+	export ORACLE_BASE=/srv/export/CSCI375a/oracle-libraries
+	export ORACLE_HOME=/srv/export/CSCI375a/oracle-libraries/instantclient_21_9
 	export LD_LIBRARY_PATH=$ORACLE_HOME
 	export PATH=$ORACLE_HOME:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:~/bin
+	export ORALIB=$ORACLE_HOME/lib
 
 # Basic Compilation Flags
 WFLAG = -Wall
 CFLAG = -c
 OFLAG = -o
 IFLAG = -I
-DFLAG = -ggdb
+DFLAG = -ggdb -gstabs+ -gcoff
+
 
 
 # Directories
@@ -27,21 +30,37 @@ BINARY = bin
 TESTS = test
 BUILDS = build
 
-CC = g++
+CC = g++ -ggdb
 #Specifies the locations of occi.h headers
 CFLAGS = -I $(ORACLE_HOME)/sdk/include
 #Specifies the location of oracle programs needed to connect
-LFLAGS = -L $(ORACLE_HOME) -locci -m64 -lclntsh
+LFLAGS = -L $(ORACLE_HOME) -locci -lclntsh
 #Resolves "invalid password" bug
 AUTH = -D_GLIBCXX_USE_CXX11_ABI=0
-
+TFLAG = -lboost_unit_test_framework
 
 # If you want to add an new file to deadline central, add the .o to ${BINARY}/deadlineCentral: , run: , and the .hpp to ${BUILDS}/main.o:
 # Add it as a dependency for all 3 and in the compilation command for ${BINARY}/deadlineCentral. Follow the pre-established pattern
 
+# MAKE COMMANDS
 
 all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral
 
+
+run: ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
+${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
+${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
+${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o
+	${BINARY}/deadlineCentral
+
+test: ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTest
+	${TESTS}/${BINARY}/deadlineCentralTest --log_level=all --run_test=controllerDB --run_test=help \
+		-- bin/test
+
+run-example: ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
+	${BINARY}/exampleProg
+
+# DEADLINE CENTRAL 
 
 # deadline central
 ${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
@@ -54,16 +73,18 @@ ${BUILDS}/student.o ${BUILDS}/task.o
 	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
 	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o \
-	$(LFLAGS)
+	$(LFLAGS) $(CFLAGS)
 
 
 # Data Layer
 ${BUILDS}/controllerDb.o: ${SOURCE}/${DATALAYER}/controllerDb.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/controllerDb.o \
-	${SOURCE}/${DATALAYER}/controllerDb.cpp $(CFLAGS)
+	${SOURCE}/${DATALAYER}/controllerDb.cpp \
+	$(CFLAGS)
 
 ${BUILDS}/mainDb.o: ${SOURCE}/${DATALAYER}/mainDb.cpp ${INCLUDE}/${DATALAYER}/mainDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/mainDb.o ${SOURCE}/${DATALAYER}/mainDb.cpp \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/mainDb.o \
+	${SOURCE}/${DATALAYER}/mainDb.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp
@@ -124,7 +145,6 @@ ${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
 	${SOURCE}/${MODEL}/user.cpp
 
 
-
 # Main
 ${BUILDS}/main.o: ${SOURCE}/main.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp \
 ${INCLUDE}/${DATALAYER}/mainDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
@@ -134,18 +154,31 @@ ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hp
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
 ${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
 ${INCLUDE}/${MODEL}/user.hpp
-	${CC} ${CFLAG} ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
+	${CC} ${CFLAG} $(AUTH) ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} \
 	${OFLAG} ${BUILDS}/main.o ${SOURCE}/main.cpp \
+	$(CFLAGS)
 
 
-run: ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
-${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
-${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
-${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o
-	${BINARY}/deadlineCentral
+# TESTING
+# note, to add a testing file you should copy the chunk of code for ${TESTS}/${BUILDS}/controllerDbTest.o:
+# change the file names, and add it to the compilation
 
-# Testing
+# Testing executable
+${TESTS}/${BINARY}/deadlineCentralTest: ${BINARY}/deadlineCentral ${TESTS}/${BUILDS}/controllerDbTest.o
+	${CC} ${WFLAG} ${TFLAG} -o ${TESTS}/${BINARY}/deadlineCentralTest \
+	${TESTS}/${BUILDS}/controllerDbTest.o ${BUILDS}/controllerDb.o \
+	$(LFLAGS)
+
+ # controller DB Tester
+${TESTS}/${BUILDS}/controllerDbTest.o: ${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp \
+${INCLUDE}/${DATALAYER}/controllerDb.hpp ${TESTS}/${INCLUDE}/${DATALAYER}/controllerDbTest.hpp
+	${CC} ${WFLAG} $(AUTH) ${CFLAG} \
+	${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${TESTS}/${INCLUDE}/${DATALAYER} \
+	${OFLAG} ${TESTS}/${BUILDS}/controllerDbTest.o \
+	${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp \
+	$(CFLAGS)
+
 
 .PHONY: clean
 
@@ -153,15 +186,13 @@ clean:
 	rm -rf ${BINARY}/* 
 	rm -rf ${BUILDS}/*
 
-
 # DATABASE HELLO WORLD EXAMPLE
 
 # example database exe
 ${BINARY}/exampleProg: ${BUILDS}/databaseTest.o
-	${CC} ${WFLAG} ${OFLAG} ${BINARY}/exampleProg ${BUILDS}/databaseTest.o $(LFLAGS)
+	${CC} ${WFLAG} ${OFLAG} ${BINARY}/exampleProg ${BUILDS}/databaseTest.o \
+	$(LFLAGS) $(CFLAGS)
 
 ${BUILDS}/databaseTest.o: ${SOURCE}/databaseTest.cpp ${INCLUDE}/databaseTest.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${BUILDS}/databaseTest.o ${SOURCE}/databaseTest.cpp $(CFLAGS)
-
-run-example: ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp ${SOURCE}/main.cpp
-	${BINARY}/exampleProg
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${BUILDS}/databaseTest.o ${SOURCE}/databaseTest.cpp \
+	$(CFLAGS)
