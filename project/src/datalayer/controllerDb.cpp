@@ -1,7 +1,5 @@
+// handles connection and query sending to database
 
-
-
-// Test main program to access oracle
 #include <iostream>
 #include "occi.h"  // Oracle's C++ call level interface library package
 #include <termios.h>
@@ -34,10 +32,10 @@ ControllerDb::~ControllerDb() { }
 string ControllerDb::connect() {
     try {
         this->environment = Environment::createEnvironment();
-        this->connection = environment->createConnection(this->username, this->password, this->connectString );
+        this->connection = environment->createConnection(this->username, this->password, this->connectString);
         cout << "Connected to Oracle database using OCCI." << endl << endl;
     } catch (SQLException & e) {
-        return e.what();
+        return e.what() + this->username;
     }
     return "success";
 }
@@ -76,7 +74,7 @@ string ControllerDb::disconnect() {
             Environment::terminateEnvironment(this->environment);
         }
     } catch (SQLException & e) {
-        return e.what();
+        return e.what() + this->username;
     }
     return "success";
 }

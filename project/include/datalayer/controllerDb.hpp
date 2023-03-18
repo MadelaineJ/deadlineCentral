@@ -1,6 +1,7 @@
 #ifndef CONTROLLER_DB_H
 #define CONTROLLER_DB_H
 
+// Connection information
 #define USERNAME "team1"
 #define PASSWORD "teamwon1"
 #define CONNECTION_STRING "192.168.18.58:1539/XEPDB1"
@@ -30,7 +31,6 @@ class ControllerDb
         string connectString;
         string username;
         string password;
-
 };
 
 #endif // CONTROLLER_DB_H

@@ -1,7 +1,7 @@
 #
 # Makefile to build a Deadline Central (and a hello world database connection file)
-
 # Required so that deadline cental uses the latest version of oracle for compilation
+#
 
 .EXPORT_ALL_VARIABLES:
 	export ORACLE_BASE=/srv/export/CSCI375a/oracle-libraries
@@ -16,8 +16,6 @@ CFLAG = -c
 OFLAG = -o
 IFLAG = -I
 DFLAG = -ggdb -gstabs+ -gcoff
-
-
 
 # Directories
 SOURCE = src
@@ -37,7 +35,7 @@ CFLAGS = -I $(ORACLE_HOME)/sdk/include
 LFLAGS = -L $(ORACLE_HOME) -locci -lclntsh
 #Resolves "invalid password" bug
 AUTH = -D_GLIBCXX_USE_CXX11_ABI=0
-TFLAG = -lboost_unit_test_framework
+TFLAG = -lboost_unit_test_framework -Wl,--no-as-needed -lboost_system
 
 # If you want to add an new file to deadline central, add the .o to ${BINARY}/deadlineCentral: , run: , and the .hpp to ${BUILDS}/main.o:
 # Add it as a dependency for all 3 and in the compilation command for ${BINARY}/deadlineCentral. Follow the pre-established pattern
@@ -54,7 +52,9 @@ ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o
 	${BINARY}/deadlineCentral
 
 test: ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTest
-	${TESTS}/${BINARY}/deadlineCentralTest --log_level=all --run_test=controllerDB --run_test=help \
+	${TESTS}/${BINARY}/deadlineCentralTest --log_level=all \
+	--run_test=math \
+	--run_test=controllerDB \
 		-- bin/test
 
 run-example: ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
@@ -67,7 +67,7 @@ ${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/m
 ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o \
 ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o \
 ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o \
-${BUILDS}/student.o ${BUILDS}/task.o
+${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o
 	${CC} ${WFLAG} ${OFLAG} ${BINARY}/deadlineCentral ${BUILDS}/controllerDb.o ${BUILDS}/subscriptionDb.o \
 	${BUILDS}/mainDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o \
 	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
@@ -144,7 +144,6 @@ ${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
 	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/user.o \
 	${SOURCE}/${MODEL}/user.cpp
 
-
 # Main
 ${BUILDS}/main.o: ${SOURCE}/main.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp \
 ${INCLUDE}/${DATALAYER}/mainDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
@@ -153,32 +152,38 @@ ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionCon
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
 ${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
-${INCLUDE}/${MODEL}/user.hpp
-	${CC} ${CFLAG} $(AUTH) ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
-	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} \
+${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp
+	${CC} ${CFLAG} $(AUTH) ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCmLUDE}/${VIEW} \
+	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${OFLAG} ${BUILDS}/main.o ${SOURCE}/main.cpp \
 	$(CFLAGS)
 
-
 # TESTING
-# note, to add a testing file you should copy the chunk of code for ${TESTS}/${BUILDS}/controllerDbTest.o:
-# change the file names, and add it to the compilation
+# note, To add a testing file simply duplicated this line for the "${TESTS}/${BINARY}/deadlineCentralTest:" target
+# ${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
+# and then change the file locations and names.
 
+# TODO: remove this, it was for testing purposes
+${BUILDS}/sqrt.o: ${SOURCE}/sqrt.cpp ${INCLUDE}/sqrt.hpp
+	${CC} ${WFLAG} ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${BUILDS}/sqrt.o ${SOURCE}/sqrt.cpp
+
+# TODO remove the sqrtTest compilation
 # Testing executable
-${TESTS}/${BINARY}/deadlineCentralTest: ${BINARY}/deadlineCentral ${TESTS}/${BUILDS}/controllerDbTest.o
-	${CC} ${WFLAG} ${TFLAG} -o ${TESTS}/${BINARY}/deadlineCentralTest \
-	${TESTS}/${BUILDS}/controllerDbTest.o ${BUILDS}/controllerDb.o \
-	$(LFLAGS)
-
- # controller DB Tester
-${TESTS}/${BUILDS}/controllerDbTest.o: ${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp \
-${INCLUDE}/${DATALAYER}/controllerDb.hpp ${TESTS}/${INCLUDE}/${DATALAYER}/controllerDbTest.hpp
-	${CC} ${WFLAG} $(AUTH) ${CFLAG} \
+${TESTS}/${BINARY}/deadlineCentralTest: ${BINARY}/deadlineCentral \
+${INCLUDE}/${DATALAYER}/mainDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
+${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp \
+${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
+${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
+${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
+${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
+${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp
+	${CC} ${WFLAG} ${AUTH} ${TFLAG} -o ${TESTS}/${BINARY}/deadlineCentralTest \
 	${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${TESTS}/${INCLUDE}/${DATALAYER} \
-	${OFLAG} ${TESTS}/${BUILDS}/controllerDbTest.o \
-	${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp \
-	$(CFLAGS)
-
+	${IFLAG} ${INCLUDE} ${IFLAG} ${TESTS}/${INCLUDE} \
+	${TESTS}/${SOURCE}/sqrtTest.cpp ${SOURCE}/sqrt.cpp \
+	${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
+	${TESTS}/${SOURCE}/main.cpp \
+	$(CFLAGS) $(LFLAGS)
 
 .PHONY: clean
 
@@ -187,7 +192,6 @@ clean:
 	rm -rf ${BUILDS}/*
 
 # DATABASE HELLO WORLD EXAMPLE
-
 # example database exe
 ${BINARY}/exampleProg: ${BUILDS}/databaseTest.o
 	${CC} ${WFLAG} ${OFLAG} ${BINARY}/exampleProg ${BUILDS}/databaseTest.o \

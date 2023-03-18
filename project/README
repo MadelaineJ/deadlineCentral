@@ -1,8 +1,13 @@
 project files for TeamWon
-
-
 to run deadline central:
 `make run`
 
+to run deadline central unit tests: (note right now this runs a couple sqrt tests)
+`make test`
+
 to run demo db example application:
 `make run-example
+
+
+Right now there are some square root calculator files in the repo. This was so I could get the makefile working with
+multiple test files. It can be removed once more tests have been added.

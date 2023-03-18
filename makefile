@@ -1,4 +1,4 @@
- MY_VAR := $(shell git log --oneline -1)
+MY_VAR := $(shell git log --oneline -1)
 ID = $(shell echo ${MY_VAR} | head -c 7)
 
 # Do a git commit with a descriptive commit message

@@ -1,25 +1,22 @@
-// Required boost definitions
-#define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE DeadlineCentral
+// Unit tests for controllerDb.cpp
 
-// the file to be tested
-#include "controllerDb.hpp"
+// required libraries
+#include <boost/test/unit_test.hpp>
 
 // custom header files
 #include "controllerDbTest.hpp"
 
-// required libraries
-#include <boost/test/included/unit_test.hpp>
+// the file being tested
+#include "controllerDb.hpp"
 
-
+#include <iostream>
 
 using namespace std;
 
 BOOST_AUTO_TEST_SUITE(controllerDB)
 
-
-
 BOOST_AUTO_TEST_CASE(database_connection) {
+    
     // setup
     ControllerDb inTest;
 
