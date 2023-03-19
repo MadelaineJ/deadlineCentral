@@ -190,6 +190,7 @@ ${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp
 clean:
 	rm -rf ${BINARY}/* 
 	rm -rf ${BUILDS}/*
+	rm -rf ${TESTS}/${BINARY}/*
 
 # DATABASE HELLO WORLD EXAMPLE
 # example database exe
