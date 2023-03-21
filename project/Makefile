@@ -36,6 +36,7 @@ LFLAGS = -L $(ORACLE_HOME) -locci -lclntsh
 #Resolves "invalid password" bug
 AUTH = -D_GLIBCXX_USE_CXX11_ABI=0
 TFLAG = -lboost_unit_test_framework -Wl,--no-as-needed -lboost_system
+VFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 # If you want to add an new file to deadline central, add the .o to ${BINARY}/deadlineCentral: , run: , and the .hpp to ${BUILDS}/main.o:
 # Add it as a dependency for all 3 and in the compilation command for ${BINARY}/deadlineCentral. Follow the pre-established pattern
@@ -66,14 +67,14 @@ run-example: ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
 ${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
 ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o \
 ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o \
-${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o \
-${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o
+${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o ${BUILDS}/view.o \
+${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o ${BUILDS}/statemachine.o
 	${CC} ${WFLAG} ${OFLAG} ${BINARY}/deadlineCentral ${BUILDS}/controllerDb.o ${BUILDS}/subscriptionDb.o \
 	${BUILDS}/mainDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o \
 	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
 	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
-	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o \
-	$(LFLAGS) $(CFLAGS)
+	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/statemachine.o ${BUILDS}/view.o \
+	$(LFLAGS) $(CFLAGS) $(VFLAGS)
 
 
 # Data Layer
@@ -96,6 +97,15 @@ ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}
 ${BUILDS}/commandHandler.o: ${SOURCE}/${VIEW}/commandHandler.cpp ${INCLUDE}/${VIEW}/commandHandler.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/commandHandler.o \
 	${SOURCE}/${VIEW}/commandHandler.cpp
+
+${BUILDS}/statemachine.o: ${SOURCE}/${VIEW}/statemachine.cpp ${INCLUDE}/${VIEW}/statemachine.hpp
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/statemachine.o \
+	${SOURCE}/${VIEW}/statemachine.cpp  $(VFLAGS)
+
+${BUILDS}/view.o: ${SOURCE}/${VIEW}/view.cpp ${INCLUDE}/${VIEW}/view.hpp
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/view.o \
+	${SOURCE}/${VIEW}/view.cpp $(VFLAGS)
+
 
 # Controllers compilation
 ${BUILDS}/aggregateDeadlinesController.o: ${SOURCE}/${CONTROL}/aggregateDeadlinesController.cpp \
@@ -152,7 +162,8 @@ ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionCon
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
 ${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
-${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp
+${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp ${INCLUDE}/${VIEW}/statemachine.hpp \
+${INCLUDE}/${VIEW}/view.hpp
 	${CC} ${CFLAG} $(AUTH) ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${OFLAG} ${BUILDS}/main.o ${SOURCE}/main.cpp \
