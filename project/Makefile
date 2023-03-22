@@ -43,34 +43,34 @@ VFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 # MAKE COMMANDS
 
-all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral
+all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral directories
 
 
-run: ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
+run: directories ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
 ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
 ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o
 	${BINARY}/deadlineCentral
 
-test: ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTest
+test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTest
 	${TESTS}/${BINARY}/deadlineCentralTest --log_level=all \
 	--run_test=math \
 	--run_test=controllerDB \
 		-- bin/test
 
-run-example: ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
+run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
 	${BINARY}/exampleProg
 
 # DEADLINE CENTRAL 
 
 # deadline central
-${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/mainDb.o ${BUILDS}/subscriptionDb.o \
+${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
 ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o \
 ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o \
 ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o ${BUILDS}/view.o \
 ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o ${BUILDS}/statemachine.o
 	${CC} ${WFLAG} ${OFLAG} ${BINARY}/deadlineCentral ${BUILDS}/controllerDb.o ${BUILDS}/subscriptionDb.o \
-	${BUILDS}/mainDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o \
+	${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o \
 	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
 	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/statemachine.o ${BUILDS}/view.o \
@@ -83,9 +83,19 @@ ${BUILDS}/controllerDb.o: ${SOURCE}/${DATALAYER}/controllerDb.cpp ${INCLUDE}/${D
 	${SOURCE}/${DATALAYER}/controllerDb.cpp \
 	$(CFLAGS)
 
-${BUILDS}/mainDb.o: ${SOURCE}/${DATALAYER}/mainDb.cpp ${INCLUDE}/${DATALAYER}/mainDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/mainDb.o \
-	${SOURCE}/${DATALAYER}/mainDb.cpp \
+${BUILDS}/taskDb.o: ${SOURCE}/${DATALAYER}/taskDb.cpp ${INCLUDE}/${DATALAYER}/taskDb.hpp
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/taskDb.o \
+	${SOURCE}/${DATALAYER}/taskDb.cpp \
+	$(CFLAGS)
+
+${BUILDS}/userDb.o: ${SOURCE}/${DATALAYER}/userDb.cpp ${INCLUDE}/${DATALAYER}/userDb.hpp
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/userDb.o \
+	${SOURCE}/${DATALAYER}/userDb.cpp \
+	$(CFLAGS)
+
+${BUILDS}/courseDb.o: ${SOURCE}/${DATALAYER}/courseDb.cpp ${INCLUDE}/${DATALAYER}/courseDb.hpp
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/courseDb.o \
+	${SOURCE}/${DATALAYER}/courseDb.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp
@@ -156,7 +166,7 @@ ${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
 
 # Main
 ${BUILDS}/main.o: ${SOURCE}/main.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp \
-${INCLUDE}/${DATALAYER}/mainDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
+${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUDE}/${DATALAYER}/taskDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
 ${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp \
 ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
@@ -181,7 +191,7 @@ ${BUILDS}/sqrt.o: ${SOURCE}/sqrt.cpp ${INCLUDE}/sqrt.hpp
 # TODO remove the sqrtTest compilation
 # Testing executable
 ${TESTS}/${BINARY}/deadlineCentralTest: ${BINARY}/deadlineCentral \
-${INCLUDE}/${DATALAYER}/mainDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
+${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUDE}/${DATALAYER}/taskDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
 ${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp \
 ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
@@ -196,12 +206,18 @@ ${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp
 	${TESTS}/${SOURCE}/main.cpp \
 	$(CFLAGS) $(LFLAGS)
 
-.PHONY: clean
+.PHONY: directories clean
 
-clean:
+clean: directories
 	rm -rf ${BINARY}/* 
 	rm -rf ${BUILDS}/*
 	rm -rf ${TESTS}/${BINARY}/*
+
+
+# Creating directories that are ignored by git
+MKDIR_P = mkdir -p
+directories:
+	${MKDIR_P} ${BINARY} ${BUILDS} ${TESTS}/${BINARY} ${TESTS}/${BUILDS}
 
 # DATABASE HELLO WORLD EXAMPLE
 # example database exe
@@ -212,3 +228,5 @@ ${BINARY}/exampleProg: ${BUILDS}/databaseTest.o
 ${BUILDS}/databaseTest.o: ${SOURCE}/databaseTest.cpp ${INCLUDE}/databaseTest.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${BUILDS}/databaseTest.o ${SOURCE}/databaseTest.cpp \
 	$(CFLAGS)
+
+
