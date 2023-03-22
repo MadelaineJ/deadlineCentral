@@ -13,4 +13,5 @@ int main() {
     // db.sendQuery(query);
     // db.disconnect();
     //view_layer();
+    //Course foo("Assembly", "CSCI222", "Blah Balh Lall", {0, 1});
 }
