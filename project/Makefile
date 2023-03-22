@@ -4,11 +4,11 @@
 #
 
 .EXPORT_ALL_VARIABLES:
-	export ORACLE_BASE=/srv/export/CSCI375a/oracle-libraries
-	export ORACLE_HOME=/srv/export/CSCI375a/oracle-libraries/instantclient_21_9
-	export LD_LIBRARY_PATH=$ORACLE_HOME
-	export PATH=$ORACLE_HOME:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:~/bin
-	export ORALIB=$ORACLE_HOME/lib
+	ORACLE_BASE=/srv/export/CSCI375a/oracle-libraries
+	ORACLE_HOME=/srv/export/CSCI375a/oracle-libraries/instantclient_21_9
+	LD_LIBRARY_PATH=$ORACLE_HOME
+	PATH=$ORACLE_HOME:/usr/local/bin:/bin:/usr/bin:/usr/X11R6/bin:~/bin
+	ORALIB=$ORACLE_HOME/lib
 
 # Basic Compilation Flags
 WFLAG = -Wall
@@ -110,48 +110,48 @@ ${BUILDS}/view.o: ${SOURCE}/${VIEW}/view.cpp ${INCLUDE}/${VIEW}/view.hpp
 # Controllers compilation
 ${BUILDS}/aggregateDeadlinesController.o: ${SOURCE}/${CONTROL}/aggregateDeadlinesController.cpp \
 ${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/aggregateDeadlinesController.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/aggregateDeadlinesController.o \
 	${SOURCE}/${CONTROL}/aggregateDeadlinesController.cpp
 
 ${BUILDS}/courseController.o: ${SOURCE}/${CONTROL}/courseController.cpp ${INCLUDE}/${CONTROL}/courseController.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/courseController.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/courseController.o \
 	${SOURCE}/${CONTROL}/courseController.cpp
 
 ${BUILDS}/filterTaskController.o: ${SOURCE}/${CONTROL}/filterTaskController.cpp ${INCLUDE}/${CONTROL}/filterTaskController.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/filterTaskController.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/filterTaskController.o \
 	${SOURCE}/${CONTROL}/filterTaskController.cpp
 
 ${BUILDS}/subscriptionController.o: ${SOURCE}/${CONTROL}/subscriptionController.cpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/subscriptionController.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/subscriptionController.o \
 	${SOURCE}/${CONTROL}/subscriptionController.cpp
 
 ${BUILDS}/taskController.o: ${SOURCE}/${CONTROL}/taskController.cpp ${INCLUDE}/${CONTROL}/taskController.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/taskController.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/taskController.o \
 	${SOURCE}/${CONTROL}/taskController.cpp
 
 ${BUILDS}/userController.o: ${SOURCE}/${CONTROL}/userController.cpp ${INCLUDE}/${CONTROL}/userController.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/userController.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/userController.o \
 	${SOURCE}/${CONTROL}/userController.cpp
 
 # Models compilation
 ${BUILDS}/course.o: ${SOURCE}/${MODEL}/course.cpp ${INCLUDE}/${MODEL}/course.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/course.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/course.o \
 	${SOURCE}/${MODEL}/course.cpp
 
 ${BUILDS}/instructor.o: ${SOURCE}/${MODEL}/instructor.cpp ${INCLUDE}/${MODEL}/instructor.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/instructor.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/instructor.o \
 	${SOURCE}/${MODEL}/instructor.cpp
 
 ${BUILDS}/student.o: ${SOURCE}/${MODEL}/student.cpp ${INCLUDE}/${MODEL}/student.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/student.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/student.o \
 	${SOURCE}/${MODEL}/student.cpp
 
 ${BUILDS}/task.o: ${SOURCE}/${MODEL}/task.cpp ${INCLUDE}/${MODEL}/task.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/task.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/task.o \
 	${SOURCE}/${MODEL}/task.cpp
 
 ${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
-	${CC} ${CFLAG} ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/user.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/user.o \
 	${SOURCE}/${MODEL}/user.cpp
 
 # Main

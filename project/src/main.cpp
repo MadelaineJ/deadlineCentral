@@ -12,5 +12,5 @@ int main() {
     // string query = "SELECT * FROM Students UNION SELECT * FROM Instructors";
     // db.sendQuery(query);
     // db.disconnect();
-    view_layer();
+    //view_layer();
 }
