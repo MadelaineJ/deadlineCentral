@@ -46,11 +46,7 @@ VFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral directories
 
 
-<<<<<<< Updated upstream
 run: directories ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
-=======
-run: ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
->>>>>>> Stashed changes
 ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
 ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o

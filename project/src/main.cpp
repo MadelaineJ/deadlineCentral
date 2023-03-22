@@ -12,10 +12,6 @@ int main() {
     // string query = "SELECT * FROM Students UNION SELECT * FROM Instructors";
     // db.sendQuery(query);
     // db.disconnect();
-<<<<<<< Updated upstream
     //view_layer();
     //Course foo("Assembly", "CSCI222", "Blah Balh Lall", {0, 1});
-=======
-    //view_layer(); 
->>>>>>> Stashed changes
 }
