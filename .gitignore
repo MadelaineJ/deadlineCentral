@@ -5,3 +5,8 @@
 core
 *.core
 a.out
+
+
+project/bin/*
+project/test/bin/*
+.gdb_history
