@@ -47,7 +47,7 @@ all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral directories
 
 
 run: directories ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
-${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
+${BUILDS}/commandHandler.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
 ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o
 	${BINARY}/deadlineCentral
@@ -65,12 +65,12 @@ run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
 
 # deadline central
 ${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
-${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o ${BUILDS}/courseController.o \
+${BUILDS}/commandHandler.o ${BUILDS}/courseController.o \
 ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o \
 ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o ${BUILDS}/view.o \
 ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o ${BUILDS}/statemachine.o
 	${CC} ${WFLAG} ${OFLAG} ${BINARY}/deadlineCentral ${BUILDS}/controllerDb.o ${BUILDS}/subscriptionDb.o \
-	${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o ${BUILDS}/aggregateDeadlinesController.o \
+	${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o \
 	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
 	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/statemachine.o ${BUILDS}/view.o \
@@ -118,10 +118,6 @@ ${BUILDS}/view.o: ${SOURCE}/${VIEW}/view.cpp ${INCLUDE}/${VIEW}/view.hpp
 
 
 # Controllers compilation
-${BUILDS}/aggregateDeadlinesController.o: ${SOURCE}/${CONTROL}/aggregateDeadlinesController.cpp \
-${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/aggregateDeadlinesController.o \
-	${SOURCE}/${CONTROL}/aggregateDeadlinesController.cpp
 
 ${BUILDS}/courseController.o: ${SOURCE}/${CONTROL}/courseController.cpp ${INCLUDE}/${CONTROL}/courseController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${OFLAG} ${BUILDS}/courseController.o \
@@ -167,7 +163,7 @@ ${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
 # Main
 ${BUILDS}/main.o: ${SOURCE}/main.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp \
 ${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUDE}/${DATALAYER}/taskDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
-${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp \
+${INCLUDE}/${VIEW}/commandHandler.hpp \
 ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
@@ -192,7 +188,7 @@ ${BUILDS}/sqrt.o: ${SOURCE}/sqrt.cpp ${INCLUDE}/sqrt.hpp
 # Testing executable
 ${TESTS}/${BINARY}/deadlineCentralTest: ${BINARY}/deadlineCentral \
 ${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUDE}/${DATALAYER}/taskDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
-${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${CONTROL}/aggregateDeadlinesController.hpp \
+${INCLUDE}/${VIEW}/commandHandler.hpp \
 ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
