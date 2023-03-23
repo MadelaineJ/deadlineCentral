@@ -20,11 +20,9 @@ class CourseDB
         bool createCourse(Course C);
         bool updateCourse(Course C);
         bool deleteCourse(Course C);
-        //TODO change return type to list<Student> when implemented
-        void getEnrollmentList(int courseID);
-        //TODO change return type to Course when implemented
-        void getCourseInfo(int courseID);
-        //return type tbd
+        list<Student> getEnrollmentList(int courseID);
+        Course getCourseInfo(int courseID);
+        //TODO return type tbd
         void aggregateDeadlines(int courseID);
     private:
 };

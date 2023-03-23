@@ -19,12 +19,11 @@ class UserDB
         UserDB(){}
         ~UserDB(){}
         //TODO once Student and Instructor are done, uncomment these
-        //bool createUser(Student U);
-        //bool createUser(Instructor U);
+        bool createUser(Student U);
+        bool createUser(Instructor U);
         bool updateUser(User U);
         bool deleteUser(User U);
-        //TODO change return type to User when implemented
-        void getUserInfo(int userID);
+        User getUserInfo(int userID);
     private:
 };
 

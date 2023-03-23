@@ -20,7 +20,7 @@ class TaskDB
         bool updateCourse(Task T);
         bool deleteCourse(Task T);
         //TODO change return type to Task when implemented
-        void getTaskInfo(int taskID);
+        Task getTaskInfo(int taskID);
     private:
 };
 
