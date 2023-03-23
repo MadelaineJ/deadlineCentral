@@ -12,8 +12,8 @@ using namespace std;
 class SubscriptionController 
 {
     public:
-        SubscriptionController(){}
-        ~SubscriptionController(){}
+        SubscriptionController();
+        ~SubscriptionController();
         
         void addSubscription();
 

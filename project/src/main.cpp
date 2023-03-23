@@ -2,7 +2,7 @@
 #include "controllerDb.hpp"
 #include "view.hpp"
 #include "student.hpp"
-#include "courseController.hpp"
+#include "subscriptionController.hpp"
 // Required Libraries
 #include <iostream>
 #include <string>
@@ -27,4 +27,6 @@ int main() {
     Student me(123, name, pass, email, list);
     me.setName("madelaine");
     
+    SubscriptionController test;
+    test.addSubscription();
 }
