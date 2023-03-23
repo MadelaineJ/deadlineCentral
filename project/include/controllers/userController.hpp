@@ -12,8 +12,8 @@ using namespace std;
 class UserController 
 {
     public:
-        UserController(){}
-        ~UserController(){}
+        UserController();
+        ~UserController();
         
         void createStudent();
 
