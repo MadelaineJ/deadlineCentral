@@ -23,6 +23,6 @@ int main() {
     string name = "mad";
     string pass = "hie";
     string email = "hi";
-    Student me(name, pass, email, list);
+    Student me(123, name, pass, email, list);
     
 }

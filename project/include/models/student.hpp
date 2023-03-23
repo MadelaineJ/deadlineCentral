@@ -5,8 +5,10 @@
 
 class Student : public User
 {
+    private:
+        int studentId;
     public:
-        Student(string name, string password, string email, list<int> taskList);
+        Student(int studentId, string name, string password, string email, list<int> taskList);
 };
 
 #endif
