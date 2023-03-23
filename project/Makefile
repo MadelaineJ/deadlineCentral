@@ -84,22 +84,26 @@ ${BUILDS}/controllerDb.o: ${SOURCE}/${DATALAYER}/controllerDb.cpp ${INCLUDE}/${D
 	$(CFLAGS)
 
 ${BUILDS}/taskDb.o: ${SOURCE}/${DATALAYER}/taskDb.cpp ${INCLUDE}/${DATALAYER}/taskDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/taskDb.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${OFLAG} ${BUILDS}/taskDb.o \
 	${SOURCE}/${DATALAYER}/taskDb.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/userDb.o: ${SOURCE}/${DATALAYER}/userDb.cpp ${INCLUDE}/${DATALAYER}/userDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/userDb.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${OFLAG} ${BUILDS}/userDb.o \
 	${SOURCE}/${DATALAYER}/userDb.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/courseDb.o: ${SOURCE}/${DATALAYER}/courseDb.cpp ${INCLUDE}/${DATALAYER}/courseDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/courseDb.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${OFLAG} ${BUILDS}/courseDb.o \
 	${SOURCE}/${DATALAYER}/courseDb.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/subscriptionDb.o \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${OFLAG} ${BUILDS}/subscriptionDb.o \
 	${SOURCE}/${DATALAYER}/subscriptionDb.cpp \
 	$(CFLAGS)
 

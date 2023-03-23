@@ -6,7 +6,7 @@
 #include "occi.h"  // Oracle's C++ call level interface library package
 #include <termios.h>
 #include <unistd.h>
-#include "../models/task.hpp"
+#include "task.hpp"
 
 using namespace std;
 using namespace oracle::occi;

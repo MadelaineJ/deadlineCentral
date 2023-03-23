@@ -6,8 +6,8 @@
 #include "occi.h"  // Oracle's C++ call level interface library package
 #include <termios.h>
 #include <unistd.h>
-#include "../models/course.hpp"
-#include "../models/student.hpp"
+#include "course.hpp"
+#include "student.hpp"
 
 using namespace std;
 using namespace oracle::occi;

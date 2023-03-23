@@ -9,7 +9,7 @@
 #include <list>
 #include <string>
 
-#include "../models/course.hpp"
+#include "course.hpp"
 
 using namespace std;
 using namespace oracle::occi;
