@@ -1,29 +1,29 @@
 #include "courseDb.hpp"
 
-bool createCourse(Course C){
+bool CourseDB::createCourse(Course C){
    return 0;
 }
 
-bool updateCourse(Course C){
+bool CourseDB::updateCourse(Course C){
    return 0;
 }
 
-bool deleteCourse(Course C){
+bool CourseDB::deleteCourse(Course C){
    return 0;
 }
 
-list<Student> getEnrollmentList(int courseID){
+list<Student> CourseDB::getEnrollmentList(int courseID){
    list<Student> L;
    return L;
 }
 
-Course getCourseInfo(int courseID){
+Course CourseDB::getCourseInfo(int courseID){
    list<int> L;
    Course C(0,0,0,L);
    return C;
 }
 
 //TODO return type tbd
-void aggregateDeadlines(int courseID){
+void CourseDB::aggregateDeadlines(int courseID){
 
 }
