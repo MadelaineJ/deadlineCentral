@@ -1,5 +1,5 @@
-#ifndef CONTROLLER_DB_H
-#define CONTROLLER_DB_H
+#ifndef SUBSCRIPTION_CONTROLLER_DB_H
+#define SUBSCRIPTION_CONTROLLER_DB_H
 
 // Required Libraries
 #include <iostream>
@@ -29,4 +29,4 @@ class SubscriptionDB
         int getCourseID(std::string courseCode, std::string instructorName);
 };
 
-#endif // CONTROLLER_DB_H
+#endif
