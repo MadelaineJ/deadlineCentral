@@ -1,5 +1,5 @@
-#ifndef USER_H
-#define USER_H
+#ifndef USER_HPP
+#define USER_HPP
 
 // Required Libraries
 #include <iostream>
@@ -17,20 +17,19 @@ using namespace std;
 class User
 {
     public:
-        User(string name, string password, string email, list<Task> taskList);
-        ~User();
+        User(string name, string password, string email, list<int> taskList);
         
-        string getName();
-        void setName(string name);
+        // string getName();
+        // void setName(string name);
 
-        string getPassword();
-        void setPassword(string password);
+        // string getPassword();
+        // void setPassword(string password);
 
-        string getEmail();
-        void setEmail(string email);
+        // string getEmail();
+        // void setEmail(string email);
 
-        list<Task> getTaskList();
-        void setTaskList(list<Task> taskList);
+        // list<int> getTaskList();
+        // void setTaskList(list<int> taskList);
 
     private:
         list<int> taskList;

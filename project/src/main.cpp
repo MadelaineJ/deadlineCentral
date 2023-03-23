@@ -1,8 +1,12 @@
 // Custom Header files
 #include "controllerDb.hpp"
 #include "view.hpp"
-//Required Libraries
+#include "student.hpp"
+// Required Libraries
 #include <iostream>
+#include <string>
+#include <list>
+
 
 using namespace std;
 
@@ -14,4 +18,11 @@ int main() {
     // db.disconnect();
     //view_layer();
     //Course foo("Assembly", "CSCI222", "Blah Balh Lall", {0, 1});
+
+    list<int> list = {0, 1, 2};
+    string name = "mad";
+    string pass = "hie";
+    string email = "hi";
+    Student me(name, pass, email, list);
+    
 }

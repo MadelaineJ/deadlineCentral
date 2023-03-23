@@ -145,23 +145,23 @@ ${BUILDS}/userController.o: ${SOURCE}/${CONTROL}/userController.cpp ${INCLUDE}/$
 
 # Models compilation
 ${BUILDS}/course.o: ${SOURCE}/${MODEL}/course.cpp ${INCLUDE}/${MODEL}/course.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/course.o \
+	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/course.o \
 	${SOURCE}/${MODEL}/course.cpp
 
 ${BUILDS}/instructor.o: ${SOURCE}/${MODEL}/instructor.cpp ${INCLUDE}/${MODEL}/instructor.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/instructor.o \
+	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/instructor.o \
 	${SOURCE}/${MODEL}/instructor.cpp
 
 ${BUILDS}/student.o: ${SOURCE}/${MODEL}/student.cpp ${INCLUDE}/${MODEL}/student.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/student.o \
+	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/student.o \
 	${SOURCE}/${MODEL}/student.cpp
 
 ${BUILDS}/task.o: ${SOURCE}/${MODEL}/task.cpp ${INCLUDE}/${MODEL}/task.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/task.o \
+	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/task.o \
 	${SOURCE}/${MODEL}/task.cpp
 
 ${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/user.o \
+	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${MODEL} ${OFLAG} ${BUILDS}/user.o \
 	${SOURCE}/${MODEL}/user.cpp
 
 # Main
