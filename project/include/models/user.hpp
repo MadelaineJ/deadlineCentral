@@ -19,17 +19,17 @@ class User
     public:
         User(string name, string password, string email, list<int> taskList);
         
-        // string getName();
-        // void setName(string name);
+        string getName();
+        void setName(string name);
 
-        // string getPassword();
-        // void setPassword(string password);
+        string getPassword();
+        void setPassword(string password);
 
-        // string getEmail();
-        // void setEmail(string email);
+        string getEmail();
+        void setEmail(string email);
 
-        // list<int> getTaskList();
-        // void setTaskList(list<int> taskList);
+        list<int> getTaskList();
+        void setTaskList(list<int> taskList);
 
     private:
         list<int> taskList;

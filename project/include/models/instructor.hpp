@@ -9,6 +9,9 @@ class Instructor : public User
         int instructorId;
     public:
         Instructor(int instructorId, string name, string password, string email, list<int> taskList);
+
+        int getInstructorId();
+        void setInstructorId(int InstructorId);
 };
 
 #endif

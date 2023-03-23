@@ -24,5 +24,5 @@ int main() {
     string pass = "hie";
     string email = "hi";
     Student me(123, name, pass, email, list);
-    
+    me.setName("madelaine");
 }

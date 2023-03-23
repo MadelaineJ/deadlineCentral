@@ -1,7 +1,16 @@
 #include "instructor.hpp"
 
-Instructor::Instructor(int InstructorId, string name, string password, string email, list<int> taskList)
+Instructor::Instructor(int instructorId, string name, string password, string email, list<int> taskList)
     : User(name, password, email, taskList)
 {
-    this->instructorId = InstructorId;
+    this->instructorId = instructorId;
+}
+
+
+int Instructor::getInstructorId() {
+    return this->instructorId;
+}
+
+void Instructor::setInstructorId(int instructorId) {
+    this->instructorId = instructorId;
 }
