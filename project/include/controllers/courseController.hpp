@@ -12,8 +12,8 @@ using namespace std;
 class CourseController 
 {
     public:
-        CourseController(){}
-        ~CourseController(){}
+        CourseController();
+        ~CourseController();
         
         void createCourse();
 

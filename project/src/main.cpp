@@ -2,6 +2,7 @@
 #include "controllerDb.hpp"
 #include "view.hpp"
 #include "student.hpp"
+#include "courseController.hpp"
 // Required Libraries
 #include <iostream>
 #include <string>
@@ -25,4 +26,5 @@ int main() {
     string email = "hi";
     Student me(123, name, pass, email, list);
     me.setName("madelaine");
+    
 }
