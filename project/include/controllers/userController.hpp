@@ -22,6 +22,8 @@ class UserController
         void deleteUser();
 
         void getUserInfo();
+
+        void validateCredentials();
     
     private:
         UserController(); // private to prevent direct instantiation

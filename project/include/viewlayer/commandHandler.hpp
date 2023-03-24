@@ -7,6 +7,13 @@
 
 // custom header files
 
+#include "userController.hpp"
+#include "taskController.hpp"
+#include "filterTaskController.hpp"
+#include "subscriptionController.hpp"
+#include "courseController.hpp"
+
+
 using namespace std;
 
 
@@ -23,6 +30,7 @@ class CommandHandler
         void accountMenu();
         void taskMenu();
         void courseMenu();
+        void handleHelp();
 
         // menu input handlers
         void manageMain();
@@ -30,7 +38,28 @@ class CommandHandler
         void manageTask();
         void manageCourse();
 
+        //handle commands
+        void handleCreateCourse();
+        void handleCreateTask();
+        void handleEditTask();
+        void handleEditCourse();
+        void handleLogin();
+        void handleSubscribeCourse();
+        void handleUnsubscribeCourse();
+        void handleViewTask();
+        void handleViewCourse();
+        void handleSortTasks();
+        void handleViewConsolidatedDeadlines();
+        void handleDeleteCourse();
+        void handleDeleteTask();
+
     private:
+        UserController *userController = UserController::getInstance();
+        TaskController *taskController = TaskController::getInstance();
+        FilterTaskController *filterTaskController = FilterTaskController::getInstance();
+        SubscriptionController *subscriptionController = SubscriptionController::getInstance();
+        CourseController *courseController = CourseController::getInstance();
+
 };
 
 #endif

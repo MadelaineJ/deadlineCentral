@@ -50,3 +50,8 @@ void UserController::deleteUser() {
 void UserController::getUserInfo() {
 
 }
+
+//validate credentials entered by the users
+void UserController::validateCredentials() {
+
+}
