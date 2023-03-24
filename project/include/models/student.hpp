@@ -12,6 +12,8 @@ class Student : public User
                 
         int getStudentId();
         void setStudentId(int studentId);
+
+        friend std::ostream& operator<< (std::ostream& out, const Student& stu); // brandon
 };
 
 

@@ -14,3 +14,10 @@ int Student::getStudentId() {
 void Student::setStudentId(int studentId) {
     this->studentId = studentId;
 }
+
+std::ostream& operator<< (std::ostream& out, const Student& stu)
+{
+    out << "Student(" << stu.studentId <<')';
+
+    return out;
+}
