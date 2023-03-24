@@ -127,29 +127,38 @@ ${BUILDS}/view.o: ${SOURCE}/${VIEW}/view.cpp ${INCLUDE}/${VIEW}/view.hpp
 # Controllers compilation
 
 ${BUILDS}/courseController.o: ${SOURCE}/${CONTROL}/courseController.cpp ${INCLUDE}/${CONTROL}/courseController.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER} \
+	 ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/courseController.o \
 	${SOURCE}/${CONTROL}/courseController.cpp
+	$(CFLAGS)
 
 ${BUILDS}/filterTaskController.o: ${SOURCE}/${CONTROL}/filterTaskController.cpp ${INCLUDE}/${CONTROL}/filterTaskController.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER} \
+	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/filterTaskController.o \
 	${SOURCE}/${CONTROL}/filterTaskController.cpp
+	$(CFLAGS)
 
 ${BUILDS}/subscriptionController.o: ${SOURCE}/${CONTROL}/subscriptionController.cpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER}  \
+	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/subscriptionController.o \
 	${SOURCE}/${CONTROL}/subscriptionController.cpp
+	$(CFLAGS)
 
 ${BUILDS}/taskController.o: ${SOURCE}/${CONTROL}/taskController.cpp ${INCLUDE}/${CONTROL}/taskController.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER}  \
+	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/taskController.o \
-	${SOURCE}/${CONTROL}/taskController.cpp
+	${SOURCE}/${CONTROL}/taskController.cpp \
+	$(CFLAGS)
 
 ${BUILDS}/userController.o: ${SOURCE}/${CONTROL}/userController.cpp ${INCLUDE}/${CONTROL}/userController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/userController.o \
 	${SOURCE}/${CONTROL}/userController.cpp
+	$(CFLAGS)
 
 # Models compilation
 ${BUILDS}/course.o: ${SOURCE}/${MODEL}/course.cpp ${INCLUDE}/${MODEL}/course.hpp
