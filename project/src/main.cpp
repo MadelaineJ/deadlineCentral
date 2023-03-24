@@ -13,4 +13,10 @@
 using namespace std;
 
 int main() {
+
+    CommandHandler commandHandler;
+    cout << "enter command\n>>>";
+    string userInput;
+    getline(cin, userInput);
+    commandHandler.parseInput(userInput);
 }

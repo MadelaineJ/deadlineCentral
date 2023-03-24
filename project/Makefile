@@ -45,7 +45,6 @@ VFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
 
 all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral directories
 
-
 run: directories ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
 ${BUILDS}/commandHandler.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
 ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
@@ -56,6 +55,7 @@ test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTe
 	${TESTS}/${BINARY}/deadlineCentralTest --log_level=all \
 	--run_test=math \
 	--run_test=controllerDB \
+	--run_test=taskDatabase \
 		-- bin/test
 
 run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
@@ -209,8 +209,11 @@ ${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp
 	${CC} ${WFLAG} ${AUTH} ${TFLAG} -o ${TESTS}/${BINARY}/deadlineCentralTest \
 	${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${TESTS}/${INCLUDE}/${DATALAYER} \
 	${IFLAG} ${INCLUDE} ${IFLAG} ${TESTS}/${INCLUDE} \
+	${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
+	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${TESTS}/${SOURCE}/sqrtTest.cpp ${SOURCE}/sqrt.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
+	${TESTS}/${SOURCE}/${DATALAYER}/taskDbTest.cpp ${SOURCE}/${DATALAYER}/taskDb.cpp ${SOURCE}/${MODEL}/task.cpp \
 	${TESTS}/${SOURCE}/main.cpp \
 	$(CFLAGS) $(LFLAGS)
 

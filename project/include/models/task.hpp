@@ -21,7 +21,7 @@ using namespace std;
 class Task 
 {
     public:
-        Task(int taskId, string name, int type, int owner, string description, time_t dueDate, bool isCompleted, float weight);
+        Task(int taskId, string name, int type, int owner, string description, string dueDate, bool isCompleted, float weight);
         ~Task();
         
         string getTaskName();
@@ -36,8 +36,8 @@ class Task
         string getTaskDescription();
         void setTaskDescription(string description);
 
-        time_t getDueDate();
-        void setDueDate(time_t dueDate);
+        string getDueDate();
+        void setDueDate(string dueDate);
 
         bool getCompletionStatus();
         void setCompletionStatus(bool isCompleted);
@@ -48,6 +48,10 @@ class Task
         int getTaskId();
         void setTaskId(int taskId);
 
+        void printTaskInfo();
+
+        bool compare(Task otherTask);
+
 
     private:
         int taskId;
@@ -55,7 +59,7 @@ class Task
         int type;
         int owner;
         string description;
-        time_t dueDate;
+        string dueDate;
         bool isCompleted;
         float weight;
 

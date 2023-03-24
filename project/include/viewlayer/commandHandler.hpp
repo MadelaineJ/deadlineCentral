@@ -4,6 +4,10 @@
 // Required Libraries
 #include <iostream>
 #include <string>
+
+// custom header values
+#include "taskDb.hpp"
+
 using namespace std;
 
 
@@ -14,7 +18,9 @@ class CommandHandler
         ~CommandHandler(){}
         
         void parseInput(string input);
-        void handleTaskCommand();
+        void handleViewTask(string taskId);
+    private:
+        TaskDB taskDb;
 };
 
 #endif
