@@ -9,7 +9,7 @@
 using namespace std;
 
 // constructor
-Task::Task(string name, enum type, int owner, string description, time_t dueDate, bool isCompleted, float weight)
+Task::Task(int taskId, string name, int type, int owner, string description, time_t dueDate, bool isCompleted, float weight)
 {
     this->name = name;
     this->type = type;
@@ -18,7 +18,6 @@ Task::Task(string name, enum type, int owner, string description, time_t dueDate
     this->dueDate = dueDate;
     this->isCompleted = isCompleted;
     this->weight = weight;
-
 }
 
 // destructor
@@ -35,12 +34,12 @@ void Task::setTaskName(string name) {
 }
 
 // getTaskType
-string Task::getTaskType() {
+int Task::getTaskType() {
     return this->type;
 }
 
 // setTaskType
-void Task::setTaskType(enum type) {
+void Task::setTaskType(int type) {
     this->type = type;
 }
 
@@ -93,3 +92,14 @@ float Task::getWeight() {
 void Task::setWeight(float weight) {
     this->weight = weight;
 }
+
+// getTaskId
+int Task::getTaskId() {
+    return taskId;
+}
+
+// setTaskId
+void Task::setTaskId(int taskId) {
+    this->taskId = taskId;
+}
+

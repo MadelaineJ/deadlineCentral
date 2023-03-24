@@ -109,8 +109,11 @@ ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}
 
 # View layer compilation
 ${BUILDS}/commandHandler.o: ${SOURCE}/${VIEW}/commandHandler.cpp ${INCLUDE}/${VIEW}/commandHandler.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/commandHandler.o \
-	${SOURCE}/${VIEW}/commandHandler.cpp
+	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
+	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
+	${OFLAG} ${BUILDS}/commandHandler.o \
+	${SOURCE}/${VIEW}/commandHandler.cpp \
+	$(CFLAGS)
 
 ${BUILDS}/statemachine.o: ${SOURCE}/${VIEW}/statemachine.cpp ${INCLUDE}/${VIEW}/statemachine.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/statemachine.o \

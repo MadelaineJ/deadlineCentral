@@ -8,28 +8,27 @@
 #include <unistd.h>
 
 
-
-
 using namespace std;
 
-enum type {
-    assignment,
-    personal,
-    quiz,
-    test
-};
+// enum Type {
+//     assignment = 1,
+//     quiz = 2,
+//     test = 3,
+//     participation = 4,
+//     personal = 10
+// };
 
 class Task 
 {
     public:
-        Task(string name, enum type, int owner, string description, time_t dueDate, bool isCompleted, float weight);
+        Task(int taskId, string name, int type, int owner, string description, time_t dueDate, bool isCompleted, float weight);
         ~Task();
         
         string getTaskName();
         void setTaskName(string name);
         
-        string getTaskType();
-        void setTaskType(enum type);
+        int getTaskType();
+        void setTaskType(int type);
 
         int getTaskOwner();
         void setTaskOwner(int owner);
@@ -46,10 +45,14 @@ class Task
         float getWeight();
         void setWeight(float weight);
 
+        int getTaskId();
+        void setTaskId(int taskId);
+
 
     private:
+        int taskId;
         string name;
-        string type;
+        int type;
         int owner;
         string description;
         time_t dueDate;
