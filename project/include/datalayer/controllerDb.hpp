@@ -24,6 +24,9 @@ class ControllerDb
         string disconnect();
         void sendQuery(string query);
 
+        Connection* getConnection();
+        Statement* getStatement();
+
     private:
         Environment *environment;
         Connection *connection;

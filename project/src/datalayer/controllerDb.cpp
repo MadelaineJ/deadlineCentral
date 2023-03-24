@@ -34,29 +34,12 @@ string ControllerDb::connect() {
         this->environment = Environment::createEnvironment();
         this->connection = environment->createConnection(this->username, this->password, this->connectString);
         cout << "Connected to Oracle database using OCCI." << endl << endl;
+
+        this->stmt = this->connection->createStatement(); 
     } catch (SQLException & e) {
         return e.what() + this->username;
     }
     return "success";
-}
-
-/*
-* executes a query if connect was called previously
-* todo: this should probably return the result set (rs) so the other db layers can make use of it
-* author: Brandon & Madelaine
-*/ 
-void ControllerDb::sendQuery(string query) {
-    if (this->connection != NULL) {
-        this->stmt = this->connection->createStatement(); 
-        cout << "QUERY: " << query << endl;
-        ResultSet *rs = stmt->executeQuery(query); // should not pass query in execute but prepare it first in createStatement()
-        while (rs->next()) {
-            cout << rs->getInt(1) << " | ";
-            cout << rs->getString(2) << " | ";
-            cout << rs->getString(3) << " | ";
-            cout << rs->getString(4) << "\n\n";
-        }
-    }
 }
 
 /*
@@ -77,4 +60,12 @@ string ControllerDb::disconnect() {
         return e.what() + this->username;
     }
     return "success";
+}
+
+Connection* ControllerDb::getConnection() {
+    return this->connection;
+}
+
+Statement* ControllerDb::getStatement() {
+    return this->stmt;
 }
