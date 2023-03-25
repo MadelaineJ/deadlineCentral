@@ -17,7 +17,7 @@ using namespace oracle::occi;
 class TaskDB 
 {
     public:
-    static TaskDB* getInstance(); // gets the single instance of this class
+        static TaskDB* getInstance(); // gets the single instance of this class
         ~TaskDB();
         bool createTask(Task task);
         bool updateTask(Task T);
