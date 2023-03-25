@@ -67,13 +67,13 @@ run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
 ${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
 ${BUILDS}/commandHandler.o ${BUILDS}/courseController.o ${BUILDS}/commands.o \
 ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o \
-${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o ${BUILDS}/view.o \
-${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o ${BUILDS}/statemachine.o
+${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o \
+${BUILDS}/student.o ${BUILDS}/task.o
 	${CC} ${WFLAG} ${OFLAG} ${BINARY}/deadlineCentral ${BUILDS}/controllerDb.o ${BUILDS}/subscriptionDb.o \
 	${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/main.o ${BUILDS}/commandHandler.o \
 	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
 	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
-	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/statemachine.o ${BUILDS}/view.o \
+	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o \
 	${BUILDS}/commands.o \
 	$(LFLAGS) $(CFLAGS) $(VFLAGS)
 
@@ -122,15 +122,6 @@ ${BUILDS}/commands.o: ${SOURCE}/${VIEW}/commands.cpp ${INCLUDE}/${VIEW}/commands
 	${SOURCE}/${VIEW}/commands.cpp \
 	${OFLAG} ${BUILDS}/commands.o \
 	$(CFLAGS)
-
-${BUILDS}/statemachine.o: ${SOURCE}/${VIEW}/statemachine.cpp ${INCLUDE}/${VIEW}/statemachine.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/statemachine.o \
-	${SOURCE}/${VIEW}/statemachine.cpp  $(VFLAGS)
-
-${BUILDS}/view.o: ${SOURCE}/${VIEW}/view.cpp ${INCLUDE}/${VIEW}/view.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${VIEW} ${OFLAG} ${BUILDS}/view.o \
-	${SOURCE}/${VIEW}/view.cpp $(VFLAGS)
-
 
 # Controllers compilation
 
@@ -197,8 +188,7 @@ ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionCon
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
 ${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
-${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp ${INCLUDE}/${VIEW}/statemachine.hpp \
-${INCLUDE}/${VIEW}/view.hpp
+${INCLUDE}/${MODEL}/user.hpp
 	${CC} ${CFLAG} $(AUTH) ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${OFLAG} ${BUILDS}/main.o ${SOURCE}/main.cpp \
@@ -209,9 +199,6 @@ ${INCLUDE}/${VIEW}/view.hpp
 # ${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
 # and then change the file locations and names.
 
-# TODO: remove this, it was for testing purposes
-${BUILDS}/sqrt.o: ${SOURCE}/sqrt.cpp ${INCLUDE}/sqrt.hpp
-	${CC} ${WFLAG} ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${BUILDS}/sqrt.o ${SOURCE}/sqrt.cpp
 
 # TODO remove the sqrtTest compilation
 # Testing executable
@@ -222,13 +209,12 @@ ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionCon
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
 ${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
-${INCLUDE}/${MODEL}/user.hpp ${INCLUDE}/sqrt.hpp
+${INCLUDE}/${MODEL}/user.hpp
 	${CC} ${WFLAG} ${AUTH} ${TFLAG} -o ${TESTS}/${BINARY}/deadlineCentralTest \
 	${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${TESTS}/${INCLUDE}/${DATALAYER} \
 	${IFLAG} ${INCLUDE} ${IFLAG} ${TESTS}/${INCLUDE} \
 	${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
-	${TESTS}/${SOURCE}/sqrtTest.cpp ${SOURCE}/sqrt.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/taskDbTest.cpp ${SOURCE}/${DATALAYER}/taskDb.cpp ${SOURCE}/${MODEL}/task.cpp \
 	${TESTS}/${SOURCE}/main.cpp \
