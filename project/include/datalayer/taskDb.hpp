@@ -17,7 +17,7 @@ using namespace oracle::occi;
 class TaskDB 
 {
     public:
-        TaskDB();
+    static TaskDB* getInstance(); // gets the single instance of this class
         ~TaskDB();
         bool createTask(Task task);
         bool updateTask(Task T);
@@ -25,6 +25,8 @@ class TaskDB
         Task getTaskInfo(string taskID);
     private:
         ControllerDb controllerDb;
+        TaskDB(); // pvt to prevent direct instanciation
+        static TaskDB* instance; // Pointer to the single instance of TaskDB
 };
 
 #endif 

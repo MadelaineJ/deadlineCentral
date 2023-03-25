@@ -3,6 +3,15 @@
 #include "task.hpp"
 #include "controllerDb.hpp"
 
+TaskDB *TaskDB::instance = nullptr; // initialize the static pointer
+
+TaskDB* TaskDB::getInstance() {
+    if(instance == nullptr) {
+        instance = new TaskDB();
+    }
+    return instance;
+}
+
 TaskDB::TaskDB() {}
 TaskDB::~TaskDB() {}
 
