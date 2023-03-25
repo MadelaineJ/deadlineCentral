@@ -48,7 +48,7 @@ all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral directories
 run: directories ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
 ${BUILDS}/commandHandler.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
 ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
-${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o
+${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o ${BUILDS}/commands.o 
 	${BINARY}/deadlineCentral
 
 test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTest
@@ -65,7 +65,7 @@ run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
 
 # deadline central
 ${BINARY}/deadlineCentral: ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
-${BUILDS}/commandHandler.o ${BUILDS}/courseController.o \
+${BUILDS}/commandHandler.o ${BUILDS}/courseController.o ${BUILDS}/commands.o \
 ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o \
 ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o ${BUILDS}/user.o ${BUILDS}/view.o \
 ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o ${BUILDS}/statemachine.o
@@ -74,6 +74,7 @@ ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/sqrt.o ${BUILDS}/statemachine.o
 	${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o ${BUILDS}/subscriptionController.o \
 	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/statemachine.o ${BUILDS}/view.o \
+	${BUILDS}/commands.o \
 	$(LFLAGS) $(CFLAGS) $(VFLAGS)
 
 
@@ -108,11 +109,18 @@ ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}
 	$(CFLAGS)
 
 # View layer compilation
-${BUILDS}/commandHandler.o: ${SOURCE}/${VIEW}/commandHandler.cpp ${INCLUDE}/${VIEW}/commandHandler.hpp
+${BUILDS}/commandHandler.o: ${SOURCE}/${VIEW}/commandHandler.cpp ${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${VIEW}/commands.hpp
 	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
-	${OFLAG} ${BUILDS}/commandHandler.o \
 	${SOURCE}/${VIEW}/commandHandler.cpp \
+	${OFLAG} ${BUILDS}/commandHandler.o \
+	$(CFLAGS)
+
+${BUILDS}/commands.o: ${SOURCE}/${VIEW}/commands.cpp ${INCLUDE}/${VIEW}/commands.hpp ${INCLUDE}/${VIEW}/commands.hpp
+	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
+	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
+	${SOURCE}/${VIEW}/commands.cpp \
+	${OFLAG} ${BUILDS}/commands.o \
 	$(CFLAGS)
 
 ${BUILDS}/statemachine.o: ${SOURCE}/${VIEW}/statemachine.cpp ${INCLUDE}/${VIEW}/statemachine.hpp
@@ -184,7 +192,7 @@ ${BUILDS}/user.o: ${SOURCE}/${MODEL}/user.cpp ${INCLUDE}/${MODEL}/user.hpp
 # Main
 ${BUILDS}/main.o: ${SOURCE}/main.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp \
 ${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUDE}/${DATALAYER}/taskDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
-${INCLUDE}/${VIEW}/commandHandler.hpp \
+${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${VIEW}/commands.hpp \
 ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
@@ -209,7 +217,7 @@ ${BUILDS}/sqrt.o: ${SOURCE}/sqrt.cpp ${INCLUDE}/sqrt.hpp
 # Testing executable
 ${TESTS}/${BINARY}/deadlineCentralTest: ${BINARY}/deadlineCentral \
 ${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUDE}/${DATALAYER}/taskDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
-${INCLUDE}/${VIEW}/commandHandler.hpp \
+${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${VIEW}/commands.hpp \
 ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \

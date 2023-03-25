@@ -5,8 +5,7 @@
 #include <iostream>
 #include <string>
 
-// custom header values
-#include "taskDb.hpp"
+// custom header files
 
 using namespace std;
 
@@ -17,10 +16,21 @@ class CommandHandler
         CommandHandler(){}
         ~CommandHandler(){}
         
-        void parseInput(string input);
-        void handleViewTask(string taskId);
+        int getUserInput();
+
+        // printed menus
+        void mainMenu();
+        void accountMenu();
+        void taskMenu();
+        void courseMenu();
+
+        // menu input handlers
+        void manageMain();
+        void manageAccount();
+        void manageTask();
+        void manageCourse();
+
     private:
-        TaskDB taskDb;
 };
 
 #endif
