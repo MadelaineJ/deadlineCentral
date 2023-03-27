@@ -15,7 +15,7 @@ using namespace oracle::occi;
 class CourseDB 
 {
     public:
-        CourseDB(){}
+        static CourseDB* getInstance(); // gets the single instance of this class
         ~CourseDB(){}
         bool createCourse(Course C);
         bool updateCourse(Course C);
@@ -25,6 +25,8 @@ class CourseDB
         //TODO return type tbd
         void aggregateDeadlines(int courseID);
     private:
+        CourseDB(){} // private to avoid direct instantiation
+        static CourseDB* instance; // pointer to single instanece of CourseDB
 };
 
 #endif 

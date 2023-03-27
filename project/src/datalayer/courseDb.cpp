@@ -1,5 +1,15 @@
 #include "courseDb.hpp"
 
+CourseDB* CourseDB::instance = nullptr; // initialize pointer
+
+// returns a pointer to the single instance of CourseDB, if there is no instance it creates a new one
+CourseDB* CourseDB::getInstance()   {
+   if(instance == nullptr) {
+      instance = new CourseDB();
+   }
+   return instance;
+}
+
 bool CourseDB::createCourse(Course C){
    return 0;
 }
