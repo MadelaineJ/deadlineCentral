@@ -17,7 +17,7 @@ using namespace oracle::occi;
 class SubscriptionDB 
 {
     public:
-        SubscriptionDB();
+        static SubscriptionDB* getInstance(); // gets the single instance of this class
         ~SubscriptionDB();
 
         Course* getAvailableCourseList(int courseID);
@@ -25,6 +25,9 @@ class SubscriptionDB
         bool deleteSubscription(int studentID, int courseID);
         bool createSubscription(int studentID, int courseID);
     private:
+        SubscriptionDB(); // private to prevent direct instantiation
+        static SubscriptionDB* instance; // Pointer to the single instance of SubscriptionDB
+        
         // helper functions
         int getCourseID(std::string courseCode, std::string instructorName);
 };

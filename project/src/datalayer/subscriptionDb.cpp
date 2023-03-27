@@ -1,9 +1,17 @@
 #include "subscriptionDb.hpp"
 
+SubscriptionDB *SubscriptionDB::instance = nullptr; // initialize the static pointer
 
-SubscriptionDB::SubscriptionDB(){
-
+// returns a pointer to the single instance of SubscriptionDB, if there is no instance it creates a new one
+SubscriptionDB* SubscriptionDB::getInstance() {
+    if(instance == nullptr) {
+        instance = new SubscriptionDB();
+    }
+    return instance;
 }
+
+// constructor is private to avoid multiple instances of SubscriptionDB, instead use static method getInstance 
+SubscriptionDB::SubscriptionDB(){}
 
 SubscriptionDB::~SubscriptionDB(){
 
