@@ -19,14 +19,14 @@ BOOST_AUTO_TEST_SUITE(taskDatabase)
 BOOST_AUTO_TEST_CASE(view_task) {
     
     // setup
-    TaskDB inTest;
+    TaskDB* inTest = TaskDB::getInstance();
     Task expected(1000, "Personal Task", 10, 101, "Personal task for Carman Gravel", "", false, 0);
-    Task result = inTest.getTaskInfo("1000");
+    Task result = inTest->getTaskInfo("1000");
     result.printTaskInfo();
     expected.printTaskInfo();
 
     // verify
-    BOOST_CHECK(inTest.getTaskInfo("1000").compare(expected));
+    BOOST_CHECK(inTest->getTaskInfo("1000").compare(expected));
 }
 
 BOOST_AUTO_TEST_SUITE_END()
