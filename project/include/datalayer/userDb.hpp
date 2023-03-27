@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include "instructor.hpp"
 #include "student.hpp"
+#include "controllerDb.hpp"
 #include "user.hpp"
 
 using namespace std;
@@ -16,15 +17,18 @@ using namespace oracle::occi;
 class UserDB 
 {
     public:
-        UserDB(){}
-        ~UserDB(){}
-        //TODO once Student and Instructor are done, uncomment these
+        static UserDB* getInstance();
+        ~UserDB();
         bool createUser(Student U);
         bool createUser(Instructor U);
         bool updateUser(User U);
         bool deleteUser(User U);
-        User getUserInfo(int userID);
+        User getUserInfo(string userID);
     private:
+        ControllerDb controllerDb;
+        UserDB();
+        static UserDB* instance;
+        bool isStudent(string userID);
 };
 
 #endif 
