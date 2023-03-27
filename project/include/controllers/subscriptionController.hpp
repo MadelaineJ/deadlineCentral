@@ -12,7 +12,7 @@ using namespace std;
 class SubscriptionController 
 {
     public:
-        SubscriptionController();
+        static SubscriptionController* getInstance(); // gets the single instance of this class
         ~SubscriptionController();
         
         void addSubscription();
@@ -22,6 +22,10 @@ class SubscriptionController
         void viewCurrentSubscriptions();
 
         void viewAvailableSubscriptions();
+    
+    private:
+        SubscriptionController();
+        static SubscriptionController* instance; // Pointer to the single instance of SubscriptionController
 };
 
 #endif
