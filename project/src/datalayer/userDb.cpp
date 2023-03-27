@@ -66,13 +66,13 @@ User UserDB::getUserInfo(string userID){
       string query = "SELECT instructorID, name, email, password FROM Instructors WHERE instructorID = " + userID;
    }
    ResultSet *rs = this->controllerDb.getStatement()->executeQuery(query);
-   List<int> taskList;
+   list<int> taskList;
    User user("", "", "", taskList);
    if(rs->next()){
-      //task.setId(rs->getInt(1));
-      task.setName(rs->getString(2));
-      task.setEmail(rs->getString(3));
-      task.setPassword(rs->getString(4));
+      //user.setId(rs->getInt(1));
+      user.setName(rs->getString(2));
+      user.setEmail(rs->getString(3));
+      user.setPassword(rs->getString(4));
    }
    this->controllerDb.disconnect();
    return user;
