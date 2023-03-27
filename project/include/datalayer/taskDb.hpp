@@ -26,7 +26,7 @@ class TaskDB
         Task getTaskInfo(string taskID);
         list<Task> getFilteredTasks(string filters);
     private:
-        ControllerDb controllerDb;
+        // ControllerDb controllerDb;
         TaskDB(); // pvt to prevent direct instanciation
         static TaskDB* instance; // Pointer to the single instance of TaskDB
 };

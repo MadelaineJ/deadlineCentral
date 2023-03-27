@@ -17,7 +17,8 @@ TaskDB::~TaskDB() {}
 
 // TODO: prepare query
 bool TaskDB::createTask(Task task){
-    this->controllerDb.connect();
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
 
     string query = "INSERT INTO Tasks (taskID, type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID) VALUES ("
         + to_string(task.getTaskId()) + ", "
@@ -29,8 +30,8 @@ bool TaskDB::createTask(Task task){
         + to_string(task.getCompletionStatus()) + ", NULL, "
         + to_string(task.getTaskOwner()) + ", NULL)";
 
-    int rowCount = this->controllerDb.getStatement()->executeUpdate(query);
-    this->controllerDb.disconnect();
+    int rowCount = controllerDB->getStatement()->executeUpdate(query);
+    controllerDB->disconnect();
     return rowCount;
 }
 
@@ -43,9 +44,10 @@ bool TaskDB::deleteTask(Task T){
 }
 // TODO: prepare query???
 Task TaskDB::getTaskInfo(string taskId) {
-    this->controllerDb.connect();
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
     string query = "SELECT taskID, type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID FROM Tasks WHERE taskID = " + taskId;
-    ResultSet *rs = this->controllerDb.getStatement()->executeQuery(query);
+    ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
     Task task(-1, "", -1, -1, "", "", false, -1.0);
     if (rs->next()) {
         task.setTaskId(rs->getInt(1));
@@ -68,7 +70,7 @@ Task TaskDB::getTaskInfo(string taskId) {
             task.setTaskOwner(instructorID);
         }
     }
-    this->controllerDb.disconnect();
+    controllerDB->disconnect();
     return task;
 }
 

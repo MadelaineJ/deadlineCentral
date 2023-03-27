@@ -18,11 +18,11 @@ BOOST_AUTO_TEST_SUITE(controllerDB)
 BOOST_AUTO_TEST_CASE(database_connection) {
     
     // setup
-    ControllerDb inTest;
+    ControllerDb *inTest = ControllerDb::getInstance();
 
     // verify
-    BOOST_CHECK(inTest.connect() == DATABASE_CONNECTION_EXPECTED);
-    BOOST_CHECK(inTest.disconnect() == DATABASE_CONNECTION_EXPECTED);
+    BOOST_CHECK(inTest->connect() == DATABASE_CONNECTION_EXPECTED);
+    BOOST_CHECK(inTest->disconnect() == DATABASE_CONNECTION_EXPECTED);
 }
 
 BOOST_AUTO_TEST_SUITE_END()

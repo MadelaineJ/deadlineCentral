@@ -18,7 +18,7 @@ using namespace oracle::occi;
 class ControllerDb 
 {
     public:
-        ControllerDb();
+        static ControllerDb* getInstance(); // gets the single instance of this class
         ~ControllerDb();
         string connect();
         string disconnect();
@@ -28,6 +28,9 @@ class ControllerDb
         Statement* getStatement();
 
     private:
+        ControllerDb(); // pvt to prevent direct instanciation
+        static ControllerDb* instance; // Pointer to the single instance of ControllerDb
+
         Environment *environment;
         Connection *connection;
         Statement *stmt;

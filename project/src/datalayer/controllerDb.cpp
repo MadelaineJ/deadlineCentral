@@ -11,7 +11,18 @@
 using namespace std;
 using namespace oracle::occi;
 
-// constructor
+
+ControllerDb *ControllerDb::instance = nullptr; // initialize the static pointer
+
+// returns a pointer to the single instance of ControllerDb, if there is no instance it creates a new one
+ControllerDb* ControllerDb::getInstance() {
+    if(instance == nullptr) {
+        instance = new ControllerDb();
+    }
+    return instance;
+}
+
+// constructor is private to avoid multiple instances of ControllerDb, instead use static method getInstance 
 ControllerDb::ControllerDb()
 {
     this->username = USERNAME;
