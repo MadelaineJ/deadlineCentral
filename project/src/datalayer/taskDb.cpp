@@ -72,3 +72,8 @@ Task TaskDB::getTaskInfo(string taskId) {
     return task;
 }
 
+// returns a list of tasks that match the 'filter' params passed to it
+list<Task> getFilteredTasks(string filters) {
+
+}
+

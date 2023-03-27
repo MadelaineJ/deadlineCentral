@@ -6,6 +6,7 @@
 #include "occi.h"  // Oracle's C++ call level interface library package
 #include <termios.h>
 #include <unistd.h>
+#include <list>
 
 // custom header files
 #include "task.hpp"
@@ -23,6 +24,7 @@ class TaskDB
         bool updateTask(Task T);
         bool deleteTask(Task T);
         Task getTaskInfo(string taskID);
+        list<Task> getFilteredTasks(string filters);
     private:
         ControllerDb controllerDb;
         TaskDB(); // pvt to prevent direct instanciation
