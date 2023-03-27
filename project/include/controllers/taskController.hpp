@@ -16,7 +16,7 @@ using namespace std;
 class TaskController 
 {
     public:
-        TaskController();
+        static TaskController* getInstance(); // gets the single instance of this class
         ~TaskController();
         
         void createTask();
@@ -27,7 +27,9 @@ class TaskController
 
         void getTaskInfo();
 
-
+    private:
+        TaskController(); // private to prevent direct instantiation
+        static TaskController* instance; // Pointer to the single instance of SubscriptionDB
 };
 
 #endif
