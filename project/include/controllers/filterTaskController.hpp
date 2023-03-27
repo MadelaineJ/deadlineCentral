@@ -14,7 +14,7 @@ class FilterTaskController
         ~FilterTaskController();
 
         // TODO: add params ; return type?
-        Task* filterTasks();
+        list<Task> filterTasks();
 
     private:
         FilterTaskController(); // private to prevent direct instantiation

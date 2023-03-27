@@ -16,6 +16,6 @@ FilterTaskController::FilterTaskController() {}
 // destructor
 FilterTaskController::~FilterTaskController() {}
 
-Task* FilterTaskController::filterTasks() {
-    return NULL;
+list<Task> FilterTaskController::filterTasks() {
+    return taskList;
 }
