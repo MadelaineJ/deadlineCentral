@@ -10,11 +10,18 @@
 
 using namespace std;
 
-// constructor
-CourseController::CourseController()
-{
+CourseController *CourseController::instance = nullptr; // initialize the static pointer
 
+// returns a pointer to the single instance of CourseController, if there is no instance it creates a new one
+CourseController* CourseController::getInstance() {
+    if(instance == nullptr) {
+        instance = new CourseController();
+    }
+    return instance;
 }
+
+// constructor
+CourseController::CourseController() {}
 
 // destructor
 CourseController::~CourseController() { }

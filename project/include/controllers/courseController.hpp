@@ -12,7 +12,7 @@ using namespace std;
 class CourseController 
 {
     public:
-        CourseController();
+        static CourseController* getInstance(); // gets the single instance of this class
         ~CourseController();
         
         void createCourse();
@@ -28,6 +28,10 @@ class CourseController
         void removeTask();
 
         void aggregateDeadlines();
+        
+    private:    
+        CourseController(); // private to prevent direct instantiation
+        static CourseController* instance; // Pointer to the single instance of CourseController
 };
 
 #endif
