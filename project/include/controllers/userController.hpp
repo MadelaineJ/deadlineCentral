@@ -12,7 +12,7 @@ using namespace std;
 class UserController 
 {
     public:
-        UserController();
+        static UserController* getInstance(); // gets the single instance of this class
         ~UserController();
         
         void createStudent();
@@ -22,6 +22,10 @@ class UserController
         void deleteUser();
 
         void getUserInfo();
+    
+    private:
+        UserController(); // private to prevent direct instantiation
+        static UserController* instance; // Pointer to the single instance of UserController
 };
 
 #endif

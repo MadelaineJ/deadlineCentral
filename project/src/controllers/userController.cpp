@@ -10,7 +10,17 @@
 
 using namespace std;
 
-// constructor
+UserController *UserController::instance = nullptr; // initialize the static pointer
+
+// returns a pointer to the single instance of UserController, if there is no instance it creates a new one
+UserController* UserController::getInstance() {
+    if(instance == nullptr) {
+        instance = new UserController();
+    }
+    return instance;
+}
+
+// constructor is private to avoid multiple instances of UserController, instead use static method getInstance 
 UserController::UserController()
 {
 
