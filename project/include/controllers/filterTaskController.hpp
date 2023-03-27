@@ -10,13 +10,16 @@ using namespace std;
 class FilterTaskController 
 {
     public:
-        FilterTaskController();
+        static FilterTaskController* getInstance(); // gets the single instance of this class
         ~FilterTaskController();
 
         // TODO: add params ; return type?
         Task* filterTasks();
 
     private:
+        FilterTaskController(); // private to prevent direct instantiation
+        static FilterTaskController* instance; // Pointer to the single instance of FilterTaskController
+
         list<Task> taskList;
 
 };
