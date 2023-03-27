@@ -1,4 +1,8 @@
+//Included custom header files
 #include "courseDb.hpp"
+#include "course.hpp"
+#include "instructor.hpp"
+#include "controllerDb.hpp"
 
 CourseDB* CourseDB::instance = nullptr; // initialize pointer
 
@@ -10,8 +14,27 @@ CourseDB* CourseDB::getInstance()   {
    return instance;
 }
 
+CourseDB::CourseDB() {}
+CourseDB::~CourseDB() {}
+
 bool CourseDB::createCourse(Course C){
-   return 0;
+   /* Work in progress
+   this->controllerDb.connect();
+   
+   string query = "INSERT INTO Courses (couseID, courseCode, courseName, calendarDescription, instructorID) VALUES ("
+     + C.getCourseName() + ", "
+     + C.getCourseCode() + ", '"
+     + C.getCourseName() + "', '"
+     + task.getTaskDescription() + "', TO_DATE('"
+     + task.getDueDate() + "', 'YYYY-MM-DD HH24:MI:SS'), "
+     + to_string(task.getWeight()) + ", "
+     + to_string(task.getCompletionStatus()) + ", NULL, "
+     + to_string(task.getTaskOwner()) + ", NULL)";
+
+   int rowCount = this->controllerDb.getStatement()->executeUpdate(query);
+   this->controllerDb.disconnect();
+   return rowCount;
+   */
 }
 
 bool CourseDB::updateCourse(Course C){
