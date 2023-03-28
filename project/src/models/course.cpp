@@ -10,14 +10,13 @@
 using namespace std;
 
 // constructor
-Course::Course(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription, list<int> enrollmentList)
+Course::Course(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription)
 {
     this->courseId = courseId;
     this->instructorId = instructorId;
     this->courseName = courseName;
     this->courseCode = courseCode;
     this->calendarDescription = calendarDescription;
-    this->enrollmentList = enrollmentList;
 
 }
 

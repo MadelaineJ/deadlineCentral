@@ -60,6 +60,7 @@ test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTe
 	--run_test=math \
 	--run_test=controllerDB \
 	--run_test=taskDatabase \
+	--run_test=courseDB \
 		-- bin/test
 
 run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
@@ -200,7 +201,7 @@ ${INCLUDE}/${MODEL}/user.hpp
 
 # TESTING
 # note, To add a testing file simply duplicated this line for the "${TESTS}/${BINARY}/deadlineCentralTest:" target
-# ${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
+# ${TESTS}/${SOURCE}/${DATALAYER}/taskDbTest.cpp ${SOURCE}/${DATALAYER}/taskDb.cpp ${SOURCE}/${MODEL}/task.cpp \
 # and then change the file locations and names.
 
 
@@ -221,6 +222,7 @@ ${INCLUDE}/${MODEL}/user.hpp
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/taskDbTest.cpp ${SOURCE}/${DATALAYER}/taskDb.cpp ${SOURCE}/${MODEL}/task.cpp \
+	${TESTS}/${SOURCE}/${DATALAYER}/courseDbTest.cpp ${SOURCE}/${DATALAYER}/courseDb.cpp ${SOURCE}/${MODEL}/course.cpp  \
 	${TESTS}/${SOURCE}/main.cpp \
 	$(CFLAGS) $(LFLAGS)
 

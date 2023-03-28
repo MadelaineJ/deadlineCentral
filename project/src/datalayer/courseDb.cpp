@@ -4,6 +4,7 @@
 #include "instructor.hpp"
 #include "controllerDb.hpp"
 
+
 CourseDB* CourseDB::instance = nullptr; // initialize pointer
 
 // returns a pointer to the single instance of CourseDB, if there is no instance it creates a new one
@@ -26,7 +27,7 @@ bool CourseDB::createCourse(Course C){
      + C.getCourseCode() + "', '"
      + C.getCourseName() + "', '"
      + C.getCalendarDescription() + "', "
-     + to_string(C.getInstructorId()) + "";
+     + to_string(C.getInstructorId()) + ")";
 
  int rowCount = controllerDB->getStatement()->executeUpdate(query);
  controllerDB->disconnect();
@@ -34,7 +35,19 @@ bool CourseDB::createCourse(Course C){
 }
 
 bool CourseDB::updateCourse(Course C){
-   return 0;
+   ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
+
+   string query = "UPDATE Courses SET courseCode = '" 
+	+ C.getCourseCode() + "', courseName = '" 
+	+ C.getCourseName() + "', calendarDescription = '" 
+	+ C.getCalendarDescription() + "', instructorID = " 
+	+ to_string(C.getInstructorId()) + "WHERE courseID = " 
+	+ to_string(C.getCourseId()) + "";
+
+ int rowCount = controllerDB->getStatement()->executeUpdate(query);
+ controllerDB->disconnect();
+ return rowCount;
 }
 
 bool CourseDB::deleteCourse(Course C){
@@ -47,8 +60,7 @@ list<Student> CourseDB::getEnrollmentList(int courseID){
 }
 
 Course CourseDB::getCourseInfo(int courseID){
-   list<int> L;
-   Course C(0,0,"0", "0", "0", L);
+   Course C(0,0,"0", "0", "0");
    return C;
 }
 

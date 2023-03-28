@@ -16,7 +16,7 @@ using namespace std;
 class Course 
 {
     public:
-        Course(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription, list<int> enrollmentList);
+        Course(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription);
         ~Course();
         
         int getCourseId();
