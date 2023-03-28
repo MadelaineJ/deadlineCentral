@@ -23,15 +23,15 @@ bool CourseDB::createCourse(Course C){
    controllerDB->connect();
 
    string query = "INSERT INTO Courses (courseID, courseCode, courseName, calendarDescription, instructorID) VALUES ("
-     + to_string(C.getCourseId()) + ", '"
-     + C.getCourseCode() + "', '"
-     + C.getCourseName() + "', '"
-     + C.getCalendarDescription() + "', "
-     + to_string(C.getInstructorId()) + ")";
+      + to_string(C.getCourseId()) + ", '"
+      + C.getCourseCode() + "', '"
+      + C.getCourseName() + "', '"
+      + C.getCalendarDescription() + "', "
+      + to_string(C.getInstructorId()) + ")";
 
- int rowCount = controllerDB->getStatement()->executeUpdate(query);
- controllerDB->disconnect();
- return rowCount;
+   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->disconnect();
+   return rowCount;
 }
 
 bool CourseDB::updateCourse(Course C){
@@ -39,19 +39,26 @@ bool CourseDB::updateCourse(Course C){
    controllerDB->connect();
 
    string query = "UPDATE Courses SET courseCode = '" 
-	+ C.getCourseCode() + "', courseName = '" 
-	+ C.getCourseName() + "', calendarDescription = '" 
-	+ C.getCalendarDescription() + "', instructorID = " 
-	+ to_string(C.getInstructorId()) + "WHERE courseID = " 
-	+ to_string(C.getCourseId()) + "";
+	   + C.getCourseCode() + "', courseName = '" 
+	   + C.getCourseName() + "', calendarDescription = '" 
+	   + C.getCalendarDescription() + "', instructorID = " 
+	   + to_string(C.getInstructorId()) + "WHERE courseID = " 
+	   + to_string(C.getCourseId()) + "";
 
- int rowCount = controllerDB->getStatement()->executeUpdate(query);
- controllerDB->disconnect();
- return rowCount;
+   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->disconnect();
+   return rowCount;
 }
 
 bool CourseDB::deleteCourse(Course C){
-   return 0;
+   ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();  
+
+   string query = "DELETE FROM Courses WHERE courseID = " + to_string(C.getCourseId()) + "";
+
+   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->disconnect();
+   return rowCount;
 }
 
 list<Student> CourseDB::getEnrollmentList(int courseID){
