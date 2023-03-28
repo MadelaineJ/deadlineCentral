@@ -25,7 +25,6 @@ class UserDB
         bool deleteUser(User U);
         User getUserInfo(string userID);
     private:
-        ControllerDb controllerDb;
         UserDB();
         static UserDB* instance;
         bool isStudent(string userID);

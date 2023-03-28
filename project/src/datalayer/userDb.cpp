@@ -13,7 +13,7 @@ UserDB::UserDB(){}
 UserDB::~UserDB(){}
 
 bool UserDB::createUser(Student user){
-   this->controllerDb.connect();
+   ControllerDb* controllerDB = ControllerDb::getInstance();
 
    string query = "INSERT INTO Students (studentID, name, email, password)"
       + to_string(user.getStudentId()) + ", "
@@ -21,13 +21,13 @@ bool UserDB::createUser(Student user){
       + user.getEmail() + ", "
       + user.getPassword() + ", ";
 
-   int rowCount = this->controllerDb.getStatement()->executeUpdate(query);
-   this->controllerDb.disconnect();
+   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->disconnect();
    return rowCount;
 }
 
 bool UserDB::createUser(Instructor user){
-   this->controllerDb.connect();
+   ControllerDb* controllerDB = ControllerDb::getInstance();
 
    string query = "INSERT INTO Instructors (instructorID, name, email, password)"
       + to_string(user.getInstructorId()) + ", "
@@ -35,8 +35,8 @@ bool UserDB::createUser(Instructor user){
       + user.getEmail() + ", "
       + user.getPassword() + ", ";
 
-   int rowCount = this->controllerDb.getStatement()->executeUpdate(query);
-   this->controllerDb.disconnect();
+   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->disconnect();
    return rowCount;
 }
 
@@ -49,15 +49,15 @@ bool UserDB::deleteUser(User U){
 }
 
 bool UserDB::isStudent(string userID){
-   this->controllerDb.connect();
+   ControllerDb* controllerDB = ControllerDb::getInstance();
    string query = "SELECT studentID FROM Student WHERE studentID = " + userID;
-   ResultSet *rs = this->controllerDb.getStatement()->executeQuery(query);
+   ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
    return rs->next();
 }
 
 //TODO add tasklist to returned object
 User UserDB::getUserInfo(string userID){
-   this->controllerDb.connect();
+   ControllerDb* controllerDB = ControllerDb::getInstance();
    string query = "";
    if(isStudent(userID)){
       string query = "SELECT studentID, name, email, password FROM Students WHERE studentID = " + userID;
@@ -65,7 +65,7 @@ User UserDB::getUserInfo(string userID){
    else{
       string query = "SELECT instructorID, name, email, password FROM Instructors WHERE instructorID = " + userID;
    }
-   ResultSet *rs = this->controllerDb.getStatement()->executeQuery(query);
+   ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
    list<int> taskList;
    User user("", "", "", taskList);
    if(rs->next()){
@@ -74,7 +74,7 @@ User UserDB::getUserInfo(string userID){
       user.setEmail(rs->getString(3));
       user.setPassword(rs->getString(4));
    }
-   this->controllerDb.disconnect();
+   controllerDB->disconnect();
    return user;
 }
 
