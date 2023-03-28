@@ -52,6 +52,8 @@ class Task
 
         bool compare(Task otherTask);
 
+        friend std::ostream& operator<< (std::ostream& out, const Task& t); // allows us to use std::cout << <TASK-OBJECT>
+
 
     private:
         int taskId;

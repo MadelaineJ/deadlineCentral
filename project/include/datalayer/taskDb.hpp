@@ -7,6 +7,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <list>
+#include <sstream> // for string building the SQL query
 
 // custom header files
 #include "task.hpp"
@@ -24,10 +25,9 @@ class TaskDB
         bool updateTask(Task T);
         bool deleteTask(Task T);
         Task getTaskInfo(string taskID);
-        list<Task> getFilteredTasks(string filters);
+        list<Task> getFilteredTasks(int typeFilter, int courseFilter, int completedFilter, int daysPriorFilter, int daysFutureFilter, int userID);
     private:
-        // ControllerDb controllerDb;
-        TaskDB(); // pvt to prevent direct instanciation
+        TaskDB(); // private to prevent direct instantiation
         static TaskDB* instance; // Pointer to the single instance of TaskDB
 };
 

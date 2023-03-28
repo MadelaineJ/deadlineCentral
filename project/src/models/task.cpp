@@ -143,4 +143,9 @@ bool Task::compare(Task otherTask) {
     return true;
 }
 
-
+std::ostream& operator<< (std::ostream& out, const Task& t)
+{
+    out << "Task: " << t.taskId << " " << t.name << " " << t.type << " " << t.owner << " " << t.description \
+        << " " << t.dueDate << " " << t.isCompleted << " " << t.weight;
+    return out;
+}
