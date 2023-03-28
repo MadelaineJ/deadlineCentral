@@ -27,7 +27,7 @@ class CourseDB
         //TODO return type tbd
         void aggregateDeadlines(int courseID);
     private:
-        CourseDB(){} // private to avoid direct instantiation
+        CourseDB(); // private to avoid direct instantiation
         static CourseDB* instance; // pointer to single instanece of CourseDB
 };
 

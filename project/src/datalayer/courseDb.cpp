@@ -48,7 +48,7 @@ list<Student> CourseDB::getEnrollmentList(int courseID){
 
 Course CourseDB::getCourseInfo(int courseID){
    list<int> L;
-   Course C(0,0,0,L);
+   Course C(0,0,"0", "0", "0", L);
    return C;
 }
 
