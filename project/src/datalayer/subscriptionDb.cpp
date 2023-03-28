@@ -1,4 +1,9 @@
 #include "subscriptionDb.hpp"
+#include "controllerDb.hpp"
+
+
+#include <iostream>
+#include <string>
 
 SubscriptionDB *SubscriptionDB::instance = nullptr; // initialize the static pointer
 
@@ -34,7 +39,17 @@ bool SubscriptionDB::deleteSubscription(int studentID, int courseID) {
 
 bool SubscriptionDB::createSubscription(int studentID, int courseID) {
     // query DB table StudentCourses to create subscription
-    return false;
+
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
+
+    string query = "INSERT INTO studentcourses (studentID, courseID) VALUES ("
+        + to_string(studentID) + ", "
+        + to_string(courseID) + "')";
+
+    int rowCount = controllerDB->getStatement()->executeUpdate(query);
+    controllerDB->disconnect();
+    return rowCount;
 }
 
 // helper functions
