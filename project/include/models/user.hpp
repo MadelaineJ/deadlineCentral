@@ -31,6 +31,10 @@ class User
         list<int> getTaskList();
         void setTaskList(list<int> taskList);
 
+        void printUserInfo();
+
+        bool compare(User otherUser);
+
     private:
         list<int> taskList;
     

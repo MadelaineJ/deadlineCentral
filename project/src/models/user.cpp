@@ -40,3 +40,18 @@ void User::setTaskList(list<int> taskList) {
     this->taskList = taskList;
 }
 
+//TODO write print for task list
+void User::printUserInfo() {
+    cout << "Name: " << name << endl;
+    cout << "Email: " << email << endl;
+    cout << "Password: " << password << endl;
+//    cout << "Task List: " << taskList << endl;
+}
+
+bool User::compare(User otherUser) {
+    if (this->getName() != otherUser.getName()) return false;
+    if (this->getEmail() != otherUser.getEmail()) return false;
+    if (this->getPassword() != otherUser.getPassword()) return false;
+    if (this->getTaskList() != otherUser.getTaskList()) return false;
+    return true;
+}

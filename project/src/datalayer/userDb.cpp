@@ -14,12 +14,13 @@ UserDB::~UserDB(){}
 
 bool UserDB::createUser(Student user){
    ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
 
-   string query = "INSERT INTO Students (studentID, name, email, password)"
-      + to_string(user.getStudentId()) + ", "
-      + user.getName() + ", "
-      + user.getEmail() + ", "
-      + user.getPassword() + ", ";
+   string query = "INSERT INTO Students (studentID, name, email, password) VALUES ("
+      + to_string(user.getStudentId()) + ", '"
+      + user.getName() + "', '"
+      + user.getEmail() + "', '"
+      + user.getPassword() + "')";
 
    int rowCount = controllerDB->getStatement()->executeUpdate(query);
    controllerDB->disconnect();
@@ -28,30 +29,50 @@ bool UserDB::createUser(Student user){
 
 bool UserDB::createUser(Instructor user){
    ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
 
-   string query = "INSERT INTO Instructors (instructorID, name, email, password)"
-      + to_string(user.getInstructorId()) + ", "
-      + user.getName() + ", "
-      + user.getEmail() + ", "
-      + user.getPassword() + ", ";
+   string query = "INSERT INTO Instructors (instructorID, name, email, password) VALUES ("
+      + to_string(user.getInstructorId()) + ", '"
+      + user.getName() + "', '"
+      + user.getEmail() + "', '"
+      + user.getPassword() + "')";
 
    int rowCount = controllerDB->getStatement()->executeUpdate(query);
    controllerDB->disconnect();
    return rowCount;
 }
 
-bool UserDB::updateUser(User U){
-   return 0;
+bool UserDB::updateUser(User U, string userID){
+   ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
+   string query = "";
+   if(isStudent(userID)){
+      query = "UPDATE Students SET name = '" + U.getName() + "', "
+         + "email = '" + U.getEmail() + "', "
+         + "password = '" + U.getPassword() + "' "
+         + "WHERE studentID = " + userID;
+   } 
+   else{
+      query = "UPDATE Instructors SET name = '" + U.getName() + "', "
+         + "email = '" + U.getEmail() + "', "
+         + "password = '" + U.getPassword() + "' "
+         + "WHERE instructorID = " + userID;
+   }
+   
+   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->disconnect();
+   return rowCount;
 }
 
 bool UserDB::deleteUser(string userID){
    ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
    string query = "";
    if(isStudent(userID)){
-      string query = "DELETE FROM Students WHERE studentID = " + userID;
+      query = "DELETE FROM Students WHERE studentID = " + userID;
    }
    else{
-      string query = "DELETE FROM Instructors WHERE instructorID = " + userID;
+      query = "DELETE FROM Instructors WHERE instructorID = " + userID;
    }
 
    int rowCount = controllerDB->getStatement()->executeUpdate(query);
@@ -61,7 +82,8 @@ bool UserDB::deleteUser(string userID){
 
 bool UserDB::isStudent(string userID){
    ControllerDb* controllerDB = ControllerDb::getInstance();
-   string query = "SELECT studentID FROM Student WHERE studentID = " + userID;
+   controllerDB->connect();
+   string query = "SELECT studentID FROM Students WHERE studentID = " + userID;
    ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
    return rs->next();
 }
@@ -69,12 +91,13 @@ bool UserDB::isStudent(string userID){
 //TODO add tasklist to returned object
 User UserDB::getUserInfo(string userID){
    ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
    string query = "";
    if(isStudent(userID)){
-      string query = "SELECT studentID, name, email, password FROM Students WHERE studentID = " + userID;
+      query = "SELECT studentID, name, email, password FROM Students WHERE studentID = " + userID;
    }
    else{
-      string query = "SELECT instructorID, name, email, password FROM Instructors WHERE instructorID = " + userID;
+      query = "SELECT instructorID, name, email, password FROM Instructors WHERE instructorID = " + userID;
    }
    ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
    list<int> taskList;
