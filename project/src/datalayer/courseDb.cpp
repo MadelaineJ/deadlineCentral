@@ -18,23 +18,19 @@ CourseDB::CourseDB() {}
 CourseDB::~CourseDB() {}
 
 bool CourseDB::createCourse(Course C){
-   /* Work in progress
-   this->controllerDb.connect();
-   
-   string query = "INSERT INTO Courses (couseID, courseCode, courseName, calendarDescription, instructorID) VALUES ("
-     + C.getCourseName() + ", "
-     + C.getCourseCode() + ", '"
-     + C.getCourseName() + "', '"
-     + task.getTaskDescription() + "', TO_DATE('"
-     + task.getDueDate() + "', 'YYYY-MM-DD HH24:MI:SS'), "
-     + to_string(task.getWeight()) + ", "
-     + to_string(task.getCompletionStatus()) + ", NULL, "
-     + to_string(task.getTaskOwner()) + ", NULL)";
+   ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
 
-   int rowCount = this->controllerDb.getStatement()->executeUpdate(query);
-   this->controllerDb.disconnect();
-   return rowCount;
-   */
+   string query = "INSERT INTO Courses (courseID, courseCode, courseName, calendarDescription, instructorID) VALUES ("
+     + to_string(C.getCourseId()) + ", '"
+     + C.getCourseCode() + "', '"
+     + C.getCourseName() + "', '"
+     + C.getCalendarDescription() + "', "
+     + to_string(C.getInstructorId()) + "";
+
+ int rowCount = controllerDB->getStatement()->executeUpdate(query);
+ controllerDB->disconnect();
+ return rowCount;
 }
 
 bool CourseDB::updateCourse(Course C){

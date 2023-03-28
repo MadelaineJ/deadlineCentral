@@ -10,8 +10,10 @@
 using namespace std;
 
 // constructor
-Course::Course(string courseName, string courseCode, string calendarDescription, list<int> enrollmentList)
+Course::Course(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription, list<int> enrollmentList)
 {
+    this->courseId = courseId;
+    this->instructorId = instructorId;
     this->courseName = courseName;
     this->courseCode = courseCode;
     this->calendarDescription = calendarDescription;
@@ -21,6 +23,26 @@ Course::Course(string courseName, string courseCode, string calendarDescription,
 
 // destructor
 Course::~Course() { }
+
+// getCourseId
+int Course::getCourseId() {
+    return this->courseId;
+}
+
+// setCourseId
+void Course::setCourseId(int courseId) {
+    this->courseId = courseId;
+}
+
+// getInstructorId
+int Course::getInstructorId() {
+    return this->instructorId;
+}
+
+// setInstructorId
+void Course::setInstructorId(int instructorId) {
+    this->instructorId = instructorId;
+}
 
 // getCourseName
 string Course::getCourseName() {

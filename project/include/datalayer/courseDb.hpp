@@ -6,6 +6,8 @@
 #include "occi.h"  // Oracle's C++ call level interface library package
 #include <termios.h>
 #include <unistd.h>
+#include <list>
+
 #include "course.hpp"
 #include "student.hpp"
 
@@ -16,7 +18,7 @@ class CourseDB
 {
     public:
         static CourseDB* getInstance(); // gets the single instance of this class
-        ~CourseDB(){}
+        ~CourseDB();
         bool createCourse(Course C);
         bool updateCourse(Course C);
         bool deleteCourse(Course C);

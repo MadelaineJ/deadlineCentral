@@ -16,8 +16,14 @@ using namespace std;
 class Course 
 {
     public:
-        Course(string courseName, string courseCode, string calendarDescription, list<int> enrollmentList);
+        Course(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription, list<int> enrollmentList);
         ~Course();
+        
+        int getCourseId();
+        void setCourseId(int courseId);
+
+        int getInstructorId();
+        void setInstructorId(int instructorId);
         
         string getCourseName();
         void setCourseName(string courseName);
@@ -32,6 +38,8 @@ class Course
         void setEnrollmentList(list<int> enrollmentList);
 
     private:
+        int courseId;
+        int instructorId;
         string courseName;
         string courseCode;
         string calendarDescription;
