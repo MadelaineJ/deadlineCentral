@@ -51,6 +51,10 @@ ${BUILDS}/subscriptionController.o ${BUILDS}/taskController.o ${BUILDS}/userCont
 ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o ${BUILDS}/commands.o 
 	${BINARY}/deadlineCentral
 
+
+# if you want to add a test you have to duplicate this line:
+# 	--run_test=taskDatabase \
+# and change the name
 test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTest
 	${TESTS}/${BINARY}/deadlineCentralTest --log_level=all \
 	--run_test=math \
