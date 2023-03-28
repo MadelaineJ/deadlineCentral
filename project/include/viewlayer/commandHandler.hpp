@@ -39,19 +39,19 @@ class CommandHandler
         void manageCourse();
 
         //handle commands
-        void handleCreateCourse();
-        void handleCreateTask();
-        void handleEditTask();
-        void handleEditCourse();
-        void handleLogin();
-        void handleSubscribeCourse();
-        void handleUnsubscribeCourse();
-        void handleViewTask();
-        void handleViewCourse();
-        void handleSortTasks();
-        void handleViewConsolidatedDeadlines();
-        void handleDeleteCourse();
-        void handleDeleteTask();
+        // void handleCreateCourse();
+        // void handleCreateTask();
+        // void handleEditTask();
+        // void handleEditCourse();
+        // void handleLogin();
+        // void handleSubscribeCourse();
+        // void handleUnsubscribeCourse();
+        // void handleViewTask();
+        // void handleViewCourse();
+        // void handleSortTasks();
+        // void handleViewConsolidatedDeadlines();
+        // void handleDeleteCourse();
+        // void handleDeleteTask();
 
     private:
         UserController *userController = UserController::getInstance();

@@ -1,18 +1,34 @@
 
 
 // Account
-void viewAccount();
-void updateAccount();
-void deleteAccount();
+void handleViewAccount();
+void handleUpdateAccount();
+void handleDeleteAccount();
+
+void handleLogin();
+
 
 
 // Task
-void viewTask();
-void updateTask();
-void deleteTask();
+void handleCreateTask();
+void handleDeleteTask();
+void handleEditTask();
+
+void handleViewAllTasks();
+void handleViewTask();
+void handleSortTasks();
+void handleviewAllTasks();
 
 // Course
-void viewCourse();
-void updateCourse();
-void subscribeCourse();
-void unsubscribeCourse();
+void handleCreateCourse();
+void handleDeleteCourse();
+void handleEditCourse();
+void handleViewCourse();
+
+void handleSubscribeCourse();
+void handleUnsubscribeCourse();
+
+
+
+// extra
+void handleViewConsolidatedDeadlines();
