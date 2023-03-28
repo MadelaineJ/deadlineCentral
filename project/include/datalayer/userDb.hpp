@@ -22,7 +22,7 @@ class UserDB
         bool createUser(Student U);
         bool createUser(Instructor U);
         bool updateUser(User U);
-        bool deleteUser(User U);
+        bool deleteUser(string userID);
         User getUserInfo(string userID);
     private:
         UserDB();

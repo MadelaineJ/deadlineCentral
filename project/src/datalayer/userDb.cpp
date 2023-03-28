@@ -44,8 +44,19 @@ bool UserDB::updateUser(User U){
    return 0;
 }
 
-bool UserDB::deleteUser(User U){
-   return 0;
+bool UserDB::deleteUser(string userID){
+   ControllerDb* controllerDB = ControllerDb::getInstance();
+   string query = "";
+   if(isStudent(userID)){
+      string query = "DELETE FROM Students WHERE studentID = " + userID;
+   }
+   else{
+      string query = "DELETE FROM Instructors WHERE instructorID = " + userID;
+   }
+
+   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->disconnect();
+   return rowCount;
 }
 
 bool UserDB::isStudent(string userID){
