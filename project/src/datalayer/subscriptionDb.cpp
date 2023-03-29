@@ -22,14 +22,16 @@ SubscriptionDB::~SubscriptionDB(){
 
 }
 
-Course* SubscriptionDB::getAvailableCourseList(int courseID) {
+list<Course> SubscriptionDB::getAvailableCourseList(int courseID) {
     // query DB table Courses to return list of all courses
-    return NULL;
+    list<Course> availableCourses = {};
+    return availableCourses;
 }
 
-Course* SubscriptionDB::getCourseSubscriptions(int studentID) {
+list<Course> SubscriptionDB::getCourseSubscriptions(int studentID) {
     // query DB table StudentCourses using studentID to get all courses subscribed to
-    return NULL;
+    list<Course> subscriptionCourses = {};
+    return subscriptionCourses;
 }
 
 bool SubscriptionDB::deleteSubscription(int studentID, int courseID) {
