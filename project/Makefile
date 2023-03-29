@@ -142,14 +142,14 @@ ${BUILDS}/filterTaskController.o: ${SOURCE}/${CONTROL}/filterTaskController.cpp 
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER} \
 	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/filterTaskController.o \
-	${SOURCE}/${CONTROL}/filterTaskController.cpp
+	${SOURCE}/${CONTROL}/filterTaskController.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/subscriptionController.o: ${SOURCE}/${CONTROL}/subscriptionController.cpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER}  \
 	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/subscriptionController.o \
-	${SOURCE}/${CONTROL}/subscriptionController.cpp
+	${SOURCE}/${CONTROL}/subscriptionController.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/taskController.o: ${SOURCE}/${CONTROL}/taskController.cpp ${INCLUDE}/${CONTROL}/taskController.hpp
@@ -162,7 +162,7 @@ ${BUILDS}/taskController.o: ${SOURCE}/${CONTROL}/taskController.cpp ${INCLUDE}/$
 ${BUILDS}/userController.o: ${SOURCE}/${CONTROL}/userController.cpp ${INCLUDE}/${CONTROL}/userController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/userController.o \
-	${SOURCE}/${CONTROL}/userController.cpp
+	${SOURCE}/${CONTROL}/userController.cpp \
 	$(CFLAGS)
 
 # Models compilation
