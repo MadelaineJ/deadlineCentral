@@ -1,7 +1,26 @@
 #include <iostream>
+#include <iomanip>
+#include <list>
+#include <algorithm>
+#include <string>
+#include "task.hpp" // Assuming you have a Task class header
+// custom header files
+#include "commands.hpp"
+#include "userController.hpp"
+#include "taskController.hpp"
+#include "filterTaskController.hpp"
+#include "subscriptionController.hpp"
+#include "courseController.hpp"
+// models
+#include "task.hpp"
 
 using namespace std;
 
+UserController *userController = UserController::getInstance();
+TaskController *taskController = TaskController::getInstance();
+FilterTaskController *filterTaskController = FilterTaskController::getInstance();
+SubscriptionController *subscriptionController = SubscriptionController::getInstance();
+CourseController *courseController = CourseController::getInstance();
 
 // Account commands
 void handleViewAccount() {
@@ -142,6 +161,9 @@ void handleEditTask(){
 
 void handleViewAllTasks() {
     cout << "handling handleViewAllTasks()" << endl;
+    list<Task> filteredList = filterTaskController->filterTasks();
+    printTaskList(filteredList);
+
 }
 
 // course commands
@@ -253,3 +275,75 @@ void handleUnsubscribeCourse(){
     }
     */
 }
+
+
+
+// helper functions
+// written by chatGPt given the below input with only minor modifications
+/*
+
+I have a list of C++ objects, of custom class type "Task".  here is the constructor:
+
+< constructor for Task given>
+
+I need a function that will print a list of tasks in rows. Such that the columbs are the member attributes of task, and each row represents a new task. Everything should be formatted nicely in a terminal output. can you build this function for me? Assume you this list:
+list<Task> list = getTaskList();
+
+Minor modifications were requested from chatGPT such as left align
+*/
+
+void printTaskList(const list<Task>& taskList) {
+    int idWidth = 2;
+    int nameWidth = 6;
+    int typeWidth = 4;
+    int ownerWidth = 5;
+    int descriptionWidth = 15;
+    int dueDateWidth = 10;
+    int completionWidth = 9;
+    int weightWidth = 6;
+
+    // Calculate the maximum width of each column
+    for (Task task : taskList) {
+        idWidth = max(idWidth, (int)to_string(task.getTaskId()).length());
+        nameWidth = max(nameWidth, (int)task.getTaskName().length());
+        typeWidth = max(typeWidth, (int)task.getTypeName().length());
+        ownerWidth = max(ownerWidth, (int)to_string(task.getTaskOwner()).length());
+        descriptionWidth = max(descriptionWidth, (int)task.getTaskDescription().length());
+        dueDateWidth = max(dueDateWidth, (int)task.getDueDate().length());
+        completionWidth = max(completionWidth, (int)to_string(task.getCompletionStatus()).length());
+        weightWidth = max(weightWidth, (int)to_string(task.getWeight()).length());
+    }
+
+    // Print the table headers
+    cout << setw(idWidth) << "ID" << " | ";
+    cout << setw(nameWidth) << "Name" << " | ";
+    cout << setw(typeWidth) << "Type" << " | ";
+    cout << setw(ownerWidth) << "Owner" << " | ";
+    cout << setw(descriptionWidth) << "Description" << " | ";
+    cout << setw(dueDateWidth) << "Due Date" << " | ";
+    cout << setw(completionWidth) << "Completed" << " | ";
+    cout << setw(weightWidth) << "Weight" << endl;
+
+    // Print the separator
+    cout << string(idWidth, '-') << "-+-";
+    cout << string(nameWidth, '-') << "-+-";
+    cout << string(typeWidth, '-') << "-+-";
+    cout << string(ownerWidth, '-') << "-+-";
+    cout << string(descriptionWidth, '-') << "-+-";
+    cout << string(dueDateWidth, '-') << "-+-";
+    cout << string(completionWidth, '-') << "-+-";
+    cout << string(weightWidth, '-') << "-" << endl;
+
+    // Print the table rows
+    for (Task task : taskList) {
+        cout << setw(idWidth) << task.getTaskId() << " | ";
+        cout << setw(nameWidth) << task.getTaskName() << " | ";
+        cout << setw(typeWidth) << task.getTypeName() << " | ";
+        cout << setw(ownerWidth) << task.getTaskOwner() << " | ";
+        cout << setw(descriptionWidth) << task.getTaskDescription() << " | ";
+        cout << setw(dueDateWidth) << task.getDueDate() << " | ";
+        cout << setw(completionWidth) << (task.getCompletionStatus() ? "Yes" : "No") << " | ";
+        cout << setw(weightWidth) << task.getWeight() << endl;
+    }
+}
+

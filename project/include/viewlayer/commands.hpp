@@ -1,3 +1,6 @@
+#include <iostream>
+#include <list>
+#include "task.hpp"
 
 
 // Account
@@ -32,3 +35,8 @@ void handleUnsubscribeCourse();
 
 // extra
 void handleViewConsolidatedDeadlines();
+
+
+// helper functions
+
+void printTaskList(const list<Task>& taskList);

@@ -4,6 +4,7 @@
 // Required Libraries
 #include <list>
 #include "task.hpp"
+#include "taskDb.hpp"
 
 using namespace std;
 
@@ -21,6 +22,7 @@ class FilterTaskController
         static FilterTaskController* instance; // Pointer to the single instance of FilterTaskController
 
         list<Task> taskList;
+        TaskDB *taskDb = TaskDB::getInstance();
 
 };
 

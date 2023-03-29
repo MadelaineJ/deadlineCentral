@@ -9,6 +9,10 @@
 
 using namespace std;
 
+// Todo, set this to be null or -1 and get updated on login.
+// CommandHandler::CommandHandler() {
+//     int currentUser = 101;
+// }
 
 void CommandHandler::manageMain() {
     int input;
@@ -131,6 +135,8 @@ int CommandHandler::getUserInput() {
 
 
 // menu printers:
+// The following were written by chat GPT by asking it to create a help menu 
+// for the associated switch statement
 
 void CommandHandler::mainMenu() {
     cout << "===== MENU =====" << std::endl;
@@ -151,10 +157,11 @@ void CommandHandler::accountMenu() {
 
 void CommandHandler::taskMenu() {
     cout << "===== TASK MENU =====" << std::endl;
-    cout << "1. Create Task" << std::endl;
-    cout << "2. View Tasks" << std::endl;
-    cout << "3. Delete Task" << std::endl;
-    cout << "4. Main Menu" << std::endl;
+    cout << "1. View All Tasks" << std::endl;
+    cout << "2. Edit a Task" << std::endl;
+    cout << "3. Delete a Task" << std::endl;
+    cout << "4. Create a Task" << std::endl;
+    cout << "5. Main Menu" << std::endl;
 }
 
 void CommandHandler::courseMenu() {

@@ -8,6 +8,9 @@
 #include <unistd.h>
 
 
+// custom header files
+#include "taskDb.hpp"
+
 
 
 using namespace std;
@@ -26,10 +29,12 @@ class TaskController
         void editTask();
 
         void getTaskInfo();
+        void getAllTasks();
 
     private:
         TaskController(); // private to prevent direct instantiation
-        static TaskController* instance; // Pointer to the single instance of SubscriptionDB
+        static TaskController* instance; // Pointer to the single instance of TaskController
+        TaskDB *taskDb = TaskDB::getInstance();
 };
 
 #endif

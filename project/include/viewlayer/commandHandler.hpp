@@ -7,11 +7,6 @@
 
 // custom header files
 
-#include "userController.hpp"
-#include "taskController.hpp"
-#include "filterTaskController.hpp"
-#include "subscriptionController.hpp"
-#include "courseController.hpp"
 
 
 using namespace std;
@@ -54,11 +49,7 @@ class CommandHandler
         // void handleDeleteTask();
 
     private:
-        UserController *userController = UserController::getInstance();
-        TaskController *taskController = TaskController::getInstance();
-        FilterTaskController *filterTaskController = FilterTaskController::getInstance();
-        SubscriptionController *subscriptionController = SubscriptionController::getInstance();
-        CourseController *courseController = CourseController::getInstance();
+        int currentUser;
 
 };
 

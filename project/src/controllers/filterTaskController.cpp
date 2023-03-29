@@ -1,4 +1,6 @@
 #include "filterTaskController.hpp"
+#include "taskDb.hpp"
+#include <iostream>
 
 FilterTaskController *FilterTaskController::instance = nullptr; // initialize the static pointer
 
@@ -17,5 +19,5 @@ FilterTaskController::FilterTaskController() {}
 FilterTaskController::~FilterTaskController() {}
 
 list<Task> FilterTaskController::filterTasks() {
-    return taskList;
+    return taskDb->getFilteredTasks(-1, -1, -1, -1, -1, 101);
 }
