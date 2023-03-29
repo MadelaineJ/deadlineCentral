@@ -149,3 +149,24 @@ std::ostream& operator<< (std::ostream& out, const Task& t)
         << " " << t.dueDate << " " << t.isCompleted << " " << t.weight;
     return out;
 }
+
+
+string Task::getTypeName() {
+    switch (this->type) {
+        case 0:
+            return "participation";
+        case 1:
+            return "assignment";
+        case 2:
+            return "project";
+        case 3:
+            return "quiz";
+        case 4:
+            return "test";
+        case 5:
+            return "exam";
+        default:
+            return "personal";
+
+    }
+}

@@ -10,13 +10,6 @@
 
 using namespace std;
 
-// enum Type {
-//     assignment = 1,
-//     quiz = 2,
-//     test = 3,
-//     participation = 4,
-//     personal = 10
-// };
 
 class Task 
 {
@@ -52,8 +45,10 @@ class Task
 
         bool compare(Task otherTask);
 
-        friend std::ostream& operator<< (std::ostream& out, const Task& t); // allows us to use std::cout << <TASK-OBJECT>
+        string getTypeName(); // returns the type as a string
+        
 
+        friend std::ostream& operator<< (std::ostream& out, const Task& t); // allows us to use std::cout << <TASK-OBJECT>
 
     private:
         int taskId;
