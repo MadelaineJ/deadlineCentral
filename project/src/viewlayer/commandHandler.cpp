@@ -19,7 +19,6 @@ void CommandHandler::manageMain() {
     int input;
     bool notDone = false;
     do {
-        notDone = false;
         printf("\033[2J\033[H");
         mainMenu();
         input = getUserInput();
@@ -41,7 +40,6 @@ void CommandHandler::manageMain() {
                 return;
             default:
                 cout << "Invalid input\n";
-                notDone = true;
                 break;
         }        
     } while(1);
@@ -51,9 +49,7 @@ void CommandHandler::manageMain() {
 
 void CommandHandler::manageAccount() {
     int input;
-    bool notDone = false;
     do {
-        notDone = false;
         accountMenu();
         input = getUserInput();
         switch (input) {
@@ -74,7 +70,7 @@ void CommandHandler::manageAccount() {
                 break;
             
         }
-    } while(notDone);
+    } while(1);
 }
 
 
@@ -110,9 +106,7 @@ void CommandHandler::manageTask() {
 
 void CommandHandler::manageCourse() {
     int input;
-    bool notDone = false;
     do {
-        notDone = false;
         courseMenu();
         input = getUserInput();
         switch (input) {
