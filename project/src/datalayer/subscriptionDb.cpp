@@ -34,7 +34,7 @@ list<Course> SubscriptionDB::getAvailableCourseList(int studentId) {
                  << "WHERE courseID NOT IN ( "
                  << "SELECT courseID "
                  << "FROM StudentCourses "
-                 << "WHERE studentID = :1";
+                 << "WHERE studentID = :1)";
 
     string query = queryBuilder.str();
     Statement *stmt = controllerDB->getConnection()->createStatement(query);
@@ -69,7 +69,7 @@ list<Course> SubscriptionDB::getCourseSubscriptions(int studentId) {
                  << "WHERE courseID IN ( "
                  << "SELECT courseID "
                  << "FROM StudentCourses "
-                 << "WHERE studentID = :1";
+                 << "WHERE studentID = :1)";
 
     string query = queryBuilder.str();
     Statement *stmt = controllerDB->getConnection()->createStatement(query);

@@ -62,6 +62,7 @@ test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTe
 	--run_test=taskDatabase \
 	--run_test=courseDB \
 	--run_test=userDatabase \
+	--run_test=subscriptionDatabase \
 		-- bin/test
 
 run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
@@ -224,7 +225,8 @@ ${INCLUDE}/${MODEL}/user.hpp
 	${TESTS}/${SOURCE}/${DATALAYER}/controllerDbTest.cpp ${SOURCE}/${DATALAYER}/controllerDb.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/taskDbTest.cpp ${SOURCE}/${DATALAYER}/taskDb.cpp ${SOURCE}/${MODEL}/task.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/courseDbTest.cpp ${SOURCE}/${DATALAYER}/courseDb.cpp ${SOURCE}/${MODEL}/course.cpp  \
-   ${TESTS}/${SOURCE}/${DATALAYER}/userDbTest.cpp ${SOURCE}/${DATALAYER}/userDb.cpp ${SOURCE}/${MODEL}/user.cpp ${SOURCE}/${MODEL}/student.cpp ${SOURCE}/${MODEL}/instructor.cpp \
+    ${TESTS}/${SOURCE}/${DATALAYER}/userDbTest.cpp ${SOURCE}/${DATALAYER}/userDb.cpp ${SOURCE}/${MODEL}/user.cpp ${SOURCE}/${MODEL}/student.cpp ${SOURCE}/${MODEL}/instructor.cpp \
+	${TESTS}/${SOURCE}/${DATALAYER}/subscriptionDbTest.cpp ${SOURCE}/${DATALAYER}/subscriptionDb.cpp \
 	${TESTS}/${SOURCE}/main.cpp \
 	$(CFLAGS) $(LFLAGS)
 
