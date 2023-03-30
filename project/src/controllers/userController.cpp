@@ -23,7 +23,7 @@ UserController* UserController::getInstance() {
 // constructor is private to avoid multiple instances of UserController, instead use static method getInstance 
 UserController::UserController()
 {
-
+    this->currentUser = -1;
 }
 
 // destructor
@@ -54,4 +54,13 @@ void UserController::getUserInfo() {
 //validate credentials entered by the users
 void UserController::validateCredentials() {
 
+}
+
+
+int UserController::getCurrentUser() {
+    return this->currentUser;
+}
+
+void UserController::setCurrentUser(int userId) {
+    this->currentUser = userId;
 }

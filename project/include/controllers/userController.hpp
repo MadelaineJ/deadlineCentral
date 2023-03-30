@@ -24,10 +24,14 @@ class UserController
         void getUserInfo();
 
         void validateCredentials();
+
+        int getCurrentUser();
+        void setCurrentUser(int userId);
     
     private:
         UserController(); // private to prevent direct instantiation
         static UserController* instance; // Pointer to the single instance of UserController
+        int currentUser; // the currently logged in user
 };
 
 #endif
