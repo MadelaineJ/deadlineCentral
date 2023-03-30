@@ -8,6 +8,7 @@
 #include <unistd.h>
 #include <list>
 #include <sstream> // for string building the SQL query
+#include <regex> // check date strings are correct format
 
 #include "course.hpp"
 #include "student.hpp"

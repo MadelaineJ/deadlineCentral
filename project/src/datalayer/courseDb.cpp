@@ -71,10 +71,17 @@ Course CourseDB::getCourseInfo(int courseID){
    return C;
 }
 
-//TODO return type tbd
+// gets a list of all conflicting course deadlines for students that are in COURSEID for the given DATE (returns all conflicts if no date or invalid date provided)
 list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
+
+   bool validDate = false;
+   // ensure that only a valid date format is passed into query
+   std::regex dateRegex("^(0[1-9]|1[0-2])/([0-2][0-9]|3[0-1])/\\d{4}$");
+   if(regex_match(date, dateRegex)) {
+      validDate = true;
+   }
 
    stringstream queryBuilder;
    queryBuilder << "SELECT t.type, t.dueDate, c.courseName, COUNT(DISTINCT sc.studentID) "
@@ -95,8 +102,8 @@ list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
                 << "WHERE sc3.courseID = :thisCourse "
                 << ") ";
 
-   // only bind if we have a valid date var
-   if(date != "") {
+   // only bind if we have a valid date
+   if(validDate) {
       cout << "DATE " << date << endl;
       queryBuilder << "AND t.dueDate = TO_DATE(:4, 'MM/DD/YYYY') ";
    }
@@ -104,7 +111,6 @@ list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
    queryBuilder << "GROUP BY t.type, t.dueDate, c.courseName ";
    
    string query = queryBuilder.str();
-   cout << "QUERY - " << query << endl;
 
    // prepare statement
    Statement *stmt = controllerDB->getConnection()->createStatement(query);
@@ -112,8 +118,8 @@ list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
    stmt->setInt(2, courseID);
    stmt->setInt(3, courseID);
 
-   // only bind if we have a date var
-   if(date != ""){
+   // only bind if we have a valid date
+   if(validDate){
       stmt->setString(4, date);
    }
 
@@ -136,5 +142,5 @@ list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
 
       aggregateDeadlineResults.push_back(ag);
     }
-      return aggregateDeadlineResults;
+      return aggregateDeadlineResults; // can be empty if result set was false
 }
