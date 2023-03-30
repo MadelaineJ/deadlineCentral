@@ -82,3 +82,8 @@ list<int> Course::getEnrollmentList() {
 void Course::setEnrollmentList(list<int> enrollmentList) {
     this->enrollmentList = enrollmentList;
 }
+
+std::ostream& operator<< (std::ostream& out, const Course& c) {
+    out << "Course: " << c.courseId << " " << c.courseCode << " " << c.courseName << " " \
+        << c.instructorId << "(instructorID) " << "some desc..."; // c.calendarDescription;
+}

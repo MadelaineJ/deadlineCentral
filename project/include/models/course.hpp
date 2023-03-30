@@ -37,6 +37,8 @@ class Course
         list<int> getEnrollmentList();
         void setEnrollmentList(list<int> enrollmentList);
 
+        friend std::ostream& operator<< (std::ostream& out, const Course& c); // allows us to use std::cout << <COURSE-OBJECT>
+
     private:
         int courseId;
         int instructorId;

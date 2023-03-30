@@ -22,6 +22,7 @@ BOOST_AUTO_TEST_CASE(ADD_SUBSCRIPTION) {
     SubscriptionDB* inTest = SubscriptionDB::getInstance();
 }
 
+// get a list of all course objects that the student is not subscribed too
 BOOST_AUTO_TEST_CASE(getAvailableCourseList) {
     
     // setup
@@ -46,6 +47,41 @@ BOOST_AUTO_TEST_CASE(getAvailableCourseList) {
     auto it_expected = expected.begin();
     for(auto it_result = result.begin(); it_result != result.end(); it_result++){
         // print each course for easy checking ?
+        cout << "\nRESULT |" << *it_result;
+        cout << endl;
+        cout << "EXPECT |" << *it_expected << endl;
+
+        // verify
+        BOOST_CHECK(it_result->getCourseId() == it_expected->getCourseId());
+        BOOST_CHECK(it_result->getCourseCode() == it_expected->getCourseCode());
+        BOOST_CHECK(it_result->getCourseName() == it_expected->getCourseName());
+        BOOST_CHECK(it_result->getInstructorId() == it_expected->getInstructorId());
+        BOOST_CHECK(it_result->getCalendarDescription() == it_expected->getCalendarDescription());
+        it_expected++;
+    }
+}
+
+BOOST_AUTO_TEST_CASE(getCourseSubscriptions) {
+    
+    // setup
+    SubscriptionDB* inTest = SubscriptionDB::getInstance();
+    
+    // create expected list of courses
+    list<Course> expected = {
+        Course(2001, 1001, "Software Engineering", "CSCI265", "An exploration of the methods and tools for developing high quality software. The course includes topics in program design, program style, algorithm selection, interface design, debugging and testing, system utilities, version control, regular expressions and an introduction to scripting languages. (4:0:1)"),
+        Course(2002, 1001, "Data Structures", "CSCI 260", "An examination of various methods of representing and manipulating data, including internal representation of data, stacks, queues, linked lists, trees and graphs. Analysis of algorithms will also be discussed extensively. (4:0:1)"), 
+        Course(2007, 1003, "Object-Oriented Software Development", "CSCI 331", "Topics include aspects of object-oriented analysis, design and development; definition and comparison of object-oriented metrics; verification methods for OO-software; maintenance and reuse issues. (3:0:1)")
+    };
+
+    list<Course> result = inTest->getCourseSubscriptions(101);
+
+    // compare results to expected
+    auto it_expected = expected.begin();
+    for(auto it_result = result.begin(); it_result != result.end(); it_result++){
+        // print each course for easy checking ?
+        cout << "\nRESULT |" << *it_result;
+        cout << endl;
+        cout << "EXPECT |" << *it_expected << endl;
 
         // verify
         BOOST_CHECK(it_result->getCourseId() == it_expected->getCourseId());
