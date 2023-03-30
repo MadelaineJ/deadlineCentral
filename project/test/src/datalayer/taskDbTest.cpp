@@ -20,13 +20,13 @@ BOOST_AUTO_TEST_CASE(view_task) {
     
     // setup
     TaskDB* inTest = TaskDB::getInstance();
-    Task expected(1000, "Personal Task", 10, 101, "Personal task for Carman Gravel", "", false, 0);
-    Task result = inTest->getTaskInfo("1000");
+    Task expected(1071, "Personal Task", 10, 172, "Personal task for Mark Paul", "NULL" , false, 0);
+    Task result = inTest->getTaskInfo("1071");
     result.printTaskInfo();
     expected.printTaskInfo();
 
     // verify
-    BOOST_CHECK(inTest->getTaskInfo("1000").compare(expected));
+    BOOST_CHECK(inTest->getTaskInfo("1071").compare(expected));
 }
 
 
