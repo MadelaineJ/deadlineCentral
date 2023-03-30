@@ -11,6 +11,7 @@
 
 #include "course.hpp"
 #include "student.hpp"
+#include "aggregateDeadline.hpp"
 
 using namespace std;
 using namespace oracle::occi;
@@ -26,7 +27,7 @@ class CourseDB
         list<Student> getEnrollmentList(int courseID);
         Course getCourseInfo(int courseID);
         //TODO return type tbd
-        int aggregateDeadlines(int courseID);
+        list<AggregateDeadline> aggregateDeadlines(int courseID, string date);
     private:
         CourseDB(); // private to avoid direct instantiation
         static CourseDB* instance; // pointer to single instanece of CourseDB

@@ -6,6 +6,7 @@
 // custom header files
 #include "courseDbTest.hpp"
 #include "course.hpp"
+#include "aggregateDeadline.hpp"
 
 // the file being tested
 #include "courseDb.hpp"
@@ -53,11 +54,12 @@ BOOST_AUTO_TEST_CASE(delete_course) {
 	BOOST_CHECK(result == true);
 }
 
+// get aggregate deadline information specifying date & course
 BOOST_AUTO_TEST_CASE(aggregate_Deadlines) {
 
 	CourseDB* inTest = CourseDB::getInstance();
-	int result = inTest->aggregateDeadlines(2000);
-	BOOST_CHECK(result == 7);
+	list<AggregateDeadline> result = inTest->aggregateDeadlines(2000, "01/07/2023");
+	BOOST_CHECK(result.front().affectedStudents == 7);
 }
 	
 BOOST_AUTO_TEST_SUITE_END()

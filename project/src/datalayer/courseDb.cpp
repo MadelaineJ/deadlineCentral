@@ -72,7 +72,7 @@ Course CourseDB::getCourseInfo(int courseID){
 }
 
 //TODO return type tbd
-int CourseDB::aggregateDeadlines(int courseID){
+list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
 
@@ -93,26 +93,48 @@ int CourseDB::aggregateDeadlines(int courseID){
                 << "SELECT sc3.studentID "
                 << "FROM StudentCourses sc3 "
                 << "WHERE sc3.courseID = :thisCourse "
-                << ") "
-                << "AND t.dueDate = TO_DATE('01/07/2023', 'MM/DD/YYYY') "
-                << "GROUP BY t.type, t.dueDate, c.courseName ";
+                << ") ";
+
+   // only bind if we have a valid date var
+   if(date != "") {
+      cout << "DATE " << date << endl;
+      queryBuilder << "AND t.dueDate = TO_DATE(:4, 'MM/DD/YYYY') ";
+   }
+   
+   queryBuilder << "GROUP BY t.type, t.dueDate, c.courseName ";
    
    string query = queryBuilder.str();
+   cout << "QUERY - " << query << endl;
 
    // prepare statement
    Statement *stmt = controllerDB->getConnection()->createStatement(query);
    stmt->setInt(1, courseID);
    stmt->setInt(2, courseID);
    stmt->setInt(3, courseID);
-   // stmt->setInt(4, courseID);
+
+   // only bind if we have a date var
+   if(date != ""){
+      stmt->setString(4, date);
+   }
+
+   list<AggregateDeadline> aggregateDeadlineResults = {};
 
    // get results
     ResultSet *rs = stmt->executeQuery();
 
     if(rs->next()) {
-      int num = rs->getInt(4);
-      cout << "result " << num << endl;
-      return num;
+      int type = rs->getInt(1); // task type
+      string date = rs->getString(2); // due date
+      string course = rs->getString(3); // course name
+      int num = rs->getInt(4); // affected students
+
+      AggregateDeadline ag; // create a new struct for each result row
+      ag.type = type;
+      ag.courseName = course;
+      ag.dueDate = date;
+      ag.affectedStudents = num;
+
+      aggregateDeadlineResults.push_back(ag);
     }
-    return -1;
+      return aggregateDeadlineResults;
 }
