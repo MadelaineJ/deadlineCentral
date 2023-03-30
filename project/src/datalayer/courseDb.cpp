@@ -72,6 +72,47 @@ Course CourseDB::getCourseInfo(int courseID){
 }
 
 //TODO return type tbd
-void CourseDB::aggregateDeadlines(int courseID){
+int CourseDB::aggregateDeadlines(int courseID){
+   ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
 
+   stringstream queryBuilder;
+   queryBuilder << "SELECT t.type, t.dueDate, c.courseName, COUNT(DISTINCT sc.studentID) "
+                << "FROM Tasks t "
+                << "JOIN StudentCourses sc ON t.courseID = sc.courseID "
+                << "JOIN Courses c ON t.courseID = c.courseID "
+                << "WHERE t.dueDate IN ( "
+                << "SELECT t2.dueDate "
+                << "FROM Tasks t2 "
+                << "JOIN StudentCourses sc2 ON t2.courseID = sc2.courseID "
+                << "WHERE t2.courseID = :thisCourse "
+                << "AND sc2.studentID = sc.studentID "
+                << ") "
+                << "AND t.courseID != :thisCourse "
+                << "AND sc.studentID IN ( "
+                << "SELECT sc3.studentID "
+                << "FROM StudentCourses sc3 "
+                << "WHERE sc3.courseID = :thisCourse "
+                << ") "
+                << "AND t.dueDate = TO_DATE('01/07/2023', 'MM/DD/YYYY') "
+                << "GROUP BY t.type, t.dueDate, c.courseName ";
+   
+   string query = queryBuilder.str();
+
+   // prepare statement
+   Statement *stmt = controllerDB->getConnection()->createStatement(query);
+   stmt->setInt(1, courseID);
+   stmt->setInt(2, courseID);
+   stmt->setInt(3, courseID);
+   // stmt->setInt(4, courseID);
+
+   // get results
+    ResultSet *rs = stmt->executeQuery();
+
+    if(rs->next()) {
+      int num = rs->getInt(4);
+      cout << "result " << num << endl;
+      return num;
+    }
+    return -1;
 }

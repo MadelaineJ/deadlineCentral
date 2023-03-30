@@ -7,6 +7,7 @@
 #include <termios.h>
 #include <unistd.h>
 #include <list>
+#include <sstream> // for string building the SQL query
 
 #include "course.hpp"
 #include "student.hpp"
@@ -25,7 +26,7 @@ class CourseDB
         list<Student> getEnrollmentList(int courseID);
         Course getCourseInfo(int courseID);
         //TODO return type tbd
-        void aggregateDeadlines(int courseID);
+        int aggregateDeadlines(int courseID);
     private:
         CourseDB(); // private to avoid direct instantiation
         static CourseDB* instance; // pointer to single instanece of CourseDB

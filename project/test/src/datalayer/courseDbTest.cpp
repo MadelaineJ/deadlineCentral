@@ -52,5 +52,12 @@ BOOST_AUTO_TEST_CASE(delete_course) {
 	//verify
 	BOOST_CHECK(result == true);
 }
+
+BOOST_AUTO_TEST_CASE(aggregate_Deadlines) {
+
+	CourseDB* inTest = CourseDB::getInstance();
+	int result = inTest->aggregateDeadlines(2000);
+	BOOST_CHECK(result == 7);
+}
 	
 BOOST_AUTO_TEST_SUITE_END()
