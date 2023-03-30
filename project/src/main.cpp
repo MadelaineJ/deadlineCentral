@@ -16,4 +16,6 @@ int main() {
 
     CommandHandler commandHandler;
     commandHandler.manageMain();
+
+    cout << "bye!" << endl;
 }

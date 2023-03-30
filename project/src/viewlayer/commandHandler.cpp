@@ -2,6 +2,7 @@
 #include <string>
 #include <cstring>
 #include <ctime>
+#include <limits>
 // custom header files
 #include "commandHandler.hpp"
 #include "commands.hpp"
@@ -16,7 +17,10 @@ using namespace std;
 
 void CommandHandler::manageMain() {
     int input;
+    bool notDone = false;
     do {
+        notDone = false;
+        printf("\033[2J\033[H");
         mainMenu();
         input = getUserInput();
         switch (input) {
@@ -34,18 +38,22 @@ void CommandHandler::manageMain() {
                 break;
 	        case 5:
                 cout << "Quitting...\n";
-                exit(0); // TODO: figure out if this is bad
+                return;
             default:
                 cout << "Invalid input\n";
+                notDone = true;
                 break;
-        }
-    } while (input != 5);
+        }        
+    } while(1);
+
 }
 
 
 void CommandHandler::manageAccount() {
     int input;
+    bool notDone = false;
     do {
+        notDone = false;
         accountMenu();
         input = getUserInput();
         switch (input) {
@@ -59,19 +67,22 @@ void CommandHandler::manageAccount() {
                 handleDeleteAccount();
                 break;
             case 4:
-                manageMain();
+                return;
                 break;
             default:
                 cout << "Invalid input\n";
                 break;
+            
         }
-    } while (input != 4);
+    } while(notDone);
 }
 
 
 void CommandHandler::manageTask() {
     int input;
+    bool notDone = false;
     do {
+        notDone = false;
         taskMenu();
         input = getUserInput();
         switch (input) {
@@ -88,18 +99,20 @@ void CommandHandler::manageTask() {
                 handleCreateTask();
                 break;
             case 5:
-                manageMain();
-                break;
+                return;
             default:
                 cout << "Invalid input\n";
+                manageTask();
                 break;
         }
-    } while (input != 5);
+    } while(1);
 } 
 
 void CommandHandler::manageCourse() {
     int input;
+    bool notDone = false;
     do {
+        notDone = false;
         courseMenu();
         input = getUserInput();
         switch (input) {
@@ -116,13 +129,13 @@ void CommandHandler::manageCourse() {
                 handleUnsubscribeCourse();
                 break;
             case 5:
-                manageMain();
-                break;
+                return;
             default:
                 cout << "Invalid input\n";
+                manageCourse();
                 break;
         }
-    } while (input != 4);
+    } while(1);
 }
 
 
@@ -130,6 +143,8 @@ int CommandHandler::getUserInput() {
     int input;
     std::cout << ">>> ";
     std::cin >> input;
+    cin.clear();
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     return input;
 }
 
