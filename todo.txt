@@ -1,0 +1,11 @@
+This is were I (Davon) will put a list of know issuses and trouble shooting tips.
+
+Using Deadline Central:
+	This project is meant to be used as  a task tracking application where
+	users can login and view the upcoming tasks/assignments from their 
+	current courses as well as any personal tasks they create.
+	
+
+Trouble-shooting:
+
+List of known issues:
