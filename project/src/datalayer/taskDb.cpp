@@ -20,8 +20,7 @@ bool TaskDB::createTask(Task task){
     ControllerDb* controllerDB = ControllerDb::getInstance();
     controllerDB->connect();
 
-    string query = "INSERT INTO Tasks (taskID, type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID) VALUES ("
-        + to_string(task.getTaskId()) + ", "
+    string query = "INSERT INTO Tasks (type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID) VALUES ("
         + to_string(task.getTaskType()) + ", '"
         + task.getTaskName() + "', '"
         + task.getTaskDescription() + "', TO_DATE('"

@@ -16,8 +16,7 @@ bool UserDB::createUser(Student user){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
 
-   string query = "INSERT INTO Students (studentID, name, email, password) VALUES ("
-      + to_string(user.getStudentId()) + ", '"
+   string query = "INSERT INTO Students (name, email, password) VALUES ('"
       + user.getName() + "', '"
       + user.getEmail() + "', '"
       + user.getPassword() + "')";
@@ -31,8 +30,7 @@ bool UserDB::createUser(Instructor user){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
 
-   string query = "INSERT INTO Instructors (instructorID, name, email, password) VALUES ("
-      + to_string(user.getInstructorId()) + ", '"
+   string query = "INSERT INTO Instructors (name, email, password) VALUES ('"
       + user.getName() + "', '"
       + user.getEmail() + "', '"
       + user.getPassword() + "')";
