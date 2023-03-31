@@ -15,7 +15,7 @@
 
 using namespace std;
 
-static int s_COURSE_ID = -1; // gets the auto generated id from insert
+static int s_COURSE_ID = -1; // gets the auto generated id from insert to be used in edit and delete tests
 
 BOOST_AUTO_TEST_SUITE(courseDB)
 
@@ -25,10 +25,9 @@ BOOST_AUTO_TEST_CASE(create_course) {
 	Course expected(1000, 1002, "Junk and Snip", "FOO123", "A description");
 	CourseDB* inTest = CourseDB::getInstance();
 	s_COURSE_ID = inTest->createCourse(expected);
-	
-	cout << "\n\n" << s_COURSE_ID << "\n\n";
+
 	//verify
-	BOOST_CHECK(s_COURSE_ID != -1);
+	BOOST_CHECK(s_COURSE_ID > 0);
 	
 }
 

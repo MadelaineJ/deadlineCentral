@@ -14,17 +14,27 @@
 
 using namespace std;
 
+static int s_TASK_ID = -1; // stores the auto generated id from insert to be used in edit and delete tests
+
 BOOST_AUTO_TEST_SUITE(taskDatabase)
 
 BOOST_AUTO_TEST_CASE(view_task) {
     
     // setup
     TaskDB* inTest = TaskDB::getInstance();
-    Task expected(1071, "Personal Task", 10, 172, "Personal task for Mark Paul", "NULL" , false, 0);
-    Task result = inTest->getTaskInfo("1071");
+    Task expected(14, "CSCI 260 Assignment", 1, 2002, "Assignment task for CSCI 260 due on April 01", "01-APR-23" , false, 0.1);
+    Task result = inTest->getTaskInfo(14);
 
     // verify
-    BOOST_CHECK(inTest->getTaskInfo("1071").compare(expected));
+    BOOST_CHECK(result.getTaskId() == expected.getTaskId());
+    BOOST_CHECK(result.getTaskName() == expected.getTaskName());
+    BOOST_CHECK(result.getTaskType() == expected.getTaskType());
+    BOOST_CHECK(result.getTaskOwner() == expected.getTaskOwner());
+    BOOST_CHECK(result.getTaskDescription() == expected.getTaskDescription());
+    BOOST_CHECK_MESSAGE(result.getDueDate() == expected.getDueDate(), "EXPECTED: " <<
+                         expected.getDueDate() << ", but got " << result.getDueDate());
+    BOOST_CHECK(result.getCompletionStatus() == expected.getCompletionStatus());
+    BOOST_CHECK(result.getWeight() == expected.getWeight());
 }
 
 

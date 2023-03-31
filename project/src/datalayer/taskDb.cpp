@@ -15,38 +15,134 @@ TaskDB* TaskDB::getInstance() {
 TaskDB::TaskDB() {}
 TaskDB::~TaskDB() {}
 
-// TODO: prepare query
-bool TaskDB::createTask(Task task){
+// inserts a new task into the db
+int TaskDB::createTask(Task task){
     ControllerDb* controllerDB = ControllerDb::getInstance();
     controllerDB->connect();
 
-    string query = "INSERT INTO Tasks (type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID) VALUES ("
-        + to_string(task.getTaskType()) + ", '"
-        + task.getTaskName() + "', '"
-        + task.getTaskDescription() + "', TO_DATE('"
-        + task.getDueDate() + "', 'YYYY-MM-DD HH24:MI:SS'), "
-        + to_string(task.getWeight()) + ", "
-        + to_string(task.getCompletionStatus()) + ", NULL, "
-        + to_string(task.getTaskOwner()) + ", NULL)";
+    stringstream queryBuilder;
+    queryBuilder << "INSERT INTO "
+                 << "Tasks (type, name, description, dueDate, weight, isComplete, :ownerID) "
+                 << "VALUES(:2, :3, :4, :5, :6 :7, :8)";
 
-    int rowCount = controllerDB->getStatement()->executeUpdate(query);
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setInt(2, task.getTaskType());
+    stmt->setString(3, task.getTaskName());
+    stmt->setString(4, task.getTaskDescription());
+    stmt->setString(5, task.getDueDate());
+    stmt->setDouble(6, task.getWeight());
+    stmt->setInt(7, task.getCompletionStatus());
+
+    // need a way to determine who owns the task!!
+    string ownerColumn; // = courseID, studentID or instructorID
+    stmt->setString(1, ownerColumn);
+    stmt->setInt(8, task.getTaskOwner());
+
+    stmt->registerOutParam(8, OCCIINT); // Register the return generated ID
+
+    stmt->executeUpdate();
+
+    int gen_taskID = -1; // initialize to centinal value
+
+    // retrieve auto generated ID
+    gen_taskID = stmt->getInt(5);
+
+    // Commit the transaction or changes will revert after connection is closed
+    controllerDB->getConnection()->commit();
+
     controllerDB->disconnect();
-    return rowCount;
+
+    return gen_taskID;
 }
 
-bool TaskDB::updateTask(Task T){
-   return 0;
-}
-
-bool TaskDB::deleteTask(Task T){
-   return 0;
-}
-// TODO: prepare query???
-Task TaskDB::getTaskInfo(string taskId) {
+// updates an existing task in the db
+bool TaskDB::updateTask(Task task){
     ControllerDb* controllerDB = ControllerDb::getInstance();
     controllerDB->connect();
-    string query = "SELECT taskID, type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID FROM Tasks WHERE taskID = " + taskId;
-    ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
+
+    stringstream queryBuilder;
+    queryBuilder << "UPDATE Courses "
+                 << "SET "
+                 << "type = :1 "
+                 << "name = :2 "
+                 << "description = :3 "
+                 << "dueDate = :4 "
+                 << "weight = :5 "
+                 << "isComplete = :6 "
+                 << "WHERE taskID = :7 ";
+
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setInt(1, task.getTaskType());
+    stmt->setString(2, task.getTaskName());
+    stmt->setString(3, task.getTaskDescription());
+    stmt->setString(4, task.getDueDate());
+    stmt->setDouble(5, task.getWeight());
+    stmt->setInt(6, task.getCompletionStatus());
+    
+    stmt->setInt(7, task.getTaskId());
+
+    int rowCount = stmt->executeUpdate(); // returns rows affected (should be 1)
+
+    // Commit the transaction or changes will revert after connection is closed
+    controllerDB->getConnection()->commit();
+
+    controllerDB->disconnect();
+
+    if(rowCount == 1){
+        return true;
+    }
+    return false;
+}
+
+// removes a task entry from the db
+bool TaskDB::deleteTask(Task task){
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();  
+
+    stringstream queryBuilder;
+    queryBuilder << "DELETE FROM Tasks "
+                 << "WHERE taskID = :1 ";
+
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setInt(1, task.getTaskId());
+
+    int rowCount = stmt->executeUpdate();
+
+    // Commit the transaction or changes will revert after connection is closed
+    controllerDB->getConnection()->commit();
+
+    controllerDB->disconnect();
+
+    if(rowCount == 1){
+        return true;
+    }
+    return false;
+}
+
+// returns one task object from a taskId 
+Task TaskDB::getTaskInfo(int taskId) {
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
+
+    stringstream queryBuilder;
+    queryBuilder << "SELECT "
+                 << "taskID, type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID "
+                 << "FROM Tasks "
+                 << "WHERE taskID = :1 ";
+
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setInt(1, taskId);
+
+    ResultSet *rs = stmt->executeQuery();
+
     Task task(-1, "", -1, -1, "", "", false, -1.0);
     if (rs->next()) {
         task.setTaskId(rs->getInt(1));

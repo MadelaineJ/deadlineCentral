@@ -34,7 +34,7 @@ int CourseDB::createCourse(Course C){
    stmt->setString(2, C.getCourseName());
    stmt->setString(3, C.getCalendarDescription());
    stmt->setInt(4, C.getInstructorId());
-   stmt->registerOutParam(5, OCCIINT);  // Register the return parameter
+   stmt->registerOutParam(5, OCCIINT);  // Register the return generated ID
 
    stmt->executeUpdate();
    

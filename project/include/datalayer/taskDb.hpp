@@ -21,10 +21,10 @@ class TaskDB
     public:
         static TaskDB* getInstance(); // gets the single instance of this class
         ~TaskDB();
-        bool createTask(Task task);
+        int createTask(Task task);
         bool updateTask(Task T);
         bool deleteTask(Task T);
-        Task getTaskInfo(string taskID);
+        Task getTaskInfo(int taskID);
         list<Task> getFilteredTasks(int typeFilter, int courseFilter, int completedFilter, int daysPriorFilter, int daysFutureFilter, int userID);
     private:
         TaskDB(); // private to prevent direct instantiation
