@@ -22,7 +22,7 @@ class CourseDB
     public:
         static CourseDB* getInstance(); // gets the single instance of this class
         ~CourseDB();
-        bool createCourse(Course C);
+        int createCourse(Course C);
         bool updateCourse(Course C);
         bool deleteCourse(Course C);
         list<Student> getEnrollmentList(int courseID);

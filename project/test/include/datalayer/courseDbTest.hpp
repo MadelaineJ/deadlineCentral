@@ -7,4 +7,8 @@
 #define INSTRUCTOR_NAME "Eli Selby"
 #define EXPECTED_COURSE_ID 2004
 
+#define ENROLLMENT_COURSE_ID 2004
+
+#define COURSE_INFO_ID 2007
+
 #endif 

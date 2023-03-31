@@ -18,57 +18,155 @@ CourseDB* CourseDB::getInstance()   {
 CourseDB::CourseDB() {}
 CourseDB::~CourseDB() {}
 
-bool CourseDB::createCourse(Course C){
+int CourseDB::createCourse(Course C){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
 
-   string query = "INSERT INTO Courses (courseID, courseCode, courseName, calendarDescription, instructorID) VALUES ("
-      + to_string(C.getCourseId()) + ", '"
-      + C.getCourseCode() + "', '"
-      + C.getCourseName() + "', '"
-      + C.getCalendarDescription() + "', "
-      + to_string(C.getInstructorId()) + ")";
+   stringstream queryBuilder;
+   queryBuilder << "INSERT INTO Courses (courseCode, courseName, calendarDescription, instructorID) "
+                << "VALUES (:1, :2, :3, :4) "
+                << "RETURNING courseID INTO :5 ";
 
-   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   string query = queryBuilder.str();
+   Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+   stmt->setString(1, C.getCourseCode());
+   stmt->setString(2, C.getCourseName());
+   stmt->setString(3, C.getCalendarDescription());
+   stmt->setInt(4, C.getInstructorId());
+   stmt->registerOutParam(5, OCCIINT);  // Register the return parameter
+
+   stmt->executeUpdate();
+   
+   int gen_courseID = -1; //initialize to centinal value
+
+   // Retrieve the auto-generated ID
+   gen_courseID = stmt->getInt(5);
+
+   // Commit the transaction or changes will revert after connection is closed
+   controllerDB->getConnection()->commit();
+
    controllerDB->disconnect();
-   return rowCount;
+
+   return gen_courseID;
 }
 
 bool CourseDB::updateCourse(Course C){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
 
-   string query = "UPDATE Courses SET courseCode = '" 
-	   + C.getCourseCode() + "', courseName = '" 
-	   + C.getCourseName() + "', calendarDescription = '" 
-	   + C.getCalendarDescription() + "', instructorID = " 
-	   + to_string(C.getInstructorId()) + "WHERE courseID = " 
-	   + to_string(C.getCourseId()) + "";
+   stringstream queryBuilder;
+   queryBuilder << "UPDATE Courses "
+                << "SET "
+                << "courseCode = :1, "
+                << "courseName = :2, "
+                << "calendarDescription = :3, "
+                << "instructorID = :4 "
+                << "WHERE courseID = :5";
 
-   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   string query = queryBuilder.str();
+   Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+   stmt->setString(1, C.getCourseCode());
+   stmt->setString(2, C.getCourseName());
+   stmt->setString(3, C.getCalendarDescription());
+   stmt->setInt(4, C.getInstructorId());
+   stmt->setInt(5, C.getCourseId());
+
+   int rowCount = stmt->executeUpdate();
+
+   // Commit the transaction or changes will revert after connection is closed
+   controllerDB->getConnection()->commit();
+   
    controllerDB->disconnect();
-   return rowCount;
+   
+   if(rowCount == 1){
+      return true;
+   }
+   return false;
 }
 
 bool CourseDB::deleteCourse(Course C){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();  
 
-   string query = "DELETE FROM Courses WHERE courseID = " + to_string(C.getCourseId()) + "";
+   stringstream queryBuilder;
+   queryBuilder << "DELETE FROM Courses "
+                << "WHERE courseID = :1 ";
+   
+   string query = queryBuilder.str();
+   Statement *stmt = controllerDB->getConnection()->createStatement(query);
 
-   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   stmt->setInt(1, C.getCourseId());
+
+   int rowCount = stmt->executeUpdate();
+
+   // Commit the transaction or changes will revert after connection is closed
+   controllerDB->getConnection()->commit();
+
    controllerDB->disconnect();
-   return rowCount;
+
+   if(rowCount == 1){
+      return true;
+   }
+   return false;
 }
 
+// TODO what is this used for? do we need student ids?
 list<Student> CourseDB::getEnrollmentList(int courseID){
-   list<Student> L;
-   return L;
+   // query DB table StudentCourses using courseID to get all students subscribed to courseID
+   ControllerDb *controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
+
+   stringstream queryBuilder;
+   queryBuilder << "SELECT name "
+                << "FROM Students s "
+                << "JOIN StudentCourses sc ON s.studentID = sc.studentID "
+                << "WHERE sc.courseID = :1 ";
+
+   string query = queryBuilder.str();
+   Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+   stmt->setInt(1, courseID);
+
+   ResultSet *rs = stmt->executeQuery();
+
+   list<Student> enrolledStudents = {};
+   while(rs->next()){
+      Student stu(-1, "", "", "", {});
+      stu.setName(rs->getString(1));
+
+      enrolledStudents.push_back(stu);
+   }
+   return enrolledStudents;
 }
 
 Course CourseDB::getCourseInfo(int courseID){
-   Course C(0,0,"0", "0", "0");
-   return C;
+   ControllerDb *controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
+
+   stringstream queryBuilder;
+   queryBuilder << "SELECT courseID, instructorID, courseName, courseCode, calendarDescription "
+                << "FROM Courses "
+                << "WHERE courseID = :1 ";
+
+   string query = queryBuilder.str();
+   Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+   stmt->setInt(1, courseID);
+
+   ResultSet *rs = stmt->executeQuery();
+
+   Course course(0,0,"0", "0", "0");
+   if(rs->next()){
+      course.setCourseId(rs->getInt(1));
+      course.setInstructorId(rs->getInt(2));
+      course.setCourseName(rs->getString(3));
+      course.setCourseCode(rs->getString(4));
+      course.setCalendarDescription(rs->getString(5));
+   }
+
+   return course;
 }
 
 // gets a list of all conflicting course deadlines for students that are in COURSEID for the given DATE (returns all conflicts if no date or invalid date provided)

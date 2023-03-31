@@ -109,7 +109,10 @@ bool SubscriptionDB::deleteSubscription(int studentID, int courseID) {
     stmt->setInt(2, courseID);
 
     int rowCount = stmt->executeUpdate();
-    
+
+    // Commit the transaction or changes will revert after connection is closed
+    controllerDB->getConnection()->commit();
+
     controllerDB->disconnect();
 
     if(rowCount == 1){
@@ -134,7 +137,12 @@ bool SubscriptionDB::createSubscription(int studentID, int courseID) {
     stmt->setInt(2, courseID);
 
     int rowCount = stmt->executeUpdate();
+
+    // Commit the transaction or changes will revert after connection is closed
+    controllerDB->getConnection()->commit();
+
     controllerDB->disconnect();
+    
     if(rowCount == 1){
         return true;
     }
