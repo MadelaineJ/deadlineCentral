@@ -6,6 +6,8 @@
 #include <string>
 #include <termios.h>
 #include <unistd.h>
+
+#include "userDb.hpp"
 using namespace std;
 
 
@@ -23,7 +25,7 @@ class UserController
 
         void getUserInfo();
 
-        void validateCredentials();
+        bool validateCredentials(int userId, string password);
 
         int getCurrentUser();
         void setCurrentUser(int userId);
@@ -32,6 +34,7 @@ class UserController
         UserController(); // private to prevent direct instantiation
         static UserController* instance; // Pointer to the single instance of UserController
         int currentUser; // the currently logged in user
+        UserDB* userDb = UserDB::getInstance();
 };
 
 #endif

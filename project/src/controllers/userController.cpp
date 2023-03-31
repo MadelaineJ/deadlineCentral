@@ -7,6 +7,8 @@
 
 // Custom header files
 #include "userController.hpp"
+#include "userDb.hpp"
+#include "user.hpp"
 
 using namespace std;
 
@@ -52,8 +54,16 @@ void UserController::getUserInfo() {
 }
 
 //validate credentials entered by the users
-void UserController::validateCredentials() {
+bool UserController::validateCredentials(int userId, string password) {
+    User user = userDb->getUserInfo(userId);
 
+    if (user.getPassword() != password) {
+        return false;
+    } else {
+        this->currentUser = userId;
+        return true;
+    }
+    
 }
 
 
@@ -61,6 +71,7 @@ int UserController::getCurrentUser() {
     return this->currentUser;
 }
 
+//todo, remove this
 void UserController::setCurrentUser(int userId) {
     this->currentUser = userId;
 }

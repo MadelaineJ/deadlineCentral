@@ -32,36 +32,47 @@ void handleUpdateAccount() {
 void handleDeleteAccount() {
     cout << "handling deleteAccount" << endl;
 }
+void handleCreateAccount() {
+    cout << "handling createAccount" << endl;
+}
 void handleLogin(){
+    cout << "handling login" << endl;
     string userId, password;
 
-    cout << "Enter 'create' to create a new user, or press enter to login: ";
-    string createOption;
-    getline(cin, createOption);
+    //     cout << "Enter the new user ID: ";
+    //     getline(cin, userId);
+    //     cout << "Enter the new password: ";
+    //     getline(cin, password);
 
-    if (createOption == "create") {
-        cout << "Enter the new user ID: ";
-        getline(cin, userId);
-        cout << "Enter the new password: ";
-        getline(cin, password);
-
-        /*
-        // Created new user using the UserController
-        if (userId < 1000) {
-            userController->createStudent(userId, password);
-            cout<<"student created"<<endl;
-        }
-        else {
-            userController->createInstructor(userId, password);
-            cout<<"Instructor created"<<endl;
-        }*/
-    }
-    else {
+    //     /*
+    //     // Created new user using the UserController
+    //     if (userId < 1000) {
+    //         userController->createStudent(userId, password);
+    //         cout<<"student created"<<endl;
+    //     }
+    //     else {
+    //         userController->createInstructor(userId, password);
+    //         cout<<"Instructor created"<<endl;
+    //     }*/
+    bool successfulLogin = false;
+    while (!successfulLogin) {
         cout << "Enter your user ID: ";
-        getline(cin, userId);
+        cin >> userId;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
         cout << "Enter your password: ";
-        getline(cin, password);
+        cin >> password;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+        // verify credentials
+        successfulLogin = userController->validateCredentials(stoi(userId), password);
+        if (successfulLogin) {
+            cout << "You are now logged in" << endl;
+        } else {
+            cout << "Error, invalid password, please try again" << endl;
+        }      
+    }
+
+        
         /*
         // Validating the user ID and password
         if (userController->validateCredentials(userId, password)) {
@@ -70,9 +81,8 @@ void handleLogin(){
         else {
             cout << "Invalid user ID or password." << endl;
         }*/
-    }
 
-    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
 
 }
 

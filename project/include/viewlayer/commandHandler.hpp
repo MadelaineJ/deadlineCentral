@@ -6,7 +6,7 @@
 #include <string>
 
 // custom header files
-
+#include "userController.hpp"
 
 
 using namespace std;
@@ -26,12 +26,14 @@ class CommandHandler
         void taskMenu();
         void courseMenu();
         void handleHelp();
+        void loginMenu();
 
         // menu input handlers
         void manageMain();
         void manageAccount();
         void manageTask();
         void manageCourse();
+        void manageLogin();
 
         //handle commands
         // void handleCreateCourse();
@@ -49,7 +51,7 @@ class CommandHandler
         // void handleDeleteTask();
 
     private:
-        int currentUser;
+        UserController *userController = UserController::getInstance();
 
 };
 

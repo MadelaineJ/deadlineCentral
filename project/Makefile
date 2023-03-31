@@ -136,7 +136,7 @@ ${BUILDS}/courseController.o: ${SOURCE}/${CONTROL}/courseController.cpp ${INCLUD
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER} \
 	 ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/courseController.o \
-	${SOURCE}/${CONTROL}/courseController.cpp
+	${SOURCE}/${CONTROL}/courseController.cpp \
 	$(CFLAGS)
 
 ${BUILDS}/filterTaskController.o: ${SOURCE}/${CONTROL}/filterTaskController.cpp ${INCLUDE}/${CONTROL}/filterTaskController.hpp
@@ -161,7 +161,7 @@ ${BUILDS}/taskController.o: ${SOURCE}/${CONTROL}/taskController.cpp ${INCLUDE}/$
 	$(CFLAGS)
 
 ${BUILDS}/userController.o: ${SOURCE}/${CONTROL}/userController.cpp ${INCLUDE}/${CONTROL}/userController.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
+	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/userController.o \
 	${SOURCE}/${CONTROL}/userController.cpp \
 	$(CFLAGS)

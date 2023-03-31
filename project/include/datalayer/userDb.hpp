@@ -21,13 +21,13 @@ class UserDB
         ~UserDB();
         bool createUser(Student U);
         bool createUser(Instructor U);
-        bool updateUser(User U, string userID);
-        bool deleteUser(string userID);
-        User getUserInfo(string userID);
+        bool updateUser(User U, int userID);
+        bool deleteUser(int userID);
+        User getUserInfo(int userID);
     private:
         UserDB();
         static UserDB* instance;
-        bool isStudent(string userID);
+        bool isStudent(int userID);
 };
 
 #endif 

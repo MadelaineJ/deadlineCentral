@@ -21,13 +21,13 @@ BOOST_AUTO_TEST_CASE(view_user_student) {
     // setup
     UserDB* inTest = UserDB::getInstance();
     list<int> L;
-    User expected("William Lowe", "passwordWil", "WilliamLowe@example.com", L);
-    User result = inTest->getUserInfo("111");
+    User expected(111, "William Lowe", "passwordWil", "WilliamLowe@example.com", L);
+    User result = inTest->getUserInfo(111);
     // result.printUserInfo();
     // expected.printUserInfo();
 
     // verify
-    BOOST_CHECK(inTest->getUserInfo("111").compare(expected));
+    BOOST_CHECK(inTest->getUserInfo(111).compare(expected));
 }
 
 BOOST_AUTO_TEST_CASE(view_user_instructor) {
@@ -35,13 +35,13 @@ BOOST_AUTO_TEST_CASE(view_user_instructor) {
     // setup
     UserDB* inTest = UserDB::getInstance();
     list<int> L;
-    User expected("Ezra Lane", "passwordEzr", "EzraLane@example.com", L);
-    User result = inTest->getUserInfo("1003");
+    User expected(1003, "Ezra Lane", "passwordEzr", "EzraLane@example.com", L);
+    User result = inTest->getUserInfo(1003);
     // result.printUserInfo();
     // expected.printUserInfo();
 
     // verify
-    BOOST_CHECK(inTest->getUserInfo("1003").compare(expected));
+    BOOST_CHECK(inTest->getUserInfo(1003).compare(expected));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

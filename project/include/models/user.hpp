@@ -17,7 +17,7 @@ using namespace std;
 class User
 {
     public:
-        User(string name, string password, string email, list<int> taskList);
+        User(int userId, string name, string password, string email, list<int> taskList);
         
         string getName();
         void setName(string name);
@@ -31,6 +31,9 @@ class User
         list<int> getTaskList();
         void setTaskList(list<int> taskList);
 
+        int getUserId();
+        void setUserId(int userId);
+
         void printUserInfo();
 
         bool compare(User otherUser);
@@ -39,6 +42,7 @@ class User
         list<int> taskList;
     
     protected:
+        int userId;
         string name;
         string password;
         string email;

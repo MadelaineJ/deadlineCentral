@@ -6,20 +6,20 @@
 // custom header files
 #include "commandHandler.hpp"
 #include "commands.hpp"
+#include "userController.hpp"
 
 
 using namespace std;
 
-// Todo, set this to be null or -1 and get updated on login.
-// CommandHandler::CommandHandler() {
-//     int currentUser = 101;
-// }
-
+// todo, update this to be one "start deadline central function"
 void CommandHandler::manageMain() {
     int input;
-    bool notDone = false;
     do {
-        printf("\033[2J\033[H");
+        if (userController->getCurrentUser() == -1) // then no one is logged in
+        {
+            manageLogin();
+        }
+     //   printf("\033[2J\033[H");
         mainMenu();
         input = getUserInput();
         switch (input) {
@@ -43,7 +43,31 @@ void CommandHandler::manageMain() {
                 break;
         }        
     } while(1);
+}
 
+void CommandHandler::manageLogin() {
+    int input;
+    do {
+        loginMenu();
+        input = getUserInput();
+        switch (input) {
+            case 1:
+                handleLogin();
+                return;
+            case 2:
+                handleCreateAccount();
+                break;
+            case 3:
+		        handleHelp();
+                break;
+	        case 4:
+                cout << "Quitting...\n";
+                exit(0);
+            default:
+                cout << "Invalid input\n";
+                break;
+        }        
+    } while(1);
 }
 
 
@@ -144,7 +168,7 @@ int CommandHandler::getUserInput() {
 
 
 // menu printers:
-// The following were written by chat GPT by asking it to create a help menu 
+// The following were mostly written by chat GPT by asking it to create a help menu 
 // for the associated switch statement
 
 void CommandHandler::mainMenu() {
@@ -154,6 +178,14 @@ void CommandHandler::mainMenu() {
     cout << "3. Manage Courses" << std::endl;
     cout << "4. Help" << std::endl;
     cout << "5. Quit" << std::endl;
+}
+
+void CommandHandler::loginMenu() {
+    cout << "===== LOGIN MENU =====" << std::endl;
+    cout << "1. Login" << std::endl;
+    cout << "2. Create Account" << std::endl;
+    cout << "3. Help" << std::endl;
+    cout << "4. Quit" << std::endl;
 }
 
 void CommandHandler::accountMenu() {

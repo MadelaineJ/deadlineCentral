@@ -1,7 +1,8 @@
 #include "user.hpp"
 
-User::User(string name, string password, string email, list<int> taskList)
+User::User(int userId, string name, string password, string email, list<int> taskList)
 {
+    this->userId = userId;
     this->name = name;
     this->password = password;
     this->email = email;
@@ -38,6 +39,14 @@ list<int> User::getTaskList() {
 
 void User::setTaskList(list<int> taskList) {
     this->taskList = taskList;
+}
+
+int User::getUserId() {
+    return this->userId;
+}
+
+void User::setUserId(int userId) {
+    this->userId = userId;
 }
 
 //TODO write print for task list

@@ -1,7 +1,7 @@
 #include "instructor.hpp"
 
 Instructor::Instructor(int instructorId, string name, string password, string email, list<int> taskList)
-    : User(name, password, email, taskList)
+    : User(instructorId, name, password, email, taskList)
 {
     this->instructorId = instructorId;
 }
