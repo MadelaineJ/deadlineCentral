@@ -16,12 +16,6 @@ using namespace std;
 
 BOOST_AUTO_TEST_SUITE(subscriptionDatabase)
 
-// add a new subscription between student and course
-BOOST_AUTO_TEST_CASE(ADD_SUBSCRIPTION) {
-    // setup
-    SubscriptionDB* inTest = SubscriptionDB::getInstance();
-}
-
 // get a list of all course objects that the student is not subscribed too
 BOOST_AUTO_TEST_CASE(getAvailableCourseList) {
     
@@ -81,6 +75,16 @@ BOOST_AUTO_TEST_CASE(getCourseSubscriptions) {
         BOOST_CHECK(it_result->getCalendarDescription() == it_expected->getCalendarDescription());
         it_expected++;
     }
+}
+
+BOOST_AUTO_TEST_CASE(create_Subscription) {
+    SubscriptionDB *inTest = SubscriptionDB::getInstance();
+    BOOST_CHECK(inTest->createSubscription(STUDENT_ID, COURSE_ID));
+}
+
+BOOST_AUTO_TEST_CASE(delete_Subscription) {
+    SubscriptionDB *inTest = SubscriptionDB::getInstance();
+    BOOST_CHECK(inTest->deleteSubscription(STUDENT_ID, COURSE_ID));
 }
 
 BOOST_AUTO_TEST_SUITE_END()

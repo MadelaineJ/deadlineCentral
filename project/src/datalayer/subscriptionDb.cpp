@@ -16,11 +16,9 @@ SubscriptionDB* SubscriptionDB::getInstance() {
 }
 
 // constructor is private to avoid multiple instances of SubscriptionDB, instead use static method getInstance 
-SubscriptionDB::SubscriptionDB(){}
+SubscriptionDB::SubscriptionDB() {}
 
-SubscriptionDB::~SubscriptionDB(){
-
-}
+SubscriptionDB::~SubscriptionDB() {}
 
 // returns a list of all courses not currently subscribed to by the student
 list<Course> SubscriptionDB::getAvailableCourseList(int studentId) {
@@ -54,6 +52,7 @@ list<Course> SubscriptionDB::getAvailableCourseList(int studentId) {
 
         availableCourses.push_back(course);
     }
+    controllerDB->disconnect();
     return availableCourses;
 }
 
@@ -89,31 +88,55 @@ list<Course> SubscriptionDB::getCourseSubscriptions(int studentId) {
 
         subscriptionCourses.push_back(course);
     }
+    controllerDB->disconnect();
     return subscriptionCourses;
 }
 
 bool SubscriptionDB::deleteSubscription(int studentID, int courseID) {
     // query DB table StudentCourses to remove subscription
+    ControllerDb *controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
+
+    stringstream queryBuilder;
+    queryBuilder << "DELETE FROM StudentCourses "
+                 << "WHERE studentID = :studentID "
+                 << "AND courseID = :courseID ";
+    
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setInt(1, studentID);
+    stmt->setInt(2, courseID);
+
+    int rowCount = stmt->executeUpdate();
+    
+    controllerDB->disconnect();
+
+    if(rowCount == 1){
+        return true;
+    }
     return false;
 }
 
 bool SubscriptionDB::createSubscription(int studentID, int courseID) {
     // query DB table StudentCourses to create subscription
-
     ControllerDb* controllerDB = ControllerDb::getInstance();
     controllerDB->connect();
 
-    string query = "INSERT INTO studentcourses (studentID, courseID) VALUES ("
-        + to_string(studentID) + ", "
-        + to_string(courseID) + "')";
+    stringstream queryBuilder;
+    queryBuilder << "INSERT INTO StudentCourses(studentID, courseID) "
+                 << "VALUES (:1, :2)";
+    
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
 
-    int rowCount = controllerDB->getStatement()->executeUpdate(query);
+    stmt->setInt(1, studentID);
+    stmt->setInt(2, courseID);
+
+    int rowCount = stmt->executeUpdate();
     controllerDB->disconnect();
-    return rowCount;
-}
-
-// helper functions
-int SubscriptionDB::getCourseID(std::string courseCode, std::string instructorName) {
-    // query DB table Courses using courseCode & instructor name to find courseID
+    if(rowCount == 1){
+        return true;
+    }
     return false;
 }

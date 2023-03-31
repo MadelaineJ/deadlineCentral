@@ -29,8 +29,6 @@ class SubscriptionDB
         SubscriptionDB(); // private to prevent direct instantiation
         static SubscriptionDB* instance; // Pointer to the single instance of SubscriptionDB
         
-        // helper functions
-        int getCourseID(std::string courseCode, std::string instructorName);
 };
 
 #endif
