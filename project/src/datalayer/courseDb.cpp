@@ -125,21 +125,50 @@ list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
    list<AggregateDeadline> aggregateDeadlineResults = {};
 
    // get results
-    ResultSet *rs = stmt->executeQuery();
+   ResultSet *rs = stmt->executeQuery();
 
-    if(rs->next()) {
-      int type = rs->getInt(1); // task type
-      string date = rs->getString(2); // due date
-      string course = rs->getString(3); // course name
-      int num = rs->getInt(4); // affected students
+   if(rs->next()) {
+   int type = rs->getInt(1); // task type
+   string date = rs->getString(2); // due date
+   string course = rs->getString(3); // course name
+   int num = rs->getInt(4); // affected students
 
-      AggregateDeadline ag; // create a new struct for each result row
+   AggregateDeadline ag; // create a new struct for each result row
       ag.type = type;
       ag.courseName = course;
       ag.dueDate = date;
       ag.affectedStudents = num;
 
       aggregateDeadlineResults.push_back(ag);
+   }
+   controllerDB->disconnect();
+   return aggregateDeadlineResults; // can be empty if result set was false
+}
+
+// helper functions
+int CourseDB::getCourseID(std::string courseCode, std::string instructorName) {
+    // query DB table Courses using courseCode & instructor name to find courseID
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
+
+    stringstream queryBuilder;
+    queryBuilder << "SELECT c.courseID "
+                 << "FROM Courses c "
+                 << "JOIN Instructors i ON i.instructorID = c.instructorID "
+                 << "WHERE c.courseCode = :1 "
+                 << "AND i.name = :2";
+
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setString(1, courseCode);
+    stmt->setString(2, instructorName);
+
+    ResultSet *rs = stmt->executeQuery();
+    int courseID = -1;
+    if(rs->next()){
+        courseID = rs->getInt(1);
     }
-      return aggregateDeadlineResults; // can be empty if result set was false
+    controllerDB->disconnect();
+    return courseID; // -1 if no matches in DB
 }

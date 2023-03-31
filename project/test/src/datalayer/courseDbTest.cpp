@@ -61,5 +61,10 @@ BOOST_AUTO_TEST_CASE(aggregate_Deadlines) {
 	list<AggregateDeadline> result = inTest->aggregateDeadlines(2000, "01/07/2023");
 	BOOST_CHECK(result.front().affectedStudents == 7);
 }
+
+BOOST_AUTO_TEST_CASE(get_CourseId_by_CourseCode_InstructorName) {
+    CourseDB *inTest = CourseDB::getInstance();
+    BOOST_CHECK(inTest->getCourseID(COURSE_CODE, INSTRUCTOR_NAME) == EXPECTED_COURSE_ID);
+}
 	
 BOOST_AUTO_TEST_SUITE_END()

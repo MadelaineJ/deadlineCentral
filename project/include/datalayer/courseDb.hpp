@@ -27,8 +27,10 @@ class CourseDB
         bool deleteCourse(Course C);
         list<Student> getEnrollmentList(int courseID);
         Course getCourseInfo(int courseID);
-        //TODO return type tbd
         list<AggregateDeadline> aggregateDeadlines(int courseID, string date);
+
+        // helper functions
+        int getCourseID(std::string courseCode, std::string instructorName);
     private:
         CourseDB(); // private to avoid direct instantiation
         static CourseDB* instance; // pointer to single instanece of CourseDB

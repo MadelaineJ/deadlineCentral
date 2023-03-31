@@ -4,8 +4,4 @@
 #define STUDENT_ID 101
 #define COURSE_ID 2009
 
-#define COURSE_CODE "CSCI 311"
-#define INSTRUCTOR_NAME "Eli Selby"
-#define EXPECTED_COURSE_ID 2004
-
 #endif // SUBSCRIPTION_DB_TEST_H
