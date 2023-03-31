@@ -46,11 +46,6 @@ BOOST_AUTO_TEST_CASE(getAvailableCourseList) {
     // compare results to expected
     auto it_expected = expected.begin();
     for(auto it_result = result.begin(); it_result != result.end(); it_result++){
-        // print each course for easy checking ?
-        cout << "\nRESULT |" << *it_result;
-        cout << endl;
-        cout << "EXPECT |" << *it_expected << endl;
-
         // verify
         BOOST_CHECK(it_result->getCourseId() == it_expected->getCourseId());
         BOOST_CHECK(it_result->getCourseCode() == it_expected->getCourseCode());
@@ -78,11 +73,6 @@ BOOST_AUTO_TEST_CASE(getCourseSubscriptions) {
     // compare results to expected
     auto it_expected = expected.begin();
     for(auto it_result = result.begin(); it_result != result.end(); it_result++){
-        // print each course for easy checking ?
-        cout << "\nRESULT |" << *it_result;
-        cout << endl;
-        cout << "EXPECT |" << *it_expected << endl;
-
         // verify
         BOOST_CHECK(it_result->getCourseId() == it_expected->getCourseId());
         BOOST_CHECK(it_result->getCourseCode() == it_expected->getCourseCode());

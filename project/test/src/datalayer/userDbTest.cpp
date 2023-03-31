@@ -23,8 +23,8 @@ BOOST_AUTO_TEST_CASE(view_user_student) {
     list<int> L;
     User expected("William Lowe", "passwordWil", "WilliamLowe@example.com", L);
     User result = inTest->getUserInfo("111");
-    result.printUserInfo();
-    expected.printUserInfo();
+    // result.printUserInfo();
+    // expected.printUserInfo();
 
     // verify
     BOOST_CHECK(inTest->getUserInfo("111").compare(expected));
@@ -37,8 +37,8 @@ BOOST_AUTO_TEST_CASE(view_user_instructor) {
     list<int> L;
     User expected("Ezra Lane", "passwordEzr", "EzraLane@example.com", L);
     User result = inTest->getUserInfo("1003");
-    result.printUserInfo();
-    expected.printUserInfo();
+    // result.printUserInfo();
+    // expected.printUserInfo();
 
     // verify
     BOOST_CHECK(inTest->getUserInfo("1003").compare(expected));

@@ -104,7 +104,6 @@ list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
 
    // only bind if we have a valid date
    if(validDate) {
-      cout << "DATE " << date << endl;
       queryBuilder << "AND t.dueDate = TO_DATE(:4, 'MM/DD/YYYY') ";
    }
    

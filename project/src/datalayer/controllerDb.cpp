@@ -44,7 +44,7 @@ string ControllerDb::connect() {
     try {
         this->environment = Environment::createEnvironment();
         this->connection = environment->createConnection(this->username, this->password, this->connectString);
-        cout << "Connected to Oracle database using OCCI." << endl << endl;
+        // cout << "Connected to Oracle database using OCCI." << endl << endl;
 
         this->stmt = this->connection->createStatement(); 
     } catch (SQLException & e) {
@@ -58,7 +58,7 @@ string ControllerDb::connect() {
 * author: Brandon & Madelaine
 */
 string ControllerDb::disconnect() {
-    cout << "Terminating connection...\n";
+    // cout << "Terminating connection...\n";
     try {
         if (this->stmt != NULL) {
             this->connection->terminateStatement(this->stmt);

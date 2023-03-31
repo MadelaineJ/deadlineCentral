@@ -22,8 +22,6 @@ BOOST_AUTO_TEST_CASE(view_task) {
     TaskDB* inTest = TaskDB::getInstance();
     Task expected(1071, "Personal Task", 10, 172, "Personal task for Mark Paul", "NULL" , false, 0);
     Task result = inTest->getTaskInfo("1071");
-    result.printTaskInfo();
-    expected.printTaskInfo();
 
     // verify
     BOOST_CHECK(inTest->getTaskInfo("1071").compare(expected));
@@ -50,10 +48,6 @@ BOOST_AUTO_TEST_CASE(Filter_Tasks_FINAL_EXAMS_INSTRUCTOR_1001) {
     // compare results to expected
     auto it_expected = expected.begin();
     for(auto it_result = result.begin(); it_result != result.end(); it_result++){
-        cout << "\nRESULT |" << *it_result;
-        cout << endl;
-        cout << "EXPECT |" << *it_expected << endl;
-
         // verify
         BOOST_CHECK(it_result->getTaskId() == it_expected->getTaskId());
         BOOST_CHECK(it_result->getTaskName() == it_expected->getTaskName());
