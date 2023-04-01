@@ -9,6 +9,9 @@
 #include "userController.hpp"
 #include "userDb.hpp"
 #include "user.hpp"
+#include "student.hpp"
+#include "instructor.hpp"
+
 
 using namespace std;
 
@@ -34,13 +37,17 @@ UserController::~UserController() {
 }
 
 // createStudent
-void UserController::createStudent() {
-	
+void UserController::createStudent(string name, string email, string password) {
+    list<int> tasks = {};
+    Student* student = new Student(-1, name, password, email, tasks);
+    userDb->createUser(*student);
 }
 
 // createInstructor
-void UserController::createInstructor() {
-    
+void UserController::createInstructor(string name, string email, string password) {
+    list<int> tasks = {};
+    Instructor* instructor = new Instructor(-1, name, password, email, tasks);
+    userDb->createUser(*instructor);
 }
 
 // deleteUser
@@ -49,21 +56,25 @@ void UserController::deleteUser() {
 }
 
 // getUserInfo
-void UserController::getUserInfo() {
+User UserController::getUserInfo(int userId, string email) {
+    if (userId == -1) {
+        return userDb->getUserInfoByEmail(email);
+    } else {
+        return userDb->getUserInfoById(userId);
+    }
 
 }
 
 //validate credentials entered by the users
-bool UserController::validateCredentials(int userId, string password) {
-    User user = userDb->getUserInfo(userId);
+bool UserController::validateCredentials(string email, string password) {
+    User user = this->getUserInfo(-1, email);
 
     if (user.getPassword() != password) {
         return false;
     } else {
-        this->currentUser = userId;
+        this->currentUser = user.getUserId();
         return true;
     }
-    
 }
 
 

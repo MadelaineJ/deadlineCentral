@@ -23,7 +23,8 @@ class UserDB
         bool createUser(Instructor U);
         bool updateUser(User U, int userID);
         bool deleteUser(int userID);
-        User getUserInfo(int userID);
+        User getUserInfoById(int userID);
+        User getUserInfoByEmail(string email);
     private:
         UserDB();
         static UserDB* instance;

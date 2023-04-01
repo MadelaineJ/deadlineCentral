@@ -7,7 +7,7 @@
 void handleViewAccount();
 void handleUpdateAccount();
 void handleDeleteAccount();
-void handleCreateAccount();
+void handleCreateAccount(int userType);
 void handleLogin();
 
 

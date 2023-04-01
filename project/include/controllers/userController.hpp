@@ -17,15 +17,15 @@ class UserController
         static UserController* getInstance(); // gets the single instance of this class
         ~UserController();
         
-        void createStudent();
+        void createStudent(string name, string email, string passwordOriginal);
 
-        void createInstructor();
+        void createInstructor(string name, string email, string passwordOriginal);
 
         void deleteUser();
 
-        void getUserInfo();
+        User getUserInfo(int userId, string email);
 
-        bool validateCredentials(int userId, string password);
+        bool validateCredentials(string email, string password);
 
         int getCurrentUser();
         void setCurrentUser(int userId);

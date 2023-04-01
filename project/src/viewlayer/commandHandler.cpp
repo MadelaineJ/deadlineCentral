@@ -55,7 +55,7 @@ void CommandHandler::manageLogin() {
                 handleLogin();
                 return;
             case 2:
-                handleCreateAccount();
+                manageCreateAccount();
                 break;
             case 3:
 		        handleHelp();
@@ -63,6 +63,25 @@ void CommandHandler::manageLogin() {
 	        case 4:
                 cout << "Quitting...\n";
                 exit(0);
+            default:
+                cout << "Invalid input\n";
+                break;
+        }        
+    } while(1);
+}
+
+void CommandHandler::manageCreateAccount() {
+    int input;
+    do {
+        userTypeMenu();
+        input = getUserInput();
+        switch (input) {
+            case 1:
+                handleCreateAccount(input);
+                return;
+            case 2:
+                handleCreateAccount(input);
+                return;
             default:
                 cout << "Invalid input\n";
                 break;
@@ -194,6 +213,12 @@ void CommandHandler::accountMenu() {
     cout << "2. Update Account Info" << std::endl;
     cout << "3. Delete Account" << std::endl;
     cout << "4. Main Menu" << std::endl;
+}
+
+void CommandHandler::userTypeMenu() {
+    cout << "Are you an Instructor or Student?" << std::endl;
+    cout << "1. Student" << std::endl;
+    cout << "2. Instructor" << std::endl;
 }
 
 void CommandHandler::taskMenu() {

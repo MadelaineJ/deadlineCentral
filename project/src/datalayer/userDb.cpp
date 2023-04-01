@@ -22,6 +22,7 @@ bool UserDB::createUser(Student user){
       + user.getPassword() + "')";
 
    int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->getConnection()->commit();
    controllerDB->disconnect();
    return rowCount;
 }
@@ -36,6 +37,7 @@ bool UserDB::createUser(Instructor user){
       + user.getPassword() + "')";
 
    int rowCount = controllerDB->getStatement()->executeUpdate(query);
+   controllerDB->getConnection()->commit();
    controllerDB->disconnect();
    return rowCount;
 }
@@ -87,7 +89,7 @@ bool UserDB::isStudent(int userID){
 }
 
 //TODO add tasklist to returned object
-User UserDB::getUserInfo(int userID){
+User UserDB::getUserInfoById(int userID){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
    string query = "";
@@ -102,6 +104,42 @@ User UserDB::getUserInfo(int userID){
    User user(userID, "", "", "", taskList);
    if(rs->next()){
       //user.setId(rs->getInt(1));
+      user.setName(rs->getString(2));
+      user.setEmail(rs->getString(3));
+      user.setPassword(rs->getString(4));
+   }
+   controllerDB->disconnect();
+   return user;
+}
+// getting user info was written by chat gpt using the following prompt:
+/*
+I'm trying to write a sql query that gets user information based on the email address. 
+I have 2 user types, student and instructor. I have no way of knowing in the code if the 
+email I got belongs ot instructor or student, but it will be unique between the two. 
+Could you write a sql query that returns the right user information?
+<getUserInfoByID implementation>
+*/
+User UserDB::getUserInfoByEmail(string email){
+   ControllerDb* controllerDB = ControllerDb::getInstance();
+   controllerDB->connect();
+   string query = "SELECT userId, name, email, password "
+               "FROM ( "
+               "SELECT studentID AS userId, name, email, password "
+               "FROM Students "
+               "WHERE email = '" + email + "' "
+
+               "UNION ALL "
+
+               "SELECT instructorID AS userId, name, email, password "
+               "FROM Instructors "
+               "WHERE email = '" + email + "' "
+               ") user_info "
+               "WHERE ROWNUM <= 1";
+   ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
+   list<int> taskList;
+   User user(-1, "", "", "", taskList);
+   if(rs->next()){
+      user.setUserId(rs->getInt(1));
       user.setName(rs->getString(2));
       user.setEmail(rs->getString(3));
       user.setPassword(rs->getString(4));

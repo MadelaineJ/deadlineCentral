@@ -27,6 +27,7 @@ class CommandHandler
         void courseMenu();
         void handleHelp();
         void loginMenu();
+        void userTypeMenu();
 
         // menu input handlers
         void manageMain();
@@ -34,6 +35,7 @@ class CommandHandler
         void manageTask();
         void manageCourse();
         void manageLogin();
+        void manageCreateAccount();
 
         //handle commands
         // void handleCreateCourse();
