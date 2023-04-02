@@ -28,6 +28,7 @@ class CommandHandler
         void handleHelp();
         void loginMenu();
         void userTypeMenu();
+        void addTaskMenu();
 
         // menu input handlers
         void manageMain();
@@ -38,18 +39,19 @@ class CommandHandler
         void manageCreateAccount();
 
         //handle commands
-        // void handleCreateCourse();
-        // void handleCreateTask();
+        //void handleCreateCourse();
+        //void handleCreateTask();
         // void handleEditTask();
-        // void handleEditCourse();
+        void addTask();
+        //void handleEditCourse();
         // void handleLogin();
         // void handleSubscribeCourse();
         // void handleUnsubscribeCourse();
         // void handleViewTask();
-        // void handleViewCourse();
+        //void handleViewCourse();
         // void handleSortTasks();
         // void handleViewConsolidatedDeadlines();
-        // void handleDeleteCourse();
+        //void handleDeleteCourse();
         // void handleDeleteTask();
 
     private:

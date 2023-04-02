@@ -82,6 +82,8 @@ void CommandHandler::manageCreateAccount() {
             case 2:
                 handleCreateAccount(input);
                 return;
+            case 3:
+                return;
             default:
                 cout << "Invalid input\n";
                 break;
@@ -145,33 +147,83 @@ void CommandHandler::manageTask() {
                 break;
         }
     } while(1);
-} 
+}
+
+void CommandHandler::addTask() {
+    int input;
+    do {
+        addTaskMenu();
+        input = getUserInput();
+        switch (input) {
+            case 1:
+                handleViewAllTasks();
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                return;
+            default:
+                cout << "Invalid input\n";
+                addTaskMenu();
+                break;
+        } 
+    }while(1);
+}
 
 void CommandHandler::manageCourse() {
     int input;
     do {
         courseMenu();
         input = getUserInput();
-        switch (input) {
-            case 1:
-                handleViewCourse();
-                break;
-            case 2:
-                handleEditCourse();
-                break;
-            case 3:
-                handleSubscribeCourse();
-                break;
-            case 4:
-                handleUnsubscribeCourse();
-                break;
-            case 5:
-                return;
-            default:
-                cout << "Invalid input\n";
-                manageCourse();
-                break;
-        }
+            // if student display student's choices
+            if(userController->getCurrentUser() <= 1000){
+                switch (input) {
+                    case 1:
+                        handleViewCourse();
+                        break;
+                    case 2:
+                        handleEditCourse();
+                        break;
+                    case 3:
+                        handleSubscribeCourse();
+                        break;
+                    case 4:
+                        handleUnsubscribeCourse();                                                     
+                        break;
+                    case 5:
+                        return;
+                    default:
+                        cout << "Invalid input\n";
+                        manageCourse();
+                        break;
+                }
+            }else{ // then the user is an instructor so display instructor's choices
+                switch (input) {
+                    case 1:
+                        handleCreateCourse();
+                        break;
+                    case 2:
+                        handleEditCourse();
+                        break;
+                    case 3:
+                        handleViewCourse();
+                        break;
+                    case 4:
+                        handleDeleteCourse();
+                        break;
+                    case 5:
+                        addTask();
+                        break;
+                    case 6:
+                        return;
+                    default:
+                        cout << "Invalid input\n";
+                        manageCourse();
+                        break;                
+                }
+            }
     } while(1);
 }
 
@@ -219,6 +271,7 @@ void CommandHandler::userTypeMenu() {
     cout << "Are you an Instructor or Student?" << std::endl;
     cout << "1. Student" << std::endl;
     cout << "2. Instructor" << std::endl;
+    cout << "3. Main Menu" << std::endl;
 }
 
 void CommandHandler::taskMenu() {
@@ -231,15 +284,14 @@ void CommandHandler::taskMenu() {
 }
 
 void CommandHandler::courseMenu() {
-    //if(User->currUser.userId){
+    if(userController->getCurrentUser() <= 1000){ // if the current user's id is less than 1001 they are a student
         cout << "===== COURSE MENU =====" << std::endl;
         cout << "1. View Course Info" << std::endl;
         cout << "2. Enroll in Course" << std::endl;
         cout << "3. View Enrolled Courses" << std::endl;
         cout << "4. Unenroll from Course" << std::endl;
         cout << "5. Main Menu" << std::endl;
-    //}else{
-        /*
+    }else{  // else they are an instructor
         cout << "===== COURSE MENU =====" << std::endl;
         cout << "1. Create Course" << std::endl;
         cout << "2. Update Course" << std::endl;
@@ -247,8 +299,15 @@ void CommandHandler::courseMenu() {
         cout << "4. Remove Course" << std::endl;
         cout << "5. Add Task" << std::endl;
         cout << "6. Main Menu" << std::endl;
-        */
-    //}
+    }
+}
+
+void CommandHandler::addTaskMenu() {
+    cout << "===== ADD TASK =====" << endl;
+    cout << "1. View Existing Tasks" << endl;
+    cout << "2. Add Task by Name" << endl;
+    cout << "3. Create a new Task" << endl;
+    cout << "4. Main Menu" << endl;
 }
 
 void CommandHandler::handleHelp() {
