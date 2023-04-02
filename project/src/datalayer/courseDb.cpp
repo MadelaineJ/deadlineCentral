@@ -175,7 +175,7 @@ list<AggregateDeadline> CourseDB::aggregateDeadlines(int courseID, string date){
    controllerDB->connect();
 
    bool validDate = false;
-   // ensure that only a valid date format is passed into query
+   // ensure that only a valid date format is passed into query MM/DD/YYYY
    std::regex dateRegex("^(0[1-9]|1[0-2])/([0-2][0-9]|3[0-1])/\\d{4}$");
    if(regex_match(date, dateRegex)) {
       validDate = true;

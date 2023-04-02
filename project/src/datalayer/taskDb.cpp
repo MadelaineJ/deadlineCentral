@@ -21,24 +21,33 @@ int TaskDB::createTask(Task task){
     controllerDB->connect();
 
     stringstream queryBuilder;
+    string ownerColumn; // = courseID, studentID or instructorID
+
+    // determine who owns the task to add id into correct column in DB
+    if(task.getTaskId() < 1000){
+        ownerColumn = "studentID";
+    } else if(task.getTaskType() >= 10) {
+        ownerColumn = "instructorID";
+    } else {
+        ownerColumn = "courseID";
+    }
+    
     queryBuilder << "INSERT INTO "
-                 << "Tasks (type, name, description, dueDate, weight, isComplete, :ownerID) "
-                 << "VALUES(:2, :3, :4, :5, :6 :7, :8)";
+                 << "Tasks(type, name, description, dueDate, weight, isComplete, "
+                 << ownerColumn << ") "
+                 << "VALUES(:1, :2, :3, TO_DATE(:4, 'MM-DD-YYYY'), :5, :6, :7) "
+                 << "RETURNING taskID INTO :8";
 
     string query = queryBuilder.str();
     Statement *stmt = controllerDB->getConnection()->createStatement(query);
 
-    stmt->setInt(2, task.getTaskType());
-    stmt->setString(3, task.getTaskName());
-    stmt->setString(4, task.getTaskDescription());
-    stmt->setString(5, task.getDueDate());
-    stmt->setDouble(6, task.getWeight());
-    stmt->setInt(7, task.getCompletionStatus());
-
-    // need a way to determine who owns the task!!
-    string ownerColumn; // = courseID, studentID or instructorID
-    stmt->setString(1, ownerColumn);
-    stmt->setInt(8, task.getTaskOwner());
+    stmt->setInt(1, task.getTaskType());
+    stmt->setString(2, task.getTaskName());
+    stmt->setString(3, task.getTaskDescription());
+    stmt->setString(4, task.getDueDate());
+    stmt->setDouble(5, task.getWeight());
+    stmt->setInt(6, task.getCompletionStatus());
+    stmt->setInt(7, task.getTaskOwner());
 
     stmt->registerOutParam(8, OCCIINT); // Register the return generated ID
 
@@ -47,7 +56,7 @@ int TaskDB::createTask(Task task){
     int gen_taskID = -1; // initialize to centinal value
 
     // retrieve auto generated ID
-    gen_taskID = stmt->getInt(5);
+    gen_taskID = stmt->getInt(8);
 
     // Commit the transaction or changes will revert after connection is closed
     controllerDB->getConnection()->commit();
@@ -63,13 +72,13 @@ bool TaskDB::updateTask(Task task){
     controllerDB->connect();
 
     stringstream queryBuilder;
-    queryBuilder << "UPDATE Courses "
+    queryBuilder << "UPDATE Tasks "
                  << "SET "
-                 << "type = :1 "
-                 << "name = :2 "
-                 << "description = :3 "
-                 << "dueDate = :4 "
-                 << "weight = :5 "
+                 << "type = :1, "
+                 << "name = :2, "
+                 << "description = :3, "
+                 << "dueDate = TO_DATE(:4, 'MM-DD-YYYY'), "
+                 << "weight = :5, "
                  << "isComplete = :6 "
                  << "WHERE taskID = :7 ";
 
@@ -132,7 +141,9 @@ Task TaskDB::getTaskInfo(int taskId) {
 
     stringstream queryBuilder;
     queryBuilder << "SELECT "
-                 << "taskID, type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID "
+                 << "taskID, type, name, description, "
+                 << "TO_CHAR(dueDate, 'MM/DD/YYYY'), " 
+                 << "weight, isComplete, courseID, studentID, instructorID "
                  << "FROM Tasks "
                  << "WHERE taskID = :1 ";
 
@@ -177,7 +188,9 @@ list<Task> TaskDB::getFilteredTasks(int typeFilter, int courseFilter, int comple
     // we need to construct the query based on the type of user, and the filter parameters they have chosen
     stringstream queryBuilder;
     queryBuilder << "SELECT * FROM ( "
-                << "SELECT taskID, type, name, description, dueDate, weight, isComplete, courseID, studentID, instructorID "
+                << "SELECT taskID, type, name, description, "
+                << "TO_CHAR(dueDate, 'MM/DD/YYYY'), "
+                << "weight, isComplete, courseID, studentID, instructorID "
                 << "FROM Tasks "
                 << "WHERE courseID IN ( "
                 << "SELECT courseID "
