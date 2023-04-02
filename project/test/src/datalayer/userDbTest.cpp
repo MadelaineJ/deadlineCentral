@@ -36,10 +36,17 @@ BOOST_AUTO_TEST_CASE(view_user_instructor) {
     // setup
     UserDB* inTest = UserDB::getInstance();
     list<int> L;
+<<<<<<< Updated upstream
     User expected(1003, "Ezra Lane", "passwordEzr", "EzraLane@example.com", L);
     User result = inTest->getUserInfoById(1003);
     // result.printUserInfo();
     // expected.printUserInfo();
+=======
+    User expected("Ezra Lane", "passwordEzr", "EzraLane@example.com", L);
+    User result = inTest->getUserInfo(1003);
+    result.printUserInfo();
+    expected.printUserInfo();
+>>>>>>> Stashed changes
 
     // verify
     BOOST_CHECK(result.compare(expected));

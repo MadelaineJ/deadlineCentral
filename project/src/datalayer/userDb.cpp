@@ -81,13 +81,7 @@ bool UserDB::deleteUser(int userID){
 }
 
 bool UserDB::isStudent(int userID){
-   ControllerDb* controllerDB = ControllerDb::getInstance();
-   controllerDB->connect();
-   string query = "SELECT studentID FROM Students WHERE studentID = " + to_string(userID);
-   ResultSet *rs = controllerDB->getStatement()->executeQuery(query);
-   bool result = rs->next();
-   controllerDB->disconnect();
-   return result;
+   return userID < 1000;
 }
 
 list<int> UserDB::getTaskList(int userID){
@@ -109,7 +103,6 @@ list<int> UserDB::getTaskList(int userID){
    return taskList;
 }
 
-//TODO add tasklist to returned object
 User UserDB::getUserInfoById(int userID){
    ControllerDb* controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
@@ -124,12 +117,13 @@ User UserDB::getUserInfoById(int userID){
    list<int> taskList;
    User user(userID, "", "", "", taskList);
    if(rs->next()){
-      user.setName(rs->getString(1));
-      user.setEmail(rs->getString(2));
-      user.setPassword(rs->getString(3));
-      user.setTaskList(this->getTaskList(userID));
+      user.setUserId(rs->getInt(1));
+      user.setName(rs->getString(2));
+      user.setEmail(rs->getString(3));
+      user.setPassword(rs->getString(4));
    }
    controllerDB->disconnect();
+   user.setTaskList(this->getTaskList(userID));
    return user;
 }
 // getting user info was written by chat gpt using the following prompt:
