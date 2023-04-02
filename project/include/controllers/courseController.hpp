@@ -6,6 +6,9 @@
 #include <string>
 #include <termios.h>
 #include <unistd.h>
+#include "course.hpp"
+#include "courseDb.hpp"
+#include "userController.hpp"
 using namespace std;
 
 
@@ -15,13 +18,13 @@ class CourseController
         static CourseController* getInstance(); // gets the single instance of this class
         ~CourseController();
         
-        void createCourse();
+        int createCourse(string name, string description, string code);
 
         void editCourse();
 
         void deleteCourse();
 
-        void getCourseInfo();
+        Course getCourseInfo(int courseId);
 
         void addTask();
 

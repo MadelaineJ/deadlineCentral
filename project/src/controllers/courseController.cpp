@@ -27,8 +27,12 @@ CourseController::CourseController() {}
 CourseController::~CourseController() { }
 
 // createCourse
-void CourseController::createCourse() {
-	
+int CourseController::createCourse(string name, string description, string code) {
+    CourseDB* courseDB = CourseDB::getInstance();
+    UserController* userController = UserController::getInstance();
+
+    Course newCourse(-1, userController->getCurrentUser(), name, code, description);
+    return courseDB->createCourse(newCourse); 
 }
 
 // editCourse
@@ -42,8 +46,9 @@ void CourseController::deleteCourse() {
 }
 
 // getCourseInfo
-void CourseController::getCourseInfo() {
-
+Course CourseController::getCourseInfo(int courseId) {
+    CourseDB* courseDB = CourseDB::getInstance();
+    return courseDB->getCourseInfo(courseId);
 }
 
 // addTask
