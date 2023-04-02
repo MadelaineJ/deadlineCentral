@@ -25,6 +25,7 @@ class UserDB
         bool deleteUser(int userID);
         User getUserInfoById(int userID);
         User getUserInfoByEmail(string email);
+        list<int> getTaskList(int userID);
     private:
         UserDB();
         static UserDB* instance;

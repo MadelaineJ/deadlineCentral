@@ -51,10 +51,14 @@ void User::setUserId(int userId) {
 
 //TODO write print for task list
 void User::printUserInfo() {
-    cout << "Name: " << name << endl;
-    cout << "Email: " << email << endl;
-    cout << "Password: " << password << endl;
-//    cout << "Task List: " << taskList << endl;
+    cout << "Name: " << name << ", ";
+    cout << "Email: " << email << ", ";
+    cout << "Password: " << password << ", ";
+    cout << "Tasks: ";
+    for(list<int>::iterator i = taskList.begin(); i != taskList.end(); ++i){
+        cout << *i << ", " ;
+    }
+    cout << endl;
 }
 
 bool User::compare(User otherUser) {
