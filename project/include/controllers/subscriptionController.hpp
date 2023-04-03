@@ -6,6 +6,10 @@
 #include <string>
 #include <termios.h>
 #include <unistd.h>
+
+// custom header files
+#include "subscriptionDb.hpp"
+#include "userController.hpp"
 using namespace std;
 
 
@@ -19,13 +23,15 @@ class SubscriptionController
 
         void removeSubscription();
 
-        void viewCurrentSubscriptions();
+        list<Course> viewCurrentSubscriptions();
 
         void viewAvailableSubscriptions();
     
     private:
         SubscriptionController();
         static SubscriptionController* instance; // Pointer to the single instance of SubscriptionController
+        SubscriptionDB *subscriptionDB = SubscriptionDB::getInstance();
+        UserController *userController = UserController::getInstance();
 };
 
 #endif

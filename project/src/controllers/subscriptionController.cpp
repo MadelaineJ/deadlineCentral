@@ -6,6 +6,7 @@
 
 // Custom header files
 #include "subscriptionController.hpp"
+#include "subscriptionDb.hpp"
 
 using namespace std;
 
@@ -38,8 +39,9 @@ void SubscriptionController::removeSubscription() {
 }
 
 // viewCurrentSubscriptions
-void SubscriptionController::viewCurrentSubscriptions() {
+list<Course> SubscriptionController::viewCurrentSubscriptions() {
 
+    return this->subscriptionDB->getCourseSubscriptions(this->userController->getCurrentUser());
 }
 
 // viewAvailableSubscriptions
