@@ -244,15 +244,15 @@ void handleCreateCourse(){
     cout << "Enter the course code: ";
     getline(cin, code);
 
-    /*
+    
     if (courseController->createCourse(name, description, code)) {
         cout << "Course created successfully!" << endl;
     }
     else {
         cout << "Error creating course. Please try again." << endl;
-    }*/
+    }
 
-    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 void handleDeleteCourse(){
@@ -303,6 +303,27 @@ void handleEditCourse(){
 
 void handleViewCourse() {
     cout << "handling handleViewCourse()" << endl;
+
+    int courseId;
+    bool fail = false;
+
+    cout << "Enter the ID of the course to view: ";
+    cin >> courseId;
+    cin.ignore();
+    
+    Course result = courseController->getCourseInfo(courseId);
+
+    if(result.getCourseId() != 0){
+        cout << "Course ID: " << result.getCourseId() << endl; 
+        cout << "Course name: " << result.getCourseName() << endl;
+        cout << "Course code: " << result.getCourseCode() << endl;
+        cout << "Description: " << result.getCalendarDescription() << endl;
+        cout << "Instructor ID: " << result.getInstructorId() << endl;
+    }
+    else{
+        cout << "Invalid choice, please try again" << endl;
+    }
+    
 }
 
 void handleSubscribeCourse(){
