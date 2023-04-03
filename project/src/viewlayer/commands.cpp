@@ -148,20 +148,28 @@ void handleFilterByCourse() {
     vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
     cout << "==== Choose Course ====" << endl;
     for (int i = 0; i < courseList.size(); i++) {
-        cout << i << ". " << courseList[i].getCourseName() << endl;
+        cout << i+1 << ". " << courseList[i].getCourseName() << endl;
     }
-    cout << ">>> ";
+    bool validInput = false;
     int courseId;
-    cin >> courseId;
-    
-    
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    while (!validInput) {
+        cout << ">>> "; 
+        cin >> courseId;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        if ((courseId < courseList.size()+1) && (courseId > 0)) {
+            validInput = true;
+        } else {
+            cout << "Invalid choice, please try again" << endl;
+        }
+    }
+
 
     // TODO: print all courses the user is subscribed to and have them pick in a menu
     // OR
     // TODO: check to see if the course exists first
     
-    list<Task> filteredList = filterTaskController->filterTasksByCourse(courseList[courseId].getCourseId());
+    list<Task> filteredList = filterTaskController->filterTasksByCourse(courseList[courseId-1].getCourseId());
+    printf("\033[2J\033[H");
     printTaskList(filteredList);
 }
 

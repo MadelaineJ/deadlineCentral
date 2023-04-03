@@ -174,8 +174,6 @@ void CommandHandler::manageAllTasks() {
 void CommandHandler::manageFilterTasks() {
     int input;
     do {
-//        printf("\033[2J\033[H");
-//        handleViewAllTasks();
         filterTasksMenu();
         input = getUserInput();
         switch (input) {
@@ -197,9 +195,9 @@ void CommandHandler::manageFilterTasks() {
 void CommandHandler::manageChooseTaskType() {
     int input;
     do {
-        printf("\033[2J\033[H");
         chooseTaskTypeMenu();
         input = getUserInput();
+        printf("\033[2J\033[H");
         switch (input) {
             case 1:
                 handleFilterByType(0);
@@ -232,8 +230,6 @@ void CommandHandler::manageChooseTaskType() {
 void CommandHandler::manageSortTasks() {
     int input;
     do {
-        printf("\033[2J\033[H");
-   //     handleViewAllTasks();
         sortTasksMenu();
         input = getUserInput();
         switch (input) {
@@ -393,14 +389,14 @@ void CommandHandler::viewAllTasksMenu() {
     cout << "===== SORT OR FILTER TASKS =====" << std::endl;
     cout << "1. Sort" << std::endl;
     cout << "2. Filter" << std::endl;
-    cout << "3. SORT OR FILTER" << std::endl;
+    cout << "3. Task Menu" << std::endl;
 }
 
 void CommandHandler::filterTasksMenu() {
     cout << "===== FILTER BY =====" << std::endl;
     cout << "1. Course" << std::endl;
     cout << "2. Type" << std::endl;
-    cout << "3. SORT OR FILTER" << std::endl;
+    cout << "3. Sort or Filter" << std::endl;
     
 }
 
