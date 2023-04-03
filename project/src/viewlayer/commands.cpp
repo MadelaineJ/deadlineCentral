@@ -1,9 +1,9 @@
 #include <iostream>
-#include <iomanip>
 #include <list>
 #include <algorithm>
 #include <string>
 #include "task.hpp"
+
 // custom header files
 #include "commands.hpp"
 #include "userController.hpp"
@@ -11,6 +11,7 @@
 #include "filterTaskController.hpp"
 #include "subscriptionController.hpp"
 #include "courseController.hpp"
+
 // models
 #include "task.hpp"
 
@@ -123,13 +124,29 @@ void handleCreateTask(){
 // }
 void handleSortByWeight() {
     cout << "handleSortByWeight" << endl;
-    
+    filterTaskController->sortTasksByWeight();
+    filterTaskController->printTaskList();
 }
 void handleSortByName() {
     cout << "handleSortByName" << endl;
+    filterTaskController->sortTasksByName();
+    filterTaskController->printTaskList();
 }
 void handleSortByType() {
     cout << "handleSortByType" << endl;
+    filterTaskController->sortTasksByType();
+    filterTaskController->printTaskList();
+}
+
+void handleSortByDate() {
+    cout << "handleSortByDate" << endl;
+    filterTaskController->sortTasksByDate();
+    filterTaskController->printTaskList();
+}
+void handleSortByOwner() {
+    cout << "handleSortByOwner" << endl;
+    filterTaskController->sortTasksByOwner();
+    filterTaskController->printTaskList();
 }
 
 // void handleFilterTasks() {
@@ -137,9 +154,8 @@ void handleSortByType() {
 // }
 void handleFilterByType(int type) {
     cout << "handleFilterByType" << endl;
-
-    list<Task> filteredList = filterTaskController->filterTasksByType(type);
-    printTaskList(filteredList);
+    filterTaskController->filterTasksByType(type);
+    filterTaskController->printTaskList();
 }
 
 // TODO: add error checking to courseId input
@@ -162,21 +178,16 @@ void handleFilterByCourse() {
             cout << "Invalid choice, please try again" << endl;
         }
     }
-
-
-    // TODO: print all courses the user is subscribed to and have them pick in a menu
-    // OR
-    // TODO: check to see if the course exists first
     
-    list<Task> filteredList = filterTaskController->filterTasksByCourse(courseList[courseId-1].getCourseId());
-    printf("\033[2J\033[H");
-    printTaskList(filteredList);
+    filterTaskController->filterTasksByCourse(courseList[courseId-1].getCourseId());
+    filterTaskController->printTaskList();
+   // printf("\033[2J\033[H");
 }
 
 void handleViewAllTasks() {
     cout << "handling handleViewAllTasks()" << endl;
-    list<Task> filteredList = filterTaskController->viewAllUserTasks();
-    printTaskList(filteredList);
+    filterTaskController->findAllUserTasks();
+    filterTaskController->printTaskList();
 }
 
 void handleDeleteTask(){
@@ -377,59 +388,4 @@ list<Task> list = getTaskList();
 
 Minor modifications were requested from chatGPT such as left align
 */
-
-void printTaskList(const list<Task>& taskList) {
-    int idWidth = 2;
-    int nameWidth = 6;
-    int typeWidth = 4;
-    int ownerWidth = 5;
-    int descriptionWidth = 15;
-    int dueDateWidth = 10;
-    int completionWidth = 9;
-    int weightWidth = 6;
-
-    // Calculate the maximum width of each column
-    for (Task task : taskList) {
-        idWidth = max(idWidth, (int)to_string(task.getTaskId()).length());
-        nameWidth = max(nameWidth, (int)task.getTaskName().length());
-        typeWidth = max(typeWidth, (int)task.getTypeName().length());
-        ownerWidth = max(ownerWidth, (int)to_string(task.getTaskOwner()).length());
-        descriptionWidth = max(descriptionWidth, (int)task.getTaskDescription().length());
-        dueDateWidth = max(dueDateWidth, (int)task.getDueDate().length());
-        completionWidth = max(completionWidth, (int)to_string(task.getCompletionStatus()).length());
-        weightWidth = max(weightWidth, (int)to_string(task.getWeight()).length());
-    }
-
-    // Print the table headers
-    cout << setw(idWidth) << "ID" << " | ";
-    cout << setw(nameWidth) << "Name" << " | ";
-    cout << setw(typeWidth) << "Type" << " | ";
-    cout << setw(ownerWidth) << "Owner" << " | ";
-    cout << setw(descriptionWidth) << "Description" << " | ";
-    cout << setw(dueDateWidth) << "Due Date" << " | ";
-    cout << setw(completionWidth) << "Completed" << " | ";
-    cout << setw(weightWidth) << "Weight" << endl;
-
-    // Print the separator
-    cout << string(idWidth, '-') << "-+-";
-    cout << string(nameWidth, '-') << "-+-";
-    cout << string(typeWidth, '-') << "-+-";
-    cout << string(ownerWidth, '-') << "-+-";
-    cout << string(descriptionWidth, '-') << "-+-";
-    cout << string(dueDateWidth, '-') << "-+-";
-    cout << string(completionWidth, '-') << "-+-";
-    cout << string(weightWidth, '-') << "-" << endl;
-
-    // Print the table rows
-    for (Task task : taskList) {
-        cout << setw(idWidth) << task.getTaskId() << " | ";
-        cout << setw(nameWidth) << task.getTaskName() << " | ";
-        cout << setw(typeWidth) << task.getTypeName() << " | ";
-        cout << setw(ownerWidth) << task.getTaskOwner() << " | ";
-        cout << setw(descriptionWidth) << task.getTaskDescription() << " | ";
-        cout << setw(dueDateWidth) << task.getDueDate() << " | ";
-        cout << setw(completionWidth) << (task.getCompletionStatus() ? "Yes" : "No") << " | ";
-        cout << setw(weightWidth) << task.getWeight() << endl;
-    }
-}
 

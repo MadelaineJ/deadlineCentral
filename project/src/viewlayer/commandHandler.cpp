@@ -19,7 +19,6 @@ void CommandHandler::manageMain() {
         {
             manageLogin();
         }
-     //   printf("\033[2J\033[H");
         mainMenu();
         input = getUserInput();
         switch (input) {
@@ -128,6 +127,8 @@ void CommandHandler::manageTask() {
         input = getUserInput();
         switch (input) {
             case 1:
+                printf("\033[2J\033[H");
+                handleViewAllTasks();
                 manageAllTasks();
                 break;
             case 2:
@@ -151,8 +152,6 @@ void CommandHandler::manageTask() {
 void CommandHandler::manageAllTasks() {
     int input;
     do {
-        printf("\033[2J\033[H");
-        handleViewAllTasks();
         viewAllTasksMenu();
         input = getUserInput();
         switch (input) {
@@ -197,7 +196,7 @@ void CommandHandler::manageChooseTaskType() {
     do {
         chooseTaskTypeMenu();
         input = getUserInput();
-        printf("\033[2J\033[H");
+ //       printf("\033[2J\033[H");
         switch (input) {
             case 1:
                 handleFilterByType(0);
@@ -243,6 +242,12 @@ void CommandHandler::manageSortTasks() {
                 handleSortByType();
                 break;
             case 4:
+                handleSortByOwner();
+                break;
+            case 5:
+                handleSortByDate();
+                break;
+            case 6:
                 return;
             default:
                 cout << "Invalid input\n";
@@ -405,7 +410,9 @@ void CommandHandler::sortTasksMenu() {
     cout << "1. Weight" << std::endl;
     cout << "2. Name" << std::endl;
     cout << "3. Type" << std::endl;
-    cout << "4. Task Menu" << std::endl;
+    cout << "4. Course" << std::endl;
+    cout << "5. Date" << std::endl;
+    cout << "6. Sort or Filter" << std::endl;
 }
 
 void CommandHandler::chooseTaskTypeMenu() {

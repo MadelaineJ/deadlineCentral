@@ -9,3 +9,10 @@ Using Deadline Central:
 Trouble-shooting:
 
 List of known issues:
+
+Sorting Tasks:
+	- filtering tasks by course is very slow (can take up to 1 minute)
+	- potential fix would be to store more data in the system instead of in the database (caching)
+
+Additions
+	- be able to clear filters

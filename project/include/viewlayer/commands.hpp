@@ -24,6 +24,8 @@ void handleSortTasks();
 void handleSortByWeight();
 void handleSortByName();
 void handleSortByType();
+void handleSortByDate();
+void handleSortByOwner();
 
 void handleFilterTasks();
 void handleFilterByType(int type);
@@ -47,3 +49,4 @@ void handleViewConsolidatedDeadlines();
 // helper functions
 
 void printTaskList(const list<Task>& taskList);
+string getCourseOwnerName(int owner, int type);
