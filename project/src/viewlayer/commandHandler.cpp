@@ -128,7 +128,7 @@ void CommandHandler::manageTask() {
         input = getUserInput();
         switch (input) {
             case 1:
-                handleViewAllTasks();
+                manageAllTasks();
                 break;
             case 2:
                 handleEditTask();
@@ -144,6 +144,112 @@ void CommandHandler::manageTask() {
             default:
                 cout << "Invalid input\n";
                 manageTask();
+                break;
+        }
+    } while(1);
+}
+void CommandHandler::manageAllTasks() {
+    int input;
+    do {
+        printf("\033[2J\033[H");
+        handleViewAllTasks();
+        viewAllTasksMenu();
+        input = getUserInput();
+        switch (input) {
+            case 1:
+                manageSortTasks();
+                break;
+            case 2:
+                manageFilterTasks();
+                break;
+            case 3:
+                return;
+            default:
+                cout << "Invalid input\n";
+                break;
+        }
+    } while(1);
+}
+
+void CommandHandler::manageFilterTasks() {
+    int input;
+    do {
+//        printf("\033[2J\033[H");
+//        handleViewAllTasks();
+        filterTasksMenu();
+        input = getUserInput();
+        switch (input) {
+            case 1:
+                handleFilterByCourse();
+                break;
+            case 2:
+                manageChooseTaskType();
+                break;
+            case 3:
+                return;
+            default:
+                cout << "Invalid input\n";
+                break;
+        }
+    } while(1);
+}
+
+void CommandHandler::manageChooseTaskType() {
+    int input;
+    do {
+        printf("\033[2J\033[H");
+        chooseTaskTypeMenu();
+        input = getUserInput();
+        switch (input) {
+            case 1:
+                handleFilterByType(0);
+                return;
+            case 2:
+                handleFilterByType(1);
+                return;
+            case 3:
+                handleFilterByType(2);
+                return;
+            case 4:
+                handleFilterByType(3);
+                return;
+            case 5:
+                handleFilterByType(4);
+                return;
+            case 6:
+                handleFilterByType(5);
+                return;
+            case 7:
+                handleFilterByType(6);
+                return;
+            default:
+                cout << "Invalid input\n";
+                break;
+        }
+    } while(1);
+}
+
+void CommandHandler::manageSortTasks() {
+    int input;
+    do {
+        printf("\033[2J\033[H");
+   //     handleViewAllTasks();
+        sortTasksMenu();
+        input = getUserInput();
+        switch (input) {
+            case 1:
+                handleSortByWeight();
+                break;
+            case 2:
+                handleSortByName();
+                break;
+            case 3:
+                handleSortByType();
+                break;
+            case 4:
+                return;
+            default:
+                cout << "Invalid input\n";
                 break;
         }
     } while(1);
@@ -227,7 +333,6 @@ void CommandHandler::manageCourse() {
     } while(1);
 }
 
-
 int CommandHandler::getUserInput() {
     int input;
     std::cout << ">>> ";
@@ -271,9 +376,10 @@ void CommandHandler::userTypeMenu() {
     cout << "Are you an Instructor or Student?" << std::endl;
     cout << "1. Student" << std::endl;
     cout << "2. Instructor" << std::endl;
-    cout << "3. Main Menu" << std::endl;
+    cout << "3. Task Menu" << std::endl;
 }
 
+// Task Related
 void CommandHandler::taskMenu() {
     cout << "===== TASK MENU =====" << std::endl;
     cout << "1. View All Tasks" << std::endl;
@@ -281,6 +387,40 @@ void CommandHandler::taskMenu() {
     cout << "3. Delete a Task" << std::endl;
     cout << "4. Create a Task" << std::endl;
     cout << "5. Main Menu" << std::endl;
+}
+
+void CommandHandler::viewAllTasksMenu() {
+    cout << "===== SORT OR FILTER TASKS =====" << std::endl;
+    cout << "1. Sort" << std::endl;
+    cout << "2. Filter" << std::endl;
+    cout << "3. SORT OR FILTER" << std::endl;
+}
+
+void CommandHandler::filterTasksMenu() {
+    cout << "===== FILTER BY =====" << std::endl;
+    cout << "1. Course" << std::endl;
+    cout << "2. Type" << std::endl;
+    cout << "3. SORT OR FILTER" << std::endl;
+    
+}
+
+void CommandHandler::sortTasksMenu() {
+    cout << "===== SORT BY =====" << std::endl;
+    cout << "1. Weight" << std::endl;
+    cout << "2. Name" << std::endl;
+    cout << "3. Type" << std::endl;
+    cout << "4. Task Menu" << std::endl;
+}
+
+void CommandHandler::chooseTaskTypeMenu() {
+    cout << "===== CHOOSE TASK TYPE =====" << std::endl;
+    cout << "1. Participation" << std::endl;
+    cout << "2. Assignment" << std::endl;
+    cout << "3. Project" << std::endl;
+    cout << "4. Quiz" << std::endl;
+    cout << "5. Test" << std::endl;
+    cout << "6. Exam" << std::endl;
+    cout << "7. Personal" << std::endl;
 }
 
 void CommandHandler::courseMenu() {

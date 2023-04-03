@@ -23,7 +23,7 @@ class SubscriptionController
 
         void removeSubscription();
 
-        list<Course> viewCurrentSubscriptions();
+        vector<Course> viewCurrentSubscriptions();
 
         void viewAvailableSubscriptions();
     

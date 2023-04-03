@@ -3,7 +3,7 @@
 #include <list>
 #include <algorithm>
 #include <string>
-#include "task.hpp" // Assuming you have a Task class header
+#include "task.hpp"
 // custom header files
 #include "commands.hpp"
 #include "userController.hpp"
@@ -117,6 +117,59 @@ void handleCreateTask(){
     
     //cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
+//int typeFilter, int courseFilter, int completedFilter, int daysPriorFilter, int daysFutureFilter
+// void handleSortTasks() {
+//     cout << "handling a task thing" << endl;
+// }
+void handleSortByWeight() {
+    cout << "handleSortByWeight" << endl;
+    
+}
+void handleSortByName() {
+    cout << "handleSortByName" << endl;
+}
+void handleSortByType() {
+    cout << "handleSortByType" << endl;
+}
+
+// void handleFilterTasks() {
+//     cout << "handling a task thing" << endl;
+// }
+void handleFilterByType(int type) {
+    cout << "handleFilterByType" << endl;
+
+    list<Task> filteredList = filterTaskController->filterTasksByType(type);
+    printTaskList(filteredList);
+}
+
+// TODO: add error checking to courseId input
+void handleFilterByCourse() {
+    cout << "handleFilterByCourse" << endl;
+    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
+    cout << "==== Choose Course ====" << endl;
+    for (int i = 0; i < courseList.size(); i++) {
+        cout << i << ". " << courseList[i].getCourseName() << endl;
+    }
+    cout << ">>> ";
+    int courseId;
+    cin >> courseId;
+    
+    
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    // TODO: print all courses the user is subscribed to and have them pick in a menu
+    // OR
+    // TODO: check to see if the course exists first
+    
+    list<Task> filteredList = filterTaskController->filterTasksByCourse(courseList[courseId].getCourseId());
+    printTaskList(filteredList);
+}
+
+void handleViewAllTasks() {
+    cout << "handling handleViewAllTasks()" << endl;
+    list<Task> filteredList = filterTaskController->viewAllUserTasks();
+    printTaskList(filteredList);
+}
 
 void handleDeleteTask(){
 
@@ -168,13 +221,6 @@ void handleEditTask(){
 
     
     //cin.ignore(numeric_limits<streamsize>::max(), '\n');
-}
-
-void handleViewAllTasks() {
-    cout << "handling handleViewAllTasks()" << endl;
-    list<Task> filteredList = filterTaskController->filterTasks();
-    printTaskList(filteredList);
-
 }
 
 // course commands

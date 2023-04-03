@@ -19,8 +19,15 @@ void handleEditTask();
 
 void handleViewAllTasks();
 void handleViewTask();
+
 void handleSortTasks();
-void handleviewAllTasks();
+void handleSortByWeight();
+void handleSortByName();
+void handleSortByType();
+
+void handleFilterTasks();
+void handleFilterByType(int type);
+void handleFilterByCourse();
 
 // Course
 void handleCreateCourse();

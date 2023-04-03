@@ -39,9 +39,10 @@ void SubscriptionController::removeSubscription() {
 }
 
 // viewCurrentSubscriptions
-list<Course> SubscriptionController::viewCurrentSubscriptions() {
-
-    return this->subscriptionDB->getCourseSubscriptions(this->userController->getCurrentUser());
+vector<Course> SubscriptionController::viewCurrentSubscriptions() {
+    list<Course> courseList = this->subscriptionDB->getCourseSubscriptions(this->userController->getCurrentUser());
+    std::vector<Course> courseVector(courseList.begin(), courseList.end()); 
+    return courseVector;
 }
 
 // viewAvailableSubscriptions

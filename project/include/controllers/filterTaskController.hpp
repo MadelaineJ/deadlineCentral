@@ -3,8 +3,12 @@
 
 // Required Libraries
 #include <list>
+
+// Custom header files
 #include "task.hpp"
 #include "taskDb.hpp"
+#include "userController.hpp"
+#include "subscriptionController.hpp"
 
 using namespace std;
 
@@ -15,7 +19,11 @@ class FilterTaskController
         ~FilterTaskController();
 
         // TODO: add params ; return type?
-        list<Task> filterTasks();
+        list<Task> viewAllUserTasks();
+        list<Task> filterTasksByCourse(int courseId);
+        list<Task> filterTasksByType(int type);
+        list<Task> filterTasksDate(int daysFuture);
+        list<Task> filterTasksByDone(int done);
 
     private:
         FilterTaskController(); // private to prevent direct instantiation
@@ -23,6 +31,8 @@ class FilterTaskController
 
         list<Task> taskList;
         TaskDB *taskDb = TaskDB::getInstance();
+        UserController *userController = UserController::getInstance();
+        SubscriptionController *subscriptionController = SubscriptionController::getInstance();
 
 };
 

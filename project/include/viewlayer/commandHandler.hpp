@@ -29,14 +29,23 @@ class CommandHandler
         void loginMenu();
         void userTypeMenu();
         void addTaskMenu();
+        void viewAllTasksMenu();
+        void filterTasksMenu();
+        void sortTasksMenu();
+        void chooseTaskTypeMenu();
+        
 
         // menu input handlers
         void manageMain();
         void manageAccount();
+        void manageCreateAccount();
         void manageTask();
         void manageCourse();
         void manageLogin();
-        void manageCreateAccount();
+        void manageAllTasks();
+        void manageFilterTasks();
+        void manageSortTasks();
+        void manageChooseTaskType();
 
         //handle commands
         //void handleCreateCourse();
