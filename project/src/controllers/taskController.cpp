@@ -7,6 +7,9 @@
 
 // Custom header files
 #include "taskController.hpp"
+#include "userController.hpp"
+#include "taskDb.hpp"
+#include "task.hpp"
 
 using namespace std;
 
@@ -27,13 +30,12 @@ TaskController::TaskController(){}
 TaskController::~TaskController() { }
 
 // createTask
-void TaskController::createTask() {
-	
+void TaskController::createTask(string name, string description, string dueDate, float weight) {
+    Task task(-1, name, -1, this->userController->getCurrentUser(), description, dueDate, false, weight);
+    this->taskDb->createTask(task);
 }
-
 // addTask
 void TaskController::addTask() {
-    
 }
 
 // editTask

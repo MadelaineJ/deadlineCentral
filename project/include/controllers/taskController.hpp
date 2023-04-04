@@ -10,7 +10,7 @@
 
 // custom header files
 #include "taskDb.hpp"
-
+#include "userController.hpp"
 
 
 using namespace std;
@@ -22,7 +22,7 @@ class TaskController
         static TaskController* getInstance(); // gets the single instance of this class
         ~TaskController();
         
-        void createTask();
+        void createTask(string name, string description, string dueDate, float weight);
 
         void addTask();
 
@@ -35,6 +35,7 @@ class TaskController
         TaskController(); // private to prevent direct instantiation
         static TaskController* instance; // Pointer to the single instance of TaskController
         TaskDB *taskDb = TaskDB::getInstance();
+        UserController *userController = UserController::getInstance();
 };
 
 #endif

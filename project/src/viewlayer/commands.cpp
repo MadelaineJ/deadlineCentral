@@ -88,40 +88,30 @@ void handleLogin(){
     }
 }
 
-
 // task commands
+
+// TODO: enable creating a course task if you're a professor somehow
 void handleCreateTask(){
+    // personal task only
     string name, description, dueDate;
     double weight;
-    int type;
 
     
     cout << "Enter the task name: ";
     getline(cin, name);
     cout << "Enter the task description: ";
     getline(cin, description);
-    cout << "Enter the task due date (YYYY-MM-DD): ";
+    cout << "Enter the task due date (MM/DD/YYYY): ";
     getline(cin, dueDate);
     cout << "Enter the task weight (as a decimal): ";
     cin >> weight;
-    cout << "Enter the task type (0 = Participation 1 = Assignment, 2 = Project, 3 = Quiz, 4 = MidTerm 5 = FinalExam 10 = Personal): ";//double check
-    cin >> type;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    /*
-    if (taskController->createTask(name, description, dueDate, weight, type)) {
-        cout << "Task created successfully!" << endl;
-    }
-    else {
-        cout << "Error creating task. Please try again." << endl;
-    }*/
-
-    
-    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+ //   cout << "Enter the task type (0 = Participation 1 = Assignment, 2 = Project, 3 = Quiz, 4 = MidTerm 5 = FinalExam 10 = Personal): "; //double check
+   // cin >> type;
+    taskController->createTask(name, description, dueDate, weight);
 }
-//int typeFilter, int courseFilter, int completedFilter, int daysPriorFilter, int daysFutureFilter
-// void handleSortTasks() {
-//     cout << "handling a task thing" << endl;
-// }
+
 void handleSortByWeight() {
     cout << "handleSortByWeight" << endl;
     filterTaskController->sortTasksByWeight();
@@ -190,6 +180,8 @@ void handleViewAllTasks() {
     filterTaskController->printTaskList();
 }
 
+
+// TODO -> this should list all the tasks
 void handleDeleteTask(){
 
     int taskId;

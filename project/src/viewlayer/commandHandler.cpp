@@ -120,9 +120,7 @@ void CommandHandler::manageAccount() {
 
 void CommandHandler::manageTask() {
     int input;
-    bool notDone = false;
     do {
-        notDone = false;
         taskMenu();
         input = getUserInput();
         switch (input) {
@@ -172,6 +170,7 @@ void CommandHandler::manageAllTasks() {
 
 void CommandHandler::manageFilterTasks() {
     int input;
+    int type = -1;
     do {
         filterTasksMenu();
         input = getUserInput();
@@ -180,7 +179,8 @@ void CommandHandler::manageFilterTasks() {
                 handleFilterByCourse();
                 break;
             case 2:
-                manageChooseTaskType();
+                type = manageChooseTaskType();
+                handleFilterByType(type);
                 break;
             case 3:
                 return;
@@ -191,7 +191,7 @@ void CommandHandler::manageFilterTasks() {
     } while(1);
 }
 
-void CommandHandler::manageChooseTaskType() {
+int CommandHandler::manageChooseTaskType() {
     int input;
     do {
         chooseTaskTypeMenu();
@@ -199,26 +199,19 @@ void CommandHandler::manageChooseTaskType() {
  //       printf("\033[2J\033[H");
         switch (input) {
             case 1:
-                handleFilterByType(0);
-                return;
+                return 0;
             case 2:
-                handleFilterByType(1);
-                return;
+                return 1;
             case 3:
-                handleFilterByType(2);
-                return;
+                return 2;
             case 4:
-                handleFilterByType(3);
-                return;
+                return 3;
             case 5:
-                handleFilterByType(4);
-                return;
+                return 4;
             case 6:
-                handleFilterByType(5);
-                return;
+                return 5;
             case 7:
-                handleFilterByType(6);
-                return;
+                return 10;
             default:
                 cout << "Invalid input\n";
                 break;

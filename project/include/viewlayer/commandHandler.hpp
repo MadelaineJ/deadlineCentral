@@ -45,7 +45,7 @@ class CommandHandler
         void manageAllTasks();
         void manageFilterTasks();
         void manageSortTasks();
-        void manageChooseTaskType();
+        int manageChooseTaskType();
 
         //handle commands
         //void handleCreateCourse();

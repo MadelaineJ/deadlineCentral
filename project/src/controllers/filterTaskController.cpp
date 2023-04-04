@@ -201,7 +201,7 @@ bool FilterTaskController::compareTaskByWeight(Task task1, Task task2) {
 
 void FilterTaskController::printTaskList() {
     printf("\033[2J\033[H");
-    int idWidth = 2;
+    int idWidth = 4;
     int nameWidth = 25;
     int typeWidth = 13;
     int ownerWidth = 43;
@@ -261,7 +261,7 @@ void FilterTaskController::printTaskList() {
     if (type >= 10) {
         return this->userController->getUserInfo(owner, "").getName();
     } else {
-        return this->courseController->getCourseInfo(owner).getCourseName();
+        return "PERSONAL TASK";
     }
 }
 
