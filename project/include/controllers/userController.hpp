@@ -15,6 +15,8 @@ class UserController
     public:
         static UserController* getInstance(); // gets the single instance of this class
         ~UserController();
+
+        string generate_hash(const std::string& password);
         
         void createStudent(string name, string email, string passwordOriginal);
 

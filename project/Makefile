@@ -37,6 +37,8 @@ LFLAGS = -L $(ORACLE_HOME) -locci -lclntsh
 AUTH = -D_GLIBCXX_USE_CXX11_ABI=0
 TFLAG = -lboost_unit_test_framework -Wl,--no-as-needed -lboost_system
 VFLAGS = -lSDL2 -lSDL2_image -lSDL2_ttf
+CRYPTO = -L /usr/include/openss -lcrypto
+
 
 # If you want to add an new file to deadline central, add the .o to ${BINARY}/deadlineCentral: , run: , and the .hpp to ${BUILDS}/main.o:
 # Add it as a dependency for all 3 and in the compilation command for ${BINARY}/deadlineCentral. Follow the pre-established pattern
@@ -82,38 +84,38 @@ ${BUILDS}/student.o ${BUILDS}/task.o
 	${BUILDS}/taskController.o ${BUILDS}/userController.o ${BUILDS}/course.o ${BUILDS}/instructor.o \
 	${BUILDS}/user.o ${BUILDS}/student.o ${BUILDS}/task.o \
 	${BUILDS}/commands.o \
-	$(LFLAGS) $(CFLAGS) $(VFLAGS)
+	$(LFLAGS) $(CFLAGS) $(CRYPTO) $(VFLAGS)
 
 
 # Data Layer
 ${BUILDS}/controllerDb.o: ${SOURCE}/${DATALAYER}/controllerDb.cpp ${INCLUDE}/${DATALAYER}/controllerDb.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${OFLAG} ${BUILDS}/controllerDb.o \
 	${SOURCE}/${DATALAYER}/controllerDb.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/taskDb.o: ${SOURCE}/${DATALAYER}/taskDb.cpp ${INCLUDE}/${DATALAYER}/taskDb.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/taskDb.o \
 	${SOURCE}/${DATALAYER}/taskDb.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/userDb.o: ${SOURCE}/${DATALAYER}/userDb.cpp ${INCLUDE}/${DATALAYER}/userDb.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/userDb.o \
 	${SOURCE}/${DATALAYER}/userDb.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/courseDb.o: ${SOURCE}/${DATALAYER}/courseDb.cpp ${INCLUDE}/${DATALAYER}/courseDb.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/courseDb.o \
 	${SOURCE}/${DATALAYER}/courseDb.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/subscriptionDb.o: ${SOURCE}/${DATALAYER}/subscriptionDb.cpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/subscriptionDb.o \
 	${SOURCE}/${DATALAYER}/subscriptionDb.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 # View layer compilation
 ${BUILDS}/commandHandler.o: ${SOURCE}/${VIEW}/commandHandler.cpp ${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${VIEW}/commands.hpp
@@ -121,14 +123,14 @@ ${BUILDS}/commandHandler.o: ${SOURCE}/${VIEW}/commandHandler.cpp ${INCLUDE}/${VI
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${SOURCE}/${VIEW}/commandHandler.cpp \
 	${OFLAG} ${BUILDS}/commandHandler.o \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/commands.o: ${SOURCE}/${VIEW}/commands.cpp ${INCLUDE}/${VIEW}/commands.hpp ${INCLUDE}/${VIEW}/commands.hpp
 	${CC} ${CFLAG} $(AUTH) ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${SOURCE}/${VIEW}/commands.cpp \
 	${OFLAG} ${BUILDS}/commands.o \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 # Controllers compilation
 
@@ -137,34 +139,34 @@ ${BUILDS}/courseController.o: ${SOURCE}/${CONTROL}/courseController.cpp ${INCLUD
 	 ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/courseController.o \
 	${SOURCE}/${CONTROL}/courseController.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/filterTaskController.o: ${SOURCE}/${CONTROL}/filterTaskController.cpp ${INCLUDE}/${CONTROL}/filterTaskController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER} \
 	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/filterTaskController.o \
 	${SOURCE}/${CONTROL}/filterTaskController.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/subscriptionController.o: ${SOURCE}/${CONTROL}/subscriptionController.cpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER}  \
 	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/subscriptionController.o \
 	${SOURCE}/${CONTROL}/subscriptionController.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/taskController.o: ${SOURCE}/${CONTROL}/taskController.cpp ${INCLUDE}/${CONTROL}/taskController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER}  \
 	${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/taskController.o \
 	${SOURCE}/${CONTROL}/taskController.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/userController.o: ${SOURCE}/${CONTROL}/userController.cpp ${INCLUDE}/${CONTROL}/userController.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${MODEL} \
 	${OFLAG} ${BUILDS}/userController.o \
 	${SOURCE}/${CONTROL}/userController.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 # Models compilation
 ${BUILDS}/course.o: ${SOURCE}/${MODEL}/course.cpp ${INCLUDE}/${MODEL}/course.hpp
@@ -199,7 +201,7 @@ ${INCLUDE}/${MODEL}/user.hpp
 	${CC} ${CFLAG} $(AUTH) ${WFLAG} ${IFLAG} ${INCLUDE}/${DATALAYER} ${IFLAG} ${INCLUDE}/${VIEW} \
 	${IFLAG} ${INCLUDE}/${MODEL} ${IFLAG} ${INCLUDE}/${CONTROL} ${IFLAG} ${INCLUDE} \
 	${OFLAG} ${BUILDS}/main.o ${SOURCE}/main.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 # TESTING
 # note, To add a testing file simply duplicated this line for the "${TESTS}/${BINARY}/deadlineCentralTest:" target
@@ -228,7 +230,7 @@ ${INCLUDE}/${MODEL}/user.hpp
     ${TESTS}/${SOURCE}/${DATALAYER}/userDbTest.cpp ${SOURCE}/${DATALAYER}/userDb.cpp ${SOURCE}/${MODEL}/user.cpp ${SOURCE}/${MODEL}/student.cpp ${SOURCE}/${MODEL}/instructor.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/subscriptionDbTest.cpp ${SOURCE}/${DATALAYER}/subscriptionDb.cpp \
 	${TESTS}/${SOURCE}/main.cpp \
-	$(CFLAGS) $(LFLAGS)
+	$(CFLAGS) $(CRYPTO) $(LFLAGS)
 
 .PHONY: directories clean
 
@@ -247,10 +249,10 @@ directories:
 # example database exe
 ${BINARY}/exampleProg: ${BUILDS}/databaseTest.o
 	${CC} ${WFLAG} ${OFLAG} ${BINARY}/exampleProg ${BUILDS}/databaseTest.o \
-	$(LFLAGS) $(CFLAGS)
+	$(LFLAGS) $(CFLAGS) $(CRYPTO)
 
 ${BUILDS}/databaseTest.o: ${SOURCE}/databaseTest.cpp ${INCLUDE}/databaseTest.hpp
 	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${BUILDS}/databaseTest.o ${SOURCE}/databaseTest.cpp \
-	$(CFLAGS)
+	$(CFLAGS) $(CRYPTO)
 
 
