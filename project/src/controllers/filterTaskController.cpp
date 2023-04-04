@@ -210,18 +210,18 @@ void FilterTaskController::printTaskList() {
     int completionWidth = 9;
     int weightWidth = 8;
 
-    // Todo: decide if this chunk of code is worth the speed loss
-    // Calculate the maximum width of each column
-    // for (Task task : taskList) {
-    //     idWidth = max(idWidth, (int)to_string(task.getTaskId()).length());
-    //     nameWidth = max(nameWidth, (int)task.getTaskName().length());
-    //     typeWidth = max(typeWidth, (int)task.getTypeName().length());
-    //     ownerWidth = max(ownerWidth, (int)getCourseOwnerName(task.getTaskOwner(), task.getTaskType()).length());
-    //     descriptionWidth = max(descriptionWidth, (int)task.getTaskDescription().length());
-    //     dueDateWidth = max(dueDateWidth, (int)task.getDueDate().length());
-    //     completionWidth = max(completionWidth, (int)to_string(task.getCompletionStatus()).length());
-    //     weightWidth = max(weightWidth, (int)to_string(task.getWeight()).length());
-    // }
+//Todo: decide if this chunk of code is worth the speed loss
+  //  Calculate the maximum width of each column
+    for (Task task : taskList) {
+        idWidth = max(idWidth, (int)to_string(task.getTaskId()).length());
+        nameWidth = max(nameWidth, (int)task.getTaskName().length());
+        typeWidth = max(typeWidth, (int)task.getTypeName().length());
+        ownerWidth = max(ownerWidth, (int)getCourseOwnerName(task.getTaskOwner(), task.getTaskType()).length());
+        descriptionWidth = max(descriptionWidth, (int)task.getTaskDescription().length());
+        dueDateWidth = max(dueDateWidth, (int)task.getDueDate().length());
+        completionWidth = max(completionWidth, (int)to_string(task.getCompletionStatus()).length());
+        weightWidth = max(weightWidth, (int)to_string(task.getWeight()).length());
+    }
 
     // Print the table headers
     cout << setw(idWidth) << "ID" << " | ";
@@ -243,6 +243,10 @@ void FilterTaskController::printTaskList() {
     cout << string(completionWidth, '-') << "-+-";
     cout << string(weightWidth, '-') << "-" << endl;
 
+
+    if (this->taskList.size() <= 0) {
+        cout << endl << setw(idWidth+nameWidth+typeWidth) << "You Have No Tasks Based on These Filters" << endl;
+    }
     // Print the table rows
     for (Task task : this->taskList) {
         cout << setw(idWidth) << task.getTaskId() << " | ";

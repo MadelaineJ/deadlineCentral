@@ -183,6 +183,18 @@ void CommandHandler::manageFilterTasks() {
                 handleFilterByType(type);
                 break;
             case 3:
+                filterTasksByOneWeek();
+                break;
+            case 4:
+                filterTasksByOneMonth();
+                break;
+            case 5:
+                filterTasksByFuture();
+                break;
+            case 6:
+                handleViewAllTasks();
+                break;
+            case 7:
                 return;
             default:
                 cout << "Invalid input\n";
@@ -394,7 +406,11 @@ void CommandHandler::filterTasksMenu() {
     cout << "===== FILTER BY =====" << std::endl;
     cout << "1. Course" << std::endl;
     cout << "2. Type" << std::endl;
-    cout << "3. Sort or Filter" << std::endl;
+    cout << "3. Due This Week" << std::endl;
+    cout << "4. Due This Month" << std::endl;
+    cout << "5. Future Tasks" << std::endl;
+    cout << "6. Clear Filters" << std::endl;
+    cout << "7. BACK" << std::endl;
     
 }
 
@@ -405,7 +421,7 @@ void CommandHandler::sortTasksMenu() {
     cout << "3. Type" << std::endl;
     cout << "4. Course" << std::endl;
     cout << "5. Date" << std::endl;
-    cout << "6. Sort or Filter" << std::endl;
+    cout << "6. BACK" << std::endl;
 }
 
 void CommandHandler::chooseTaskTypeMenu() {

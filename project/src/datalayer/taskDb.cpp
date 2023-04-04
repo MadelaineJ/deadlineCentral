@@ -189,7 +189,7 @@ list<Task> TaskDB::getFilteredTasks(int typeFilter, int courseFilter, int comple
     stringstream queryBuilder;
     queryBuilder << "SELECT * FROM ( "
                 << "SELECT taskID, type, name, description, "
-                << "TO_CHAR(dueDate, 'MM/DD/YYYY'), "
+                << "TO_CHAR(dueDate, 'MM/DD/YYYY'), dueDate, "
                 << "weight, isComplete, courseID, studentID, instructorID "
                 << "FROM Tasks "
                 << "WHERE courseID IN ( "
@@ -244,6 +244,10 @@ list<Task> TaskDB::getFilteredTasks(int typeFilter, int courseFilter, int comple
     stmt->setInt(1, userID);
     stmt->setInt(2, userID);
 
+    // SELECT * FROM ( SELECT taskID, type, name, description, TO_CHAR(dueDate, 'MM/DD/YYYY'), dueDate, weight, isComplete, courseID, studentID, instructorID FROM Tasks WHERE courseID IN ( SELECT courseID FROM StudentCourses WHERE studentID = 101 ) 
+    // OR studentID = 101) WHERE dueDate BETWEEN (SYSDATE - 1) AND (SYSDATE + 7)
+
+
     // get results
     ResultSet *rs = stmt->executeQuery();
     
@@ -255,12 +259,12 @@ list<Task> TaskDB::getFilteredTasks(int typeFilter, int courseFilter, int comple
         task.setTaskName(rs->getString(3));
         task.setTaskDescription(rs->getString(4));
         task.setDueDate(rs->getString(5));
-        task.setWeight(rs->getFloat(6));
-        task.setCompletionStatus(rs->getInt(7) != 0);
+        task.setWeight(rs->getFloat(7));
+        task.setCompletionStatus(rs->getInt(8) != 0);
 
-        int courseID = rs->getInt(8);
-        int studentID = rs->getInt(9);
-        int instructorID = rs->getInt(10);
+        int courseID = rs->getInt(9);
+        int studentID = rs->getInt(10);
+        int instructorID = rs->getInt(11);
 
         if (courseID != 0) {
             task.setTaskOwner(courseID);

@@ -138,9 +138,6 @@ void handleSortByOwner() {
     filterTaskController->printTaskList();
 }
 
-// void handleFilterTasks() {
-//     cout << "handling a task thing" << endl;
-// }
 void handleFilterByType(int type) {
     cout << "handleFilterByType" << endl;
     filterTaskController->filterTasksByType(type);
@@ -171,6 +168,21 @@ void handleFilterByCourse() {
     filterTaskController->filterTasksByCourse(courseList[courseId-1].getCourseId());
     filterTaskController->printTaskList();
    // printf("\033[2J\033[H");
+}
+
+void filterTasksByOneWeek() {
+    filterTaskController->filterTasksByDate(7);
+    filterTaskController->printTaskList();
+}
+
+void filterTasksByFuture() {
+    filterTaskController->filterTasksByDate(9999);
+    filterTaskController->printTaskList();
+}
+
+void filterTasksByOneMonth() {
+    filterTaskController->filterTasksByDate(30);
+    filterTaskController->printTaskList();
 }
 
 void handleViewAllTasks() {

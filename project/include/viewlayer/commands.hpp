@@ -30,6 +30,9 @@ void handleSortByOwner();
 void handleFilterTasks();
 void handleFilterByType(int type);
 void handleFilterByCourse();
+void filterTasksByOneWeek();
+void filterTasksByFuture();
+void filterTasksByOneMonth();
 
 // Course
 void handleCreateCourse();
