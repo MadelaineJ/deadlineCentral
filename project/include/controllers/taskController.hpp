@@ -22,13 +22,13 @@ class TaskController
         static TaskController* getInstance(); // gets the single instance of this class
         ~TaskController();
         
-        void createTask(string name, string description, string dueDate, float weight);
+        void createUserTask(string name, string description, string dueDate, float weight);
 
         void addTask();
 
         void editTask();
 
-        void getTaskInfo();
+        Task getTaskInfo(int id);
         void getAllTasks();
 
     private:

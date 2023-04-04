@@ -26,7 +26,7 @@ int TaskDB::createTask(Task task){
     // determine who owns the task to add id into correct column in DB
     if(task.getTaskId() < 1000){
         ownerColumn = "studentID";
-    } else if(task.getTaskType() >= 10) {
+    } else if(task.getTaskType() <= 10) {
         ownerColumn = "instructorID";
     } else {
         ownerColumn = "courseID";

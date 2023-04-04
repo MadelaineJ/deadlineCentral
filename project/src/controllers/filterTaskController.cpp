@@ -259,9 +259,9 @@ void FilterTaskController::printTaskList() {
 // TODO: improve the speed of this function
     string FilterTaskController::getCourseOwnerName(int owner, int type) {
     if (type >= 10) {
-        return this->userController->getUserInfo(owner, "").getName();
-    } else {
         return "PERSONAL TASK";
+    } else {
+        return this->courseController->getCourseInfo(owner).getCourseName();
     }
 }
 

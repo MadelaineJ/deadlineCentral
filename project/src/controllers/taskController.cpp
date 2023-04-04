@@ -30,8 +30,8 @@ TaskController::TaskController(){}
 TaskController::~TaskController() { }
 
 // createTask
-void TaskController::createTask(string name, string description, string dueDate, float weight) {
-    Task task(-1, name, -1, this->userController->getCurrentUser(), description, dueDate, false, weight);
+void TaskController::createUserTask(string name, string description, string dueDate, float weight) {
+    Task task(-1, name, 10, this->userController->getCurrentUser(), description, dueDate, false, weight);
     this->taskDb->createTask(task);
 }
 // addTask
@@ -44,6 +44,6 @@ void TaskController::editTask() {
 }
 
 // getTaskInfo
-void TaskController::getTaskInfo() {
-
+Task TaskController::getTaskInfo(int id) {
+    return this->taskDb->getTaskInfo(id);
 }

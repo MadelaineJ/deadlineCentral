@@ -95,7 +95,6 @@ void handleCreateTask(){
     // personal task only
     string name, description, dueDate;
     double weight;
-
     
     cout << "Enter the task name: ";
     getline(cin, name);
@@ -109,7 +108,7 @@ void handleCreateTask(){
 
  //   cout << "Enter the task type (0 = Participation 1 = Assignment, 2 = Project, 3 = Quiz, 4 = MidTerm 5 = FinalExam 10 = Personal): "; //double check
    // cin >> type;
-    taskController->createTask(name, description, dueDate, weight);
+    taskController->createUserTask(name, description, dueDate, weight);
 }
 
 void handleSortByWeight() {
@@ -175,7 +174,6 @@ void handleFilterByCourse() {
 }
 
 void handleViewAllTasks() {
-    cout << "handling handleViewAllTasks()" << endl;
     filterTaskController->findAllUserTasks();
     filterTaskController->printTaskList();
 }
@@ -207,9 +205,12 @@ void handleEditTask(){
     double weight;
     int type;
 
-    
+    handleViewAllTasks();
     cout << "Enter the ID of the task to edit: ";
     cin >> taskId;
+    Task task = taskController->getTaskInfo(taskId);
+    // TODO: add check if task doesn't exist or if they enter a string
+    // TODO: should be that they can choose which values they want to edit
     cout << "Enter the new task name: ";
     cin.ignore();
     getline(cin, name);
