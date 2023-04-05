@@ -31,7 +31,7 @@ void handleViewAccount() {
     // TODO: it doesn't make sense to call userController twice here.
     // getUserInfo shouldn't have to take an ID
     User user = userController->getUserInfo(userController->getCurrentUser(), "");
-    cout << "The Current User is: "
+    cout << "The Current User is: ";
     user.printUserInfo();
 }
 void handleUpdateAccount() {
