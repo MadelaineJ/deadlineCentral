@@ -23,7 +23,7 @@ class TaskController
         ~TaskController();
         
         void createUserTask(string name, string description, string dueDate, float weight);
-
+        void createCourseTask(string name, int type, int course, string description, string dueDate, float weight);
         void addTask();
 
         void editTask();

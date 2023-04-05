@@ -93,9 +93,8 @@ void handleLogin(){
 
 // task commands
 
-// TODO: enable creating a course task if you're a professor somehow
+// Creates a personal Task
 void handleCreateTask(){
-    // personal task only
     string name, description, dueDate;
     double weight;
     
@@ -109,14 +108,34 @@ void handleCreateTask(){
     cin >> weight;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
- //   cout << "Enter the task type (0 = Participation 1 = Assignment, 2 = Project, 3 = Quiz, 4 = MidTerm 5 = FinalExam 10 = Personal): "; //double check
-   // cin >> type;
     taskController->createUserTask(name, description, dueDate, weight);
 }
 
 
 void handleCreateCourseTask() {
-    cout << "handlingCreateCourseTask" << endl;
+    
+    string name, description, dueDate;
+    double weight;
+    int type, courseId;
+    
+    cout << "Enter the task name: ";
+    getline(cin, name);
+    cout << "Enter the task description: ";
+    getline(cin, description);
+    cout << "Enter the task due date (MM/DD/YYYY): ";
+    getline(cin, dueDate);
+    cout << "Enter the task weight (as a decimal): ";
+    cin >> weight;
+            
+    cout << "Choose Task Type" << endl;
+    CommandHandler commandHandler;
+    type = commandHandler.manageChooseTaskType();
+    handleViewCourses();
+    cout << "Which course would you like to add the task to?" << endl;
+    cout << "Enter Course Id: ";
+    cin >> courseId;
+
+    taskController->createCourseTask(name, type, courseId, description, dueDate, weight);
 }
 
 void handleSortByWeight() {
@@ -270,7 +289,6 @@ void handleAddExistingTask() {
     
     Task task = taskController->getTaskInfo(taskId);
     task.printTaskInfo();
-
     
     if (task.getTaskType() >= 10) {
         CommandHandler commandHandler;
@@ -286,8 +304,6 @@ void handleAddExistingTask() {
 
     task.setTaskOwner(courseId);
     courseController->addTask(task);
-
-    
 }
 void handleCreateCourse(){
     string name, description, code;
@@ -432,19 +448,11 @@ void handleUnsubscribeCourse(){
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
     subscriptionController->removeSubscription(courseCode);
-    /*
-    if (subscriptionController->removeSubscription(courseCode)) {
-        cout << "Unsubscribed from course successfully!" << endl;
-    }
-    else {
-        cout << "Error unsubscribing from course. Please try again." << endl;
-    }    
-    */
-
 }
 
 
-
+// TODO: Display Description
+// TODO : implement viewing an individual course and showing description
 void printCourseList(vector<Course> courseList) {
     int idWidth = 4;
     int instructorWidth = 20;

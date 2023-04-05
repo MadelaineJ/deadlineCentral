@@ -34,6 +34,12 @@ void TaskController::createUserTask(string name, string description, string dueD
     Task task(-1, name, 10, this->userController->getCurrentUser(), description, dueDate, false, weight);
     this->taskDb->createTask(task);
 }
+
+// createTask
+void TaskController::createCourseTask(string name, int type, int course, string description, string dueDate, float weight) {
+    Task task(-1, name, type, course, description, dueDate, false, weight);
+    this->taskDb->createTask(task);
+}
 // addTask
 void TaskController::addTask() {
 }
