@@ -12,7 +12,7 @@
 #include "filterTaskController.hpp"
 #include "subscriptionController.hpp"
 #include "courseController.hpp"
- // required for choosing types
+#include "aggregateDeadline.hpp"
 
 // models
 #include "task.hpp"
@@ -454,6 +454,32 @@ void handleUnsubscribeCourse(){
 }
 
 
+void handleViewConsolidatedDeadlines() {
+    int courseId, taskId;
+    handleViewCourses();
+    cout << "For which COURSE would you like to see the conflicting deadlines?" << endl;
+    cout << "Enter CourseId: ";
+    cin >> courseId;
+
+    filterTaskController->filterTasksByCourse(courseId);
+    filterTaskController->printTaskList();
+    cout << "For which TASK would you like to see the conflicting deadlines?" << endl;
+    cout << "Enter TaskId: ";
+    cin >> taskId;
+
+
+
+    // TODO: add error checking for courseID
+    Task task = taskController->getTaskInfo(taskId);
+    string date = task.getDueDate();
+    list<AggregateDeadline> deadlines = courseController->aggregateDeadlines(courseId, date);
+    printAggregateDeadlines(deadlines);
+    cout << endl;
+
+}
+
+
+
 // TODO: Display Description
 // TODO : implement viewing an individual course and showing description
 void printCourseList(vector<Course> courseList) {
@@ -489,9 +515,64 @@ void printCourseList(vector<Course> courseList) {
     }
 }
 
+
+
+
+
+
 string getInstructorName(int id) {
     User instructor = userController->getUserInfo(id, "");
     return instructor.getName();
 }
 
+void printAggregateDeadlines(list<AggregateDeadline> deadlineList) {
+    int typeWidth = 14;
+    int dateWidth = 12;
+    int courseWidth = 30;
+    int studentsWidth = 18;
+
+    // Print the table headers
+    cout << setw(typeWidth) << "Type" << " | ";
+    cout << setw(dateWidth) << "Due Date" << " | ";
+    cout << setw(courseWidth) << "Course Name" << " | ";
+    cout << setw(studentsWidth) << "Affected Students" << endl;
+
+    // Print the separator
+    cout << string(typeWidth, '-') << "-+-";
+    cout << string(dateWidth, '-') << "-+-";
+    cout << string(courseWidth, '-') << "-+-";
+    cout << string(studentsWidth, '-') << endl;
+
+    // Print the table rows
+    if (deadlineList.size() <= 0) {
+        cout << endl << setw(typeWidth+dateWidth+courseWidth+studentsWidth) << "No Deadlines To Display" << endl;
+    } else {
+        for (AggregateDeadline deadline : deadlineList) {
+            cout << setw(typeWidth) << getTypeName(deadline.type) << " | ";
+            cout << setw(dateWidth) << deadline.dueDate << " | ";
+            cout << setw(courseWidth) << deadline.courseName << " | ";
+            cout << setw(studentsWidth) << deadline.affectedStudents << endl;
+        }
+    }
+}
+// Note, this function is duplicated in task.cpp but should be
+string getTypeName(int type) {
+    switch (type) {
+        case 0:
+            return "Participation";
+        case 1:
+            return "Assignment";
+        case 2:
+            return "Project";
+        case 3:
+            return "Quiz";
+        case 4:
+            return "Test";
+        case 5:
+            return "Exam";
+        default:
+            return "Personal";
+
+    }
+}
 

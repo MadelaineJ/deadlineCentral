@@ -33,7 +33,7 @@ class CourseController
 
         void removeTask(int tId, int cId);
 
-        void aggregateDeadlines(int cId);
+        list<AggregateDeadline> aggregateDeadlines(int courseId, string date);
 
         vector<Course> getInstructorCourses(int instructorId);
         vector<Course> getAvailableCourses();

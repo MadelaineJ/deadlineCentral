@@ -7,6 +7,7 @@
 
 // Custom header files
 #include "courseController.hpp"
+#include "aggregateDeadline.hpp"
 
 using namespace std;
 
@@ -94,13 +95,10 @@ void CourseController::removeTask(int taskId, int instId) {
 }
 
 // aggregateDeadlines
-void CourseController::aggregateDeadlines(int courseId) {
+list<AggregateDeadline> CourseController::aggregateDeadlines(int courseId, string date) {
 
-    /*
-    courseDb->aggregateDeadlines(courseId);
-    //return type TBD
-    //return someInt
-    */
+    return courseDb->aggregateDeadlines(courseId, date);
+
 }
 
 

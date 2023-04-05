@@ -3,6 +3,7 @@
 #include <vector>
 #include "task.hpp"
 #include "course.hpp"
+#include "aggregateDeadline.hpp"
 
 
 // Account
@@ -47,15 +48,14 @@ void handleAddExistingTask();
 void handleSubscribeCourse();
 void handleUnsubscribeCourse();
 
-void printCourseList(vector<Course> courseList);
-string getInstructorName(int id);
 
-
-// extra
 void handleViewConsolidatedDeadlines();
 
 
-// helper functions
-
+// display formating helper functions
+void printCourseList(vector<Course> courseList);
+string getInstructorName(int id);
 void printTaskList(const list<Task>& taskList);
 string getCourseOwnerName(int owner, int type);
+void printAggregateDeadlines(list<AggregateDeadline> deadlineList);
+string getTypeName(int type);

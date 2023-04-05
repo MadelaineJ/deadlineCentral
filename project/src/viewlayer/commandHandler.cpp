@@ -326,6 +326,9 @@ void CommandHandler::manageCourse() {
                         addTask();
                         break;
                     case 6:
+                        handleViewConsolidatedDeadlines();
+                        break;
+                    case 7:
                         return;
                     default:
                         cout << "Invalid input\n";
@@ -446,7 +449,8 @@ void CommandHandler::courseMenu() {
         cout << "3. View Courses" << std::endl;
         cout << "4. Remove Course" << std::endl;
         cout << "5. Add Task" << std::endl;
-        cout << "6. Main Menu" << std::endl;
+        cout << "6. View Conflicting Student Deadlines" << std::endl;
+        cout << "7. Main Menu" << std::endl;
     }
 }
 
