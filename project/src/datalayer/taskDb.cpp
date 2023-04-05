@@ -24,12 +24,12 @@ int TaskDB::createTask(Task task){
     string ownerColumn; // = courseID, studentID or instructorID
 
     // determine who owns the task to add id into correct column in DB
-    if(task.getTaskId() < 1000){
+    if(task.getTaskOwner() < 1000){ // then it's a student
         ownerColumn = "studentID";
-    } else if(task.getTaskType() <= 10) {
-        ownerColumn = "instructorID";
-    } else {
+    } else if(task.getTaskType() < 10) {
         ownerColumn = "courseID";
+    } else {
+        ownerColumn = "instructorID";
     }
     
     queryBuilder << "INSERT INTO "
@@ -279,3 +279,33 @@ list<Task> TaskDB::getFilteredTasks(int typeFilter, int courseFilter, int comple
     return filteredTasks;
 }
 
+// update the taskID from being an instructor to a courseId
+bool TaskDB::updateTaskOwner(Task task) {
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
+
+    stringstream queryBuilder;
+    queryBuilder << "UPDATE Tasks "
+                << "SET "
+                << "type = :1, "
+                << "instructorId = NULL,"
+                << "courseID = :2 "
+                << "WHERE taskID = :3 ";
+
+    string query = queryBuilder.str();
+    Statement* stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setInt(1, task.getTaskType());
+    stmt->setInt(2, task.getTaskOwner());
+    stmt->setInt(3, task.getTaskId());
+
+    int rowCount = stmt->executeUpdate(); // returns rows affected (should be 1)
+    cout << rowCount << endl;
+    // Commit the transaction or changes will revert after connection is closed
+    controllerDB->getConnection()->commit();
+
+    controllerDB->disconnect();
+
+    return rowCount;
+
+}

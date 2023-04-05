@@ -2,18 +2,21 @@
 #include <list>
 #include <algorithm>
 #include <string>
-#include "task.hpp"
+#include <iomanip>
 
 // custom header files
 #include "commands.hpp"
+#include "commandHandler.hpp"
 #include "userController.hpp"
 #include "taskController.hpp"
 #include "filterTaskController.hpp"
 #include "subscriptionController.hpp"
 #include "courseController.hpp"
+ // required for choosing types
 
 // models
 #include "task.hpp"
+#include "course.hpp"
 
 using namespace std;
 
@@ -111,6 +114,11 @@ void handleCreateTask(){
     taskController->createUserTask(name, description, dueDate, weight);
 }
 
+
+void handleCreateCourseTask() {
+    cout << "handlingCreateCourseTask" << endl;
+}
+
 void handleSortByWeight() {
     cout << "handleSortByWeight" << endl;
     filterTaskController->sortTasksByWeight();
@@ -144,7 +152,6 @@ void handleFilterByType(int type) {
     filterTaskController->printTaskList();
 }
 
-// TODO: add error checking to courseId input
 void handleFilterByCourse() {
     cout << "handleFilterByCourse" << endl;
     vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
@@ -167,7 +174,6 @@ void handleFilterByCourse() {
     
     filterTaskController->filterTasksByCourse(courseList[courseId-1].getCourseId());
     filterTaskController->printTaskList();
-   // printf("\033[2J\033[H");
 }
 
 void filterTasksByOneWeek() {
@@ -247,8 +253,42 @@ void handleEditTask(){
     //cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
+
+
+
 // course commands
 
+// TODO: add error checking
+// TODO: add validation checking "are you sure" etc
+void handleAddExistingTask() {
+    cout << "handleAddExistingTask" << endl;
+
+    int courseId, taskId;
+    handleViewAllTasks();
+    cout << "Enter Task Id for Task to be added: ";
+    cin >> taskId;
+    
+    Task task = taskController->getTaskInfo(taskId);
+    task.printTaskInfo();
+
+    
+    if (task.getTaskType() >= 10) {
+        CommandHandler commandHandler;
+        cout << "Choose Task Type" << endl;
+        int type = commandHandler.manageChooseTaskType();
+        task.setTaskType(type);
+    }
+    task.printTaskInfo();
+    handleViewCourses();
+    cout << "Which course would you like to add the task to?" << endl;
+    cout << "Enter Course Id: ";
+    cin >> courseId;
+
+    task.setTaskOwner(courseId);
+    courseController->addTask(task);
+
+    
+}
 void handleCreateCourse(){
     string name, description, code;
 
@@ -317,28 +357,40 @@ void handleEditCourse(){
 
 }
 
-void handleViewCourse() {
+void handleViewCourses() {
     cout << "handling handleViewCourse()" << endl;
 
-    int courseId;
-    bool fail = false;
+    if (userController->getCurrentUser() <= 1000) {
+        // student
+        vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
+        printCourseList(courseList);
+    } else
+    {
+        // instructor
+        vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
+        printCourseList(courseList);
+    }
 
-    cout << "Enter the ID of the course to view: ";
-    cin >> courseId;
-    cin.ignore();
+
+    // int courseId;
+    // bool fail = false;
+
+    // cout << "Enter the ID of the course to view: ";
+    // cin >> courseId;
+    // cin.ignore();
     
-    Course result = courseController->getCourseInfo(courseId);
+    // Course result = courseController->getCourseInfo(courseId);
 
-    if(result.getCourseId() != 0){
-        cout << "Course ID: " << result.getCourseId() << endl; 
-        cout << "Course name: " << result.getCourseName() << endl;
-        cout << "Course code: " << result.getCourseCode() << endl;
-        cout << "Description: " << result.getCalendarDescription() << endl;
-        cout << "Instructor ID: " << result.getInstructorId() << endl;
-    }
-    else{
-        cout << "Invalid choice, please try again" << endl;
-    }
+    // if(result.getCourseId() != 0){
+    //     cout << "Course ID: " << result.getCourseId() << endl; 
+    //     cout << "Course name: " << result.getCourseName() << endl;
+    //     cout << "Course code: " << result.getCourseCode() << endl;
+    //   //  cout << "Description: " << result.getCalendarDescription() << endl;
+    //     cout << "Instructor ID: " << result.getInstructorId() << endl;
+    // }
+    // else{
+    //     cout << "Invalid choice, please try again" << endl;
+    // }
     
 }
 
@@ -380,17 +432,42 @@ void handleUnsubscribeCourse(){
 
 
 
-// helper functions
-// written by chatGPt given the below input with only minor modifications
-/*
+void printCourseList(vector<Course> courseList) {
+    int idWidth = 4;
+    int instructorWidth = 20;
+    int nameWidth = 43;
+    int courseCode = 15;
+ //   int Description = 50;
 
-I have a list of C++ objects, of custom class type "Task".  here is the constructor:
 
-< constructor for Task given>
+    // Print the table headers
+    cout << setw(idWidth) << "ID" << " | ";
+    cout << setw(nameWidth) << "Course Name" << " | ";
+    cout << setw(courseCode) << "Course Code" << " | ";
+    cout << setw(instructorWidth) << "Instructor" << endl;
 
-I need a function that will print a list of tasks in rows. Such that the columbs are the member attributes of task, and each row represents a new task. Everything should be formatted nicely in a terminal output. can you build this function for me? Assume you this list:
-list<Task> list = getTaskList();
+    // Print the separator
+    cout << string(idWidth, '-') << "-+-";
+    cout << string(nameWidth, '-') << "-+-";
+    cout << string(courseCode, '-') << "-+-";
+    cout << string(instructorWidth, '-') << endl;
 
-Minor modifications were requested from chatGPT such as left align
-*/
+
+    if (courseList.size() <= 0) {
+        cout << endl << setw(idWidth+nameWidth) << "No Courses To Display" << endl;
+    }
+    // Print the table rows
+    for (Course course : courseList) {
+        cout << setw(idWidth) << course.getCourseId() << " | ";
+        cout << setw(nameWidth) << course.getCourseName() << " | ";
+        cout << setw(courseCode) << course.getCourseCode() << " | ";
+        cout << setw(instructorWidth) << getInstructorName(course.getInstructorId()) << endl;
+    }
+}
+
+string getInstructorName(int id) {
+    User instructor = userController->getUserInfo(id, "");
+    return instructor.getName();
+}
+
 

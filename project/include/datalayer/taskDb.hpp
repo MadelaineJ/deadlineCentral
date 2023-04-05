@@ -23,6 +23,7 @@ class TaskDB
         ~TaskDB();
         int createTask(Task task);
         bool updateTask(Task T);
+        bool updateTaskOwner(Task T);
         bool deleteTask(Task T);
         Task getTaskInfo(int taskID);
         list<Task> getFilteredTasks(int typeFilter, int courseFilter, int completedFilter, int daysPriorFilter, int daysFutureFilter, int userID);

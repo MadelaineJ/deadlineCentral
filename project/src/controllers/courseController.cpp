@@ -78,12 +78,11 @@ Course CourseController::getCourseInfo(int courseId) {
 }
 
 // addTask
-void CourseController::addTask(int taskId, int courseId) {
+void CourseController::addTask(Task task) {
 
-    Task newTask = taskDb->getTaskInfo(taskId);
 
-    newTask.setTaskOwner(courseId);
-
+    taskDb->updateTaskOwner(task);
+ 
 }
 
 // removeTask
@@ -104,3 +103,14 @@ void CourseController::aggregateDeadlines(int courseId) {
     */
 }
 
+
+vector<Course> CourseController::getInstructorCourses(int instructorId) {
+    CourseDB* courseDB = CourseDB::getInstance();
+    list<int> courseIdList = courseDB->getInstructorCourses(instructorId);
+    vector<Course> courseList;
+    for (int id: courseIdList) {
+        courseList.push_back(this->getCourseInfo(id));
+    }
+
+    return courseList;
+}

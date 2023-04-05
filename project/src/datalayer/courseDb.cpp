@@ -270,3 +270,30 @@ int CourseDB::getCourseID(std::string courseCode, std::string instructorName) {
     controllerDB->disconnect();
     return courseID; // -1 if no matches in DB
 }
+
+
+list<int> CourseDB::getInstructorCourses(int instructorId) {
+    // query DB table Courses using courseCode & instructor name to find courseID
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
+
+    stringstream queryBuilder;
+    queryBuilder << "SELECT courseId "
+                 << "FROM Courses "
+                 << "WHERE instructorId = :1 ";
+
+    string query = queryBuilder.str();
+    Statement *stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setInt(1, instructorId);
+
+    list<int> instructorCourseList ;
+    ResultSet *rs = stmt->executeQuery();
+    int courseID = -1;
+    while(rs->next()){
+        courseID = rs->getInt(1);
+        instructorCourseList.push_back(courseID);
+    }
+    controllerDB->disconnect();
+    return instructorCourseList;
+}

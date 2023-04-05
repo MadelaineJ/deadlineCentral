@@ -28,6 +28,7 @@ class CourseDB
         list<Student> getEnrollmentList(int courseID);
         Course getCourseInfo(int courseID);
         list<AggregateDeadline> aggregateDeadlines(int courseID, string date);
+        list<int> getInstructorCourses(int instructorId);
 
         // helper functions
         int getCourseID(std::string courseCode, std::string instructorName);

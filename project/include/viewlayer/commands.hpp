@@ -1,6 +1,8 @@
 #include <iostream>
 #include <list>
+#include <vector>
 #include "task.hpp"
+#include "course.hpp"
 
 
 // Account
@@ -38,11 +40,15 @@ void filterTasksByOneMonth();
 void handleCreateCourse();
 void handleDeleteCourse();
 void handleEditCourse();
-void handleViewCourse();
+void handleViewCourses();
+void handleCreateCourseTask();
+void handleAddExistingTask();
 
 void handleSubscribeCourse();
 void handleUnsubscribeCourse();
 
+void printCourseList(vector<Course> courseList);
+string getInstructorName(int id);
 
 
 // extra

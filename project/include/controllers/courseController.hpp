@@ -29,11 +29,13 @@ class CourseController
 
         Course getCourseInfo(int cId);
 
-        void addTask(int tId, int cId);
+        void addTask(Task task);
 
         void removeTask(int tId, int cId);
 
         void aggregateDeadlines(int cId);
+
+        vector<Course> getInstructorCourses(int instructorId);
         
     private:    
         CourseController(); // private to prevent direct instantiation

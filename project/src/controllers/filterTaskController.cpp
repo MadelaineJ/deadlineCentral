@@ -199,6 +199,22 @@ bool FilterTaskController::compareTaskByWeight(Task task1, Task task2) {
     }
 }
 
+
+
+
+// helper functions
+// written by chatGPt given the below input with only minor modifications
+/*
+
+I have a list of C++ objects, of custom class type "Task".  here is the constructor:
+
+< constructor for Task given>
+
+I need a function that will print a list of tasks in rows. Such that the columbs are the member attributes of task, and each row represents a new task. Everything should be formatted nicely in a terminal output. can you build this function for me? Assume you this list:
+list<Task> list = getTaskList();
+
+Minor modifications were requested from chatGPT such as left align
+*/
 void FilterTaskController::printTaskList() {
     printf("\033[2J\033[H");
     int idWidth = 4;
@@ -245,7 +261,9 @@ void FilterTaskController::printTaskList() {
 
 
     if (this->taskList.size() <= 0) {
-        cout << endl << setw(idWidth+nameWidth+typeWidth) << "You Have No Tasks Based on These Filters" << endl;
+        cout << endl;
+        cout << setw(idWidth+nameWidth+typeWidth) << "You Have No Tasks Based on These Filters" << endl;
+        cout << endl;
     }
     // Print the table rows
     for (Task task : this->taskList) {

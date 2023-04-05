@@ -268,18 +268,17 @@ void CommandHandler::addTask() {
         input = getUserInput();
         switch (input) {
             case 1:
-                handleViewAllTasks();
+                handleAddExistingTask();
                 break;
             case 2:
+                handleCreateCourseTask();
                 break;
             case 3:
-                break;
-            case 4:
                 return;
             default:
                 cout << "Invalid input\n";
                 addTaskMenu();
-                break;
+                
         } 
     }while(1);
 }
@@ -293,7 +292,8 @@ void CommandHandler::manageCourse() {
             if(userController->getCurrentUser() <= 1000){
                 switch (input) {
                     case 1:
-                        handleViewCourse();
+                        printf("\033[2J\033[H");
+                        handleViewCourses();
                         break;
                     case 2:
                         handleEditCourse();
@@ -320,7 +320,7 @@ void CommandHandler::manageCourse() {
                         handleEditCourse();
                         break;
                     case 3:
-                        handleViewCourse();
+                        handleViewCourses();
                         break;
                     case 4:
                         handleDeleteCourse();
@@ -447,7 +447,7 @@ void CommandHandler::courseMenu() {
         cout << "===== COURSE MENU =====" << std::endl;
         cout << "1. Create Course" << std::endl;
         cout << "2. Update Course" << std::endl;
-        cout << "3. View Course" << std::endl;
+        cout << "3. View Courses" << std::endl;
         cout << "4. Remove Course" << std::endl;
         cout << "5. Add Task" << std::endl;
         cout << "6. Main Menu" << std::endl;
@@ -456,10 +456,9 @@ void CommandHandler::courseMenu() {
 
 void CommandHandler::addTaskMenu() {
     cout << "===== ADD TASK =====" << endl;
-    cout << "1. View Existing Tasks" << endl;
-    cout << "2. Add Task by Name" << endl;
-    cout << "3. Create a new Task" << endl;
-    cout << "4. Main Menu" << endl;
+    cout << "1. Add Existing Tasks" << endl;
+    cout << "2. Create a new Task" << endl;
+    cout << "3. Course Menu" << endl;
 }
 
 void CommandHandler::handleHelp() {
