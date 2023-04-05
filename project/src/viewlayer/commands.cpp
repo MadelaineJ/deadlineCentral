@@ -28,7 +28,11 @@ CourseController *courseController = CourseController::getInstance();
 
 // Account commands
 void handleViewAccount() {
-    cout << "handling viewAccount" << endl;
+    // TODO: it doesn't make sense to call userController twice here.
+    // getUserInfo shouldn't have to take an ID
+    User user = userController->getUserInfo(userController->getCurrentUser(), "");
+    cout << "The Current User is: "
+    user.printUserInfo();
 }
 void handleUpdateAccount() {
     cout << "handling updateAccount" << endl;
@@ -37,7 +41,6 @@ void handleDeleteAccount() {
     cout << "handling deleteAccount" << endl;
 }
 void handleCreateAccount(int userType) {
-    cout << "handling createAccount" << endl;
 
     bool goodPassword = false;
 
