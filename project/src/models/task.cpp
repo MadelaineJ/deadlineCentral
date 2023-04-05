@@ -96,7 +96,7 @@ void Task::setWeight(float weight) {
 
 // getTaskId
 int Task::getTaskId() {
-    return taskId;
+    return this->taskId;
 }
 
 // setTaskId

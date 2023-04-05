@@ -29,6 +29,11 @@ FilterTaskController::FilterTaskController() {}
 // destructor
 FilterTaskController::~FilterTaskController() {}
 
+// Return the task list (only used in testing in filterTaskControllerTest.cpp)
+list<Task> FilterTaskController::getTaskList() {
+    return this->taskList;
+}
+
 void FilterTaskController::findAllUserTasks() {
     int userId = userController->getCurrentUser();
     this->taskList = taskDb->getFilteredTasks(-1, -1, -1, -1, -1, userId);
@@ -97,7 +102,6 @@ void FilterTaskController::sortTasksByDate() {
 
 void FilterTaskController::sortTasksByWeight() {
     this->toggleSortWeight(); 
-    int userId = userController->getCurrentUser();
     this->taskList.sort([this](Task task1, Task task2) {
         return this->compareTaskByWeight(task1, task2);
     });

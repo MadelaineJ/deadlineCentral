@@ -100,8 +100,8 @@ void UserController::createInstructor(string name, string email, string password
 }
 
 // deleteUser
-void UserController::deleteUser() {
-
+void UserController::deleteUser(int userId) {
+    userDb->deleteUser(userId);
 }
 
 // getUserInfo

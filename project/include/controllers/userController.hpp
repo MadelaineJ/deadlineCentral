@@ -22,7 +22,7 @@ class UserController
 
         void createInstructor(string name, string email, string passwordOriginal);
 
-        void deleteUser();
+        void deleteUser(int userId);
 
         User getUserInfo(int userId, string email);
 

@@ -39,6 +39,7 @@ int TaskDB::createTask(Task task){
                  << "RETURNING taskID INTO :8";
 
     string query = queryBuilder.str();
+
     Statement *stmt = controllerDB->getConnection()->createStatement(query);
 
     stmt->setInt(1, task.getTaskType());
@@ -111,7 +112,6 @@ bool TaskDB::updateTask(Task task){
 bool TaskDB::deleteTask(Task task){
     ControllerDb* controllerDB = ControllerDb::getInstance();
     controllerDB->connect();  
-
     stringstream queryBuilder;
     queryBuilder << "DELETE FROM Tasks "
                  << "WHERE taskID = :1 ";

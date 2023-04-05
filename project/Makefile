@@ -65,6 +65,7 @@ test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTe
 	--run_test=courseDB \
 	--run_test=userDatabase \
 	--run_test=subscriptionDatabase \
+	--run_test=filterTaskController \
 		-- bin/test
 
 run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
@@ -216,7 +217,7 @@ ${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUD
 ${INCLUDE}/${VIEW}/commandHandler.hpp ${INCLUDE}/${VIEW}/commands.hpp \
 ${INCLUDE}/${CONTROL}/courseController.hpp ${INCLUDE}/${CONTROL}/subscriptionController.hpp \
 ${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${CONTROL}/userController.hpp \
-${INCLUDE}/${CONTROL}/taskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
+${INCLUDE}/${CONTROL}/filterTaskController.hpp ${INCLUDE}/${MODEL}/course.hpp \
 ${INCLUDE}/${MODEL}/instructor.hpp ${INCLUDE}/${MODEL}/student.hpp ${INCLUDE}/${MODEL}/task.hpp \
 ${INCLUDE}/${MODEL}/user.hpp
 	${CC} ${WFLAG} ${AUTH} ${TFLAG} -o ${TESTS}/${BINARY}/deadlineCentralTest \
@@ -229,11 +230,14 @@ ${INCLUDE}/${MODEL}/user.hpp
 	${TESTS}/${SOURCE}/${DATALAYER}/courseDbTest.cpp ${SOURCE}/${DATALAYER}/courseDb.cpp ${SOURCE}/${MODEL}/course.cpp  \
     ${TESTS}/${SOURCE}/${DATALAYER}/userDbTest.cpp ${SOURCE}/${DATALAYER}/userDb.cpp ${SOURCE}/${MODEL}/user.cpp ${SOURCE}/${MODEL}/student.cpp ${SOURCE}/${MODEL}/instructor.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/subscriptionDbTest.cpp ${SOURCE}/${DATALAYER}/subscriptionDb.cpp \
+	${TESTS}/${SOURCE}/${CONTROL}/filterTaskControllerTest.cpp ${SOURCE}/${CONTROL}/filterTaskController.cpp \
+	${SOURCE}/${CONTROL}/courseController.cpp ${SOURCE}/${CONTROL}/subscriptionController.cpp \
+	${SOURCE}/${CONTROL}/taskController.cpp ${SOURCE}/${CONTROL}/userController.cpp \
 	${TESTS}/${SOURCE}/main.cpp \
 	$(CFLAGS) $(CRYPTO) $(LFLAGS)
 
 .PHONY: directories clean
-
+# ${SOURCE}/${CONTROL}/filterTaskController.cpp
 clean: directories
 	rm -rf ${BINARY}/* 
 	rm -rf ${BUILDS}/*

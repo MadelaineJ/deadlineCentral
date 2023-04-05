@@ -33,6 +33,8 @@ class FilterTaskController
        void sortTasksByDate();
        void sortTasksByWeight();
 
+       list<Task> getTaskList();
+
 
         // Printing the task list
         void printTaskList();
