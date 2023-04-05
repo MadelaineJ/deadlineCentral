@@ -114,3 +114,15 @@ vector<Course> CourseController::getInstructorCourses(int instructorId) {
 
     return courseList;
 }
+
+// TODO: this should only return courses that the user is not subscribed to
+vector<Course> CourseController::getAvailableCourses() {
+    CourseDB* courseDB = CourseDB::getInstance();
+    list<int> courseIdList = courseDB->getAllCourseIDs();
+    vector<Course> courseList;
+    for (int id : courseIdList) {
+        courseList.push_back(this->getCourseInfo(id));
+    }
+
+    return courseList;
+}

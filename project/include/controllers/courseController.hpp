@@ -36,6 +36,7 @@ class CourseController
         void aggregateDeadlines(int cId);
 
         vector<Course> getInstructorCourses(int instructorId);
+        vector<Course> getAvailableCourses();
         
     private:    
         CourseController(); // private to prevent direct instantiation

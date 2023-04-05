@@ -396,11 +396,18 @@ void handleViewCourses() {
 
 void handleSubscribeCourse(){
 
-    string courseCode;
+    int courseCode;
+    vector<Course> courseList = courseController->getAvailableCourses();
+    printCourseList(courseList);
 
-    cout << "Enter the course code to subscribe to: ";
-    getline(cin, courseCode);
+    cout << "which course do you want to subscribe to?" << endl;
+    cout << "Enter the course id: ";
+    cin >> courseCode;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+    // TODO: add error checking on Course Code
+
+    subscriptionController->addSubscription(courseCode);
     /*
     if (subscriptionController->addSubscription(courseCode)) {
         cout << "Subscribed to course successfully!" << endl;
@@ -415,19 +422,25 @@ void handleSubscribeCourse(){
 }
 
 void handleUnsubscribeCourse(){
-    string courseCode;
+    int courseCode;
 
-    cout << "Enter the course code to unsubscribe from: ";
-    getline(cin, courseCode);
+    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
+    printCourseList(courseList);
+    cout << "which course do you want to unsubscribe from?" << endl;
+    cout << "Enter the courseId: " ;
+    cin >> courseCode;
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
+    subscriptionController->removeSubscription(courseCode);
     /*
     if (subscriptionController->removeSubscription(courseCode)) {
         cout << "Unsubscribed from course successfully!" << endl;
     }
     else {
         cout << "Error unsubscribing from course. Please try again." << endl;
-    }
+    }    
     */
+
 }
 
 

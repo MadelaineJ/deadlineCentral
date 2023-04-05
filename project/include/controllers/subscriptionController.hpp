@@ -19,9 +19,9 @@ class SubscriptionController
         static SubscriptionController* getInstance(); // gets the single instance of this class
         ~SubscriptionController();
         
-        void addSubscription();
+        void addSubscription(int courseId);
 
-        void removeSubscription();
+        void removeSubscription(int courseId);
 
         vector<Course> viewCurrentSubscriptions();
 
