@@ -32,16 +32,42 @@ int CourseController::createCourse(string name, string description, string code)
     UserController* userController = UserController::getInstance();
 
     Course newCourse(-1, userController->getCurrentUser(), name, code, description);
-    return courseDB->createCourse(newCourse); 
+    return courseDb->createCourse(newCourse); 
 }
 
 // editCourse
-void CourseController::editCourse() {
-    
+void CourseController::editCourse(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription) {
+
+    Course updatedCourse(courseId, instructorId, courseName, courseCode, calendarDescription);
+
+    //enrollemnet list, to be added 
+    /*
+    updatedCourse.setCourseId(courseId);
+    updatedCourse.setInstructorId(instructorId);
+    updatedCourse.setCourseName(courseName);
+    updatedCourse.setCourseCode(courseCode);
+    updatedCourse.setCalendarDescription(calendarDescription);*/
+
+    courseDb->updateCourse(updatedCourse);
+
+
 }
 
 // deleteCourse
-void CourseController::deleteCourse() {
+void CourseController::deleteCourse(int courseId) {
+
+    Course delCourse;
+    bool deleted = false;
+
+    delCourse = courseDb->getCourseInfo(courseId);
+    deleted = courseDb->deleteCourse(delCourse);
+
+    //change this when we change the return type(should be done in the view)
+    if(deleted){
+        cout<<"Course Deleted";
+    }else{
+        cout<<"failed";
+    }
 
 }
 
@@ -52,17 +78,29 @@ Course CourseController::getCourseInfo(int courseId) {
 }
 
 // addTask
-void CourseController::addTask() {
+void CourseController::addTask(int taskId, int courseId) {
+
+    Task newTask = taskDb->getTaskInfo(taskId);
+
+    newTask.setTaskOwner(courseId);
 
 }
 
 // removeTask
-void CourseController::removeTask() {
+void CourseController::removeTask(int taskId, int instId) {
 
+    Task remTask = taskDb->getTaskInfo(taskId);
+
+    remTask.setTaskOwner(instId);
 }
 
 // aggregateDeadlines
-void CourseController::aggregateDeadlines() {
+void CourseController::aggregateDeadlines(int courseId) {
 
+    /*
+    courseDb->aggregateDeadlines(courseId);
+    //return type TBD
+    //return someInt
+    */
 }
 

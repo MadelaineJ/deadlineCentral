@@ -17,6 +17,7 @@ class Course
 {
     public:
         Course(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription);
+        Course(){}
         ~Course();
         
         int getCourseId();
@@ -46,8 +47,7 @@ class Course
         string courseCode;
         string calendarDescription;
         list<int> enrollmentList;
-
-
+        //maybe list<int> taskList;
 
 };
 
