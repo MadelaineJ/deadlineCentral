@@ -1,18 +1,38 @@
-This is were I (Davon) will put a list of know issuses and trouble shooting tips.
 
-Using Deadline Central:
-	This project is meant to be used as  a task tracking application where
-	users can login and view the upcoming tasks/assignments from their 
-	current courses as well as any personal tasks they create.
-	
 
-Trouble-shooting:
+                                                    DEADLINE CENTRAL
 
-List of known issues:
-
-Sorting Tasks:
-	- filtering tasks by course is very slow (can take up to 1 minute)
-	- potential fix would be to store more data in the system instead of in the database (caching)
-
-Additions
-	- be able to clear filters
+----------------------------------------------------------------------------------------------------------------------------
+Using Deadline Central:                                                                                                     
+----------------------------------------------------------------------------------------------------------------------------	
+	This project is meant to be used as  a task tracking application where                                                  
+	users can login and view the upcoming tasks/assignments from their                                                      
+	current courses as well as any personal tasks they create.                                                              
+	                                                                                                                        
+----------------------------------------------------------------------------------------------------------------------------
+Trouble-shooting:                                                                                                           
+----------------------------------------------------------------------------------------------------------------------------                                                                                                                           
+    If you end up in a menu you don't want to be selecting the "BACK" or "RETURN" option will return you to prevouis menus. 
+    
+    If you are ever stuck and using the command 'ctl C' dosen't work you have two options:
+        1) Close the terminal window and relaunch the application.
+        2) input the command 'ctl Z' then kill the process (by any means necessary.)
+    
+    To kill a process you need the process ID, this is found by inputing the command 'ps u -U yourusername'  
+                                                                                                                            
+    In the LOGIN MENU there is the option "HELP" that provides you with tips on how to navigate through menus, and how      
+    to return to previous ones.                                                                                             
+                                                                                                                             
+----------------------------------------------------------------------------------------------------------------------------
+List of known issues:                                                                                                       
+----------------------------------------------------------------------------------------------------------------------------                                                                                                         
+    - resizing the terminal window will result in input being read (even thought there is none)
+    - students can delete/edit course tasks (they aren't suppose to be able to)
+    - any user can delete a course if they know the course ID                         
+    - filtering tasks by course is very slow (can take up to 1 minute)
+    - if user ID is less that 1001 then the user is a student (thus only a limited number of student can be supported)
+    - *ONCE* segmentation fault when filtering task by type
+    - *ONCE* segmentation fault when subscribing to a course as a student (after doing task filtering/sorting)
+    - lack of error checking
+                                                                                                                                                                                                            
+----------------------------------------------------------------------------------------------------------------------------
