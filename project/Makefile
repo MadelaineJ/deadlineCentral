@@ -45,7 +45,7 @@ CRYPTO = -L /usr/include/openss -lcrypto
 
 # MAKE COMMANDS
 
-all: ${BINARY}/exampleProg ${BINARY}/deadlineCentral directories
+all: ${BINARY}/deadlineCentral directories
 
 run: directories ${BINARY}/deadlineCentral ${BUILDS}/main.o ${BUILDS}/controllerDb.o ${BUILDS}/userDb.o ${BUILDS}/courseDb.o ${BUILDS}/taskDb.o ${BUILDS}/subscriptionDb.o \
 ${BUILDS}/commandHandler.o ${BUILDS}/courseController.o ${BUILDS}/filterTaskController.o \
@@ -248,15 +248,5 @@ clean: directories
 MKDIR_P = mkdir -p
 directories:
 	${MKDIR_P} ${BINARY} ${BUILDS} ${TESTS}/${BINARY} ${TESTS}/${BUILDS}
-
-# DATABASE HELLO WORLD EXAMPLE
-# example database exe
-${BINARY}/exampleProg: ${BUILDS}/databaseTest.o
-	${CC} ${WFLAG} ${OFLAG} ${BINARY}/exampleProg ${BUILDS}/databaseTest.o \
-	$(LFLAGS) $(CFLAGS) $(CRYPTO)
-
-${BUILDS}/databaseTest.o: ${SOURCE}/databaseTest.cpp ${INCLUDE}/databaseTest.hpp
-	${CC} ${CFLAG} $(AUTH) ${CFLAG} ${IFLAG} ${INCLUDE} ${OFLAG} ${BUILDS}/databaseTest.o ${SOURCE}/databaseTest.cpp \
-	$(CFLAGS) $(CRYPTO)
 
 
