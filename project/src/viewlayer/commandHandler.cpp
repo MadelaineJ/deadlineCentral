@@ -94,6 +94,11 @@ void CommandHandler::manageCreateAccount() {
 void CommandHandler::manageAccount() {
     int input;
     do {
+        if (userController->getCurrentUser() == -1) // then no one is logged in
+        {
+            manageLogin();
+            return;
+        }
         accountMenu();
         input = getUserInput();
         switch (input) {

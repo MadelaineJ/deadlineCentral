@@ -1,5 +1,6 @@
 #ifndef USERCONTROLLER_H
 #define USERCONTROLLER_H
+#pragma once
 
 // Required Libraries
 #include <iostream>
@@ -7,8 +8,16 @@
 #include <termios.h>
 #include <unistd.h>
 #include "userDb.hpp"
-using namespace std;
 
+
+#include "taskController.hpp"
+#include "subscriptionController.hpp"
+
+
+// forward declaration
+class TaskController;
+
+using namespace std;
 
 class UserController 
 {
@@ -26,6 +35,8 @@ class UserController
 
         User getUserInfo(int userId, string email);
 
+        void updateUser(string name, string email);
+
         bool validateCredentials(string email, string password);
 
         int getCurrentUser();
@@ -36,6 +47,8 @@ class UserController
         static UserController* instance; // Pointer to the single instance of UserController
         int currentUser; // the currently logged in user
         UserDB* userDb = UserDB::getInstance();
+        TaskController *taskController;
+        SubscriptionController *subscriptionController;
 };
 
 #endif

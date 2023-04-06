@@ -28,17 +28,41 @@ CourseController *courseController = CourseController::getInstance();
 
 // Account commands
 void handleViewAccount() {
-    // TODO: it doesn't make sense to call userController twice here.
+    // TODO: refactor getUserInfo function
+    // it doesn't make sense to call userController twice here.
     // getUserInfo shouldn't have to take an ID
     User user = userController->getUserInfo(userController->getCurrentUser(), "");
     cout << "The Current User is: ";
     user.printUserInfo();
 }
+
+// TODO: implement ability to change password
 void handleUpdateAccount() {
     cout << "handling updateAccount" << endl;
+    handleViewAccount();
+    string name, email;
+    cout << "Enter new Name: ";
+    getline(cin, name);
+    cout << "Enter new email: ";
+    cin >> email;
+
+
+    userController->updateUser(name, email);
+
 }
 void handleDeleteAccount() {
     cout << "handling deleteAccount" << endl;
+    cout << "are you sure you want to delete your account? (y/n): ";
+    string answer;
+    cin >> answer;
+    if (answer == "y") {
+        userController->deleteUser(userController->getCurrentUser());
+        cout << "You account Has been deleted" << endl;
+        cout << "Goodbye" << endl;
+        userController->setCurrentUser(-1);
+    } else {
+        cout << "You account has NOT been deleted" << endl;
+    }
 }
 void handleCreateAccount(int userType) {
 
@@ -111,7 +135,7 @@ void handleCreateTask(){
     cin >> weight;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    taskController->createUserTask(name, description, dueDate, weight);
+    taskController->createUserTask(userController->getCurrentUser(), name, description, dueDate, weight);
 }
 
 
@@ -176,7 +200,7 @@ void handleFilterByType(int type) {
 
 void handleFilterByCourse() {
     cout << "handleFilterByCourse" << endl;
-    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
+    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions(userController->getCurrentUser());
     cout << "==== Choose Course ====" << endl;
     for (int i = 0; i < courseList.size(); i++) {
         cout << i+1 << ". " << courseList[i].getCourseName() << endl;
@@ -219,22 +243,20 @@ void handleViewAllTasks() {
 }
 
 
-// TODO -> this should list all the tasks
 void handleDeleteTask(){
 
     int taskId;
 
+    handleViewAllTasks();
     cout << "Enter the ID of the task to delete: ";
     cin >> taskId;
 
-    /*
     if (taskController->deleteTask(taskId)) {
         cout << "Task deleted successfully!" << endl;
     }
     else {
         cout << "Error deleting task. Please try again." << endl;
     }
-    */
 
     //cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
@@ -242,45 +264,47 @@ void handleDeleteTask(){
 void handleEditTask(){
     int taskId;
     string name, description, dueDate;
-    double weight;
+    float weight;
     int type;
 
-    handleViewAllTasks();
-    cout << "Enter the ID of the task to edit: ";
-    cin >> taskId;
-    Task task = taskController->getTaskInfo(taskId);
-    // TODO: add check if task doesn't exist or if they enter a string
-    // TODO: should be that they can choose which values they want to edit
-    cout << "Enter the new task name: ";
-    cin.ignore();
-    getline(cin, name);
-    cout << "Enter the new task description: ";
-    getline(cin, description);
-    cout << "Enter the new task due date (YYYY-MM-DD): ";
-    getline(cin, dueDate);
-    cout << "Enter the new task weight (as a decimal): ";
-    cin >> weight;
-    cout << "Enter the new task type (1 = Homework, 2 = Quiz, 3 = Exam, 4 = Project): ";
-    cin >> type;
+    // show all user tasks
+    filterTaskController->filterTasksByType(10);
+    filterTaskController->printTaskList();
+    if (filterTaskController->getTaskList().size() > 0) {
+        cout << "Enter the ID of the task to edit: ";
+        cin >> taskId;
+        Task task = taskController->getTaskInfo(taskId);
+        // TODO: add check if task doesn't exist or if they enter a string
+        // TODO: user should be able to choose which values they want to edit
+        cout << "Enter the new task name: ";
+        cin.ignore();
+        getline(cin, name);
+        cout << "Enter the new task description: ";
+        getline(cin, description);
+        cout << "Enter the new task due date (YYYY-MM-DD): ";
+        getline(cin, dueDate);
+        cout << "Enter the new task weight (as a decimal): ";
+        cin >> weight;
+        cout << "Enter the new task type (1 = Homework, 2 = Quiz, 3 = Exam, 4 = Project): ";
+        cin >> type;
 
-    /*
-    if (taskController->editTask(taskId, name, description, dueDate, weight, type)) {
-        cout << "Task edited successfully!" << endl;
+        if (taskController->updateTask(userController->getCurrentUser(), taskId, name, description, dueDate, weight, type)) {
+            cout << "Task edited successfully!" << endl;
+        }
+        else {
+            cout << "Error editing task. Please try again." << endl;
+        }
+    } else {
+        cout << "you can only edit personal tasks" << endl;
     }
-    else {
-        cout << "Error editing task. Please try again." << endl;
-    }*/
-
     
-    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
-
-
-
 
 // course commands
 
-// TODO: add error checking
+// TODO: add error checking fot incorrect course or task ids
 // TODO: add validation checking "are you sure" etc
 void handleAddExistingTask() {
     cout << "handleAddExistingTask" << endl;
@@ -308,6 +332,7 @@ void handleAddExistingTask() {
     task.setTaskOwner(courseId);
     courseController->addTask(task);
 }
+
 void handleCreateCourse(){
     string name, description, code;
 
@@ -336,52 +361,55 @@ void handleDeleteCourse(){
     cout << "Enter the ID of the course to delete: ";
     cin >> courseId;
 
-    /*
+
     if (courseController->deleteCourse(courseId)) {
         cout << "Course deleted successfully!" << endl;
     }
     else {
         cout << "Error deleting course. Please try again." << endl;
     }
-    */
 
-    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
+
+// TODO: add checking so the user doesn't have to update the whole thing
 void handleEditCourse(){
 
     int courseId;
     string name, description, code;
-    
+
+    vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
+    printCourseList(courseList);
+    // TODO: user should be able to choose which values they want to edit
     cout << "Enter the ID of the course to edit: ";
     cin >> courseId;
     cout << "Enter the new course name: ";
     cin.ignore();
     getline(cin, name);
     cout << "Enter the new calendar description: ";
+    cin.ignore();
     getline(cin, description);
     cout << "Enter the new course code: ";
+    cin.ignore();
     getline(cin, code);
 
-    /*
-    if (courseController->editCourse(courseId, name, description, code)) {
+
+    if (courseController->editCourse(courseId, userController->getCurrentUser(), name, code, description)) {
         cout << "Course edited successfully!" << endl;
     }
     else {
         cout << "Error editing course. Please try again." << endl;
     }
-    */
-    
-    //cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
 }
 
+// Displays a list of all courses (either subscribed to if a student or created if an instructor)
 void handleViewCourses() {
     cout << "handling handleViewCourse()" << endl;
 
     if (userController->getCurrentUser() <= 1000) {
         // student
-        vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
+        vector<Course> courseList = subscriptionController->viewCurrentSubscriptions(userController->getCurrentUser());
         printCourseList(courseList);
     } else
     {
@@ -389,27 +417,6 @@ void handleViewCourses() {
         vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
         printCourseList(courseList);
     }
-
-
-    // int courseId;
-    // bool fail = false;
-
-    // cout << "Enter the ID of the course to view: ";
-    // cin >> courseId;
-    // cin.ignore();
-    
-    // Course result = courseController->getCourseInfo(courseId);
-
-    // if(result.getCourseId() != 0){
-    //     cout << "Course ID: " << result.getCourseId() << endl; 
-    //     cout << "Course name: " << result.getCourseName() << endl;
-    //     cout << "Course code: " << result.getCourseCode() << endl;
-    //   //  cout << "Description: " << result.getCalendarDescription() << endl;
-    //     cout << "Instructor ID: " << result.getInstructorId() << endl;
-    // }
-    // else{
-    //     cout << "Invalid choice, please try again" << endl;
-    // }
     
 }
 
@@ -426,7 +433,7 @@ void handleSubscribeCourse(){
 
     // TODO: add error checking on Course Code
 
-    subscriptionController->addSubscription(courseCode);
+    subscriptionController->addSubscription(courseCode, userController->getCurrentUser());
     /*
     if (subscriptionController->addSubscription(courseCode)) {
         cout << "Subscribed to course successfully!" << endl;
@@ -443,14 +450,14 @@ void handleSubscribeCourse(){
 void handleUnsubscribeCourse(){
     int courseCode;
 
-    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions();
+    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions(userController->getCurrentUser());
     printCourseList(courseList);
     cout << "which course do you want to unsubscribe from?" << endl;
     cout << "Enter the courseId: " ;
     cin >> courseCode;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    subscriptionController->removeSubscription(courseCode);
+    subscriptionController->removeSubscription(courseCode, userController->getCurrentUser());
 }
 
 
@@ -487,20 +494,22 @@ void printCourseList(vector<Course> courseList) {
     int instructorWidth = 20;
     int nameWidth = 43;
     int courseCode = 15;
- //   int Description = 50;
+    int descriptionWidth = 65;
 
 
     // Print the table headers
     cout << setw(idWidth) << "ID" << " | ";
     cout << setw(nameWidth) << "Course Name" << " | ";
     cout << setw(courseCode) << "Course Code" << " | ";
-    cout << setw(instructorWidth) << "Instructor" << endl;
+    cout << setw(instructorWidth) << "Instructor" << " | ";
+    cout << setw(descriptionWidth) << "Description" << endl;
 
     // Print the separator
     cout << string(idWidth, '-') << "-+-";
     cout << string(nameWidth, '-') << "-+-";
     cout << string(courseCode, '-') << "-+-";
-    cout << string(instructorWidth, '-') << endl;
+    cout << string(courseCode, '-') << "-+-";
+    cout << string(descriptionWidth, '-') << endl;
 
 
     if (courseList.size() <= 0) {
@@ -508,17 +517,27 @@ void printCourseList(vector<Course> courseList) {
     }
     // Print the table rows
     for (Course course : courseList) {
+        string description = trimString(course.getCalendarDescription(), descriptionWidth);
         cout << setw(idWidth) << course.getCourseId() << " | ";
         cout << setw(nameWidth) << course.getCourseName() << " | ";
         cout << setw(courseCode) << course.getCourseCode() << " | ";
-        cout << setw(instructorWidth) << getInstructorName(course.getInstructorId()) << endl;
+        cout << setw(instructorWidth) << getInstructorName(course.getInstructorId()) << " | ";
+        cout << setw(descriptionWidth) << description << endl;
     }
 }
 
 
-
-
-
+/* 
+* Written by chatGPT-3.5 by asking:
+* in c++ how can I trim a string so that if it's longer than 50 chars I cut everything after that and add "..." to it
+*/ 
+string trimString(string str, int maxLength) {
+    if (str.length() > maxLength) {
+        str = str.substr(0, maxLength);
+        str.append("...");
+    }
+    return str;
+}
 
 string getInstructorName(int id) {
     User instructor = userController->getUserInfo(id, "");
@@ -555,7 +574,7 @@ void printAggregateDeadlines(list<AggregateDeadline> deadlineList) {
         }
     }
 }
-// Note, this function is duplicated in task.cpp but should be
+// Note, this function is duplicated in task.cpp and should be refactored to avoid duplication
 string getTypeName(int type) {
     switch (type) {
         case 0:

@@ -18,11 +18,11 @@ int main() {
 
 
     // instantiate all static controllers
-    UserController *userController = UserController::getInstance();
-    TaskController *taskController = TaskController::getInstance();
-    FilterTaskController *filterTaskController = FilterTaskController::getInstance();
-    SubscriptionController *subscriptionController = SubscriptionController::getInstance();
-    CourseController *courseController = CourseController::getInstance();
+    UserController::getInstance();
+    TaskController::getInstance();
+    FilterTaskController::getInstance();
+    SubscriptionController::getInstance();
+    CourseController::getInstance();
 
     // start Deadline Central
     CommandHandler commandHandler;

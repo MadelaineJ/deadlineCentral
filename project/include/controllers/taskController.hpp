@@ -1,5 +1,6 @@
 #ifndef TASKCONTROLLER_H
 #define TASKCONTROLLER_H
+#pragma once
 
 // Required Libraries
 #include <iostream>
@@ -10,11 +11,9 @@
 
 // custom header files
 #include "taskDb.hpp"
-#include "userController.hpp"
 
 
 using namespace std;
-
 
 class TaskController 
 {
@@ -22,20 +21,18 @@ class TaskController
         static TaskController* getInstance(); // gets the single instance of this class
         ~TaskController();
         
-        void createUserTask(string name, string description, string dueDate, float weight);
+        void createUserTask(int userId, string name, string description, string dueDate, float weight);
         void createCourseTask(string name, int type, int course, string description, string dueDate, float weight);
-        void addTask();
-
-        void editTask();
-
+        bool updateTask(int ownerId, int taskId, string name, string description, string dueDate, float weight, int type);
+        bool deleteTask(int courseId);
         Task getTaskInfo(int id);
+
         void getAllTasks();
 
     private:
         TaskController(); // private to prevent direct instantiation
         static TaskController* instance; // Pointer to the single instance of TaskController
         TaskDB *taskDb = TaskDB::getInstance();
-        UserController *userController = UserController::getInstance();
 };
 
 #endif

@@ -29,18 +29,18 @@ SubscriptionController::~SubscriptionController() {
 }
 
 // addSubscription
-void SubscriptionController::addSubscription(int courseId) {
-	this->subscriptionDB->createSubscription(this->userController->getCurrentUser(), courseId);
+void SubscriptionController::addSubscription(int courseId, int userId) {
+	this->subscriptionDB->createSubscription(userId, courseId);
 }
 
 // removeSubscription
-void SubscriptionController::removeSubscription(int courseId) {
-    this->subscriptionDB->deleteSubscription(this->userController->getCurrentUser(), courseId);
+void SubscriptionController::removeSubscription(int courseId, int userId) {
+    this->subscriptionDB->deleteSubscription(userId, courseId);
 }
 
 // viewCurrentSubscriptions
-vector<Course> SubscriptionController::viewCurrentSubscriptions() {
-    list<Course> courseList = this->subscriptionDB->getCourseSubscriptions(this->userController->getCurrentUser());
+vector<Course> SubscriptionController::viewCurrentSubscriptions(int userId) {
+    list<Course> courseList = this->subscriptionDB->getCourseSubscriptions(userId);
     std::vector<Course> courseVector(courseList.begin(), courseList.end()); 
     return courseVector;
 }

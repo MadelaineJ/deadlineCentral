@@ -12,6 +12,8 @@
 
 // Custom header files
 #include "userController.hpp"
+#include "taskController.hpp"
+#include "subscriptionController.hpp"
 #include "userDb.hpp"
 #include "user.hpp"
 #include "student.hpp"
@@ -76,6 +78,8 @@ UserController* UserController::getInstance() {
 UserController::UserController()
 {
     this->currentUser = -1;
+    taskController = TaskController::getInstance();
+    subscriptionController = SubscriptionController::getInstance();
 }
 
 // destructor
@@ -101,7 +105,31 @@ void UserController::createInstructor(string name, string email, string password
 
 // deleteUser
 void UserController::deleteUser(int userId) {
+    // delete all their personal tasks first
+    list<int> taskList = this->userDb->getTaskList(getCurrentUser());
+
+    for (int taskId: taskList) {
+        cout << "deleting task " << taskId << endl;
+        taskController->deleteTask(taskId);
+    }
+
+    // delete all their subscriptions
+        vector<Course> subscriptions = this->subscriptionController->viewCurrentSubscriptions(userId);
+
+    for (Course course: subscriptions) {
+        cout << "deleting subscription " << course.getCourseId() << endl;
+        subscriptionController->removeSubscription(course.getCourseId(), userId);
+    }
     userDb->deleteUser(userId);
+
+}
+
+void UserController::updateUser(string name, string email) {
+
+    User user = getUserInfo(getCurrentUser(), "");
+    user.setName(name);
+    user.setEmail(email);
+    userDb->updateUser(user, user.getUserId());
 }
 
 // getUserInfo

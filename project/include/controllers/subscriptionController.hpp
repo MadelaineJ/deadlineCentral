@@ -1,5 +1,6 @@
 #ifndef SUBSCRIPTIONCONTROLLER_H
 #define SUBSCRIPTIONCONTROLLER_H
+#pragma once
 
 // Required Libraries
 #include <iostream>
@@ -9,7 +10,7 @@
 
 // custom header files
 #include "subscriptionDb.hpp"
-#include "userController.hpp"
+
 using namespace std;
 
 
@@ -19,11 +20,11 @@ class SubscriptionController
         static SubscriptionController* getInstance(); // gets the single instance of this class
         ~SubscriptionController();
         
-        void addSubscription(int courseId);
+        void addSubscription(int courseId, int userId);
 
-        void removeSubscription(int courseId);
+        void removeSubscription(int courseId, int userId);
 
-        vector<Course> viewCurrentSubscriptions();
+        vector<Course> viewCurrentSubscriptions(int userId);
 
         void viewAvailableSubscriptions();
     
@@ -31,7 +32,6 @@ class SubscriptionController
         SubscriptionController();
         static SubscriptionController* instance; // Pointer to the single instance of SubscriptionController
         SubscriptionDB *subscriptionDB = SubscriptionDB::getInstance();
-        UserController *userController = UserController::getInstance();
 };
 
 #endif

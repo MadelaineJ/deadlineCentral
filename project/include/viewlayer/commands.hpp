@@ -47,12 +47,12 @@ void handleAddExistingTask();
 
 void handleSubscribeCourse();
 void handleUnsubscribeCourse();
-
-
 void handleViewConsolidatedDeadlines();
 
 
+
 // display formating helper functions
+string trimString(string str, int maxLength);
 void printCourseList(vector<Course> courseList);
 string getInstructorName(int id);
 void printTaskList(const list<Task>& taskList);

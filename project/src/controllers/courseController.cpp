@@ -37,7 +37,7 @@ int CourseController::createCourse(string name, string description, string code)
 }
 
 // editCourse
-void CourseController::editCourse(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription) {
+bool CourseController::editCourse(int courseId, int instructorId, string courseName, string courseCode, string calendarDescription) {
 
     Course updatedCourse(courseId, instructorId, courseName, courseCode, calendarDescription);
 
@@ -49,13 +49,13 @@ void CourseController::editCourse(int courseId, int instructorId, string courseN
     updatedCourse.setCourseCode(courseCode);
     updatedCourse.setCalendarDescription(calendarDescription);*/
 
-    courseDb->updateCourse(updatedCourse);
+    return courseDb->updateCourse(updatedCourse);
 
 
 }
 
 // deleteCourse
-void CourseController::deleteCourse(int courseId) {
+bool CourseController::deleteCourse(int courseId) {
 
     Course delCourse;
     bool deleted = false;
@@ -63,12 +63,7 @@ void CourseController::deleteCourse(int courseId) {
     delCourse = courseDb->getCourseInfo(courseId);
     deleted = courseDb->deleteCourse(delCourse);
 
-    //change this when we change the return type(should be done in the view)
-    if(deleted){
-        cout<<"Course Deleted";
-    }else{
-        cout<<"failed";
-    }
+    return deleted;
 
 }
 
@@ -80,8 +75,6 @@ Course CourseController::getCourseInfo(int courseId) {
 
 // addTask
 void CourseController::addTask(Task task) {
-
-
     taskDb->updateTaskOwner(task);
  
 }
@@ -100,7 +93,6 @@ list<AggregateDeadline> CourseController::aggregateDeadlines(int courseId, strin
     return courseDb->aggregateDeadlines(courseId, date);
 
 }
-
 
 vector<Course> CourseController::getInstructorCourses(int instructorId) {
     CourseDB* courseDB = CourseDB::getInstance();

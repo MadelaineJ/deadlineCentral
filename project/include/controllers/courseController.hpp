@@ -1,5 +1,6 @@
 #ifndef COURSECONTROLLER_H
 #define COURSECONTROLLER_H
+#pragma once
 
 // Required Libraries
 #include <iostream>
@@ -23,9 +24,9 @@ class CourseController
         
         int createCourse(string name, string description, string code);
 
-        void editCourse(int cId, int instId, string Name, string Code, string Description);
+        bool editCourse(int cId, int instId, string Name, string Code, string Description);
 
-        void deleteCourse(int cId);
+        bool deleteCourse(int cId);
 
         Course getCourseInfo(int cId);
 
