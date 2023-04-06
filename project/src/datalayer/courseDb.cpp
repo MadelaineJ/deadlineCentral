@@ -113,16 +113,15 @@ bool CourseDB::deleteCourse(Course C){
 }
 
 // TODO what is this used for? do we need student ids?
-list<Student> CourseDB::getEnrollmentList(int courseID){
+list<int> CourseDB::getEnrollmentList(int courseID){
    // query DB table StudentCourses using courseID to get all students subscribed to courseID
    ControllerDb *controllerDB = ControllerDb::getInstance();
    controllerDB->connect();
 
    stringstream queryBuilder;
-   queryBuilder << "SELECT name "
-                << "FROM Students s "
-                << "JOIN StudentCourses sc ON s.studentID = sc.studentID "
-                << "WHERE sc.courseID = :1 ";
+   queryBuilder << "SELECT studentId "
+                << "FROM StudentCourses "
+                << "WHERE courseID = :1 ";
 
    string query = queryBuilder.str();
    Statement *stmt = controllerDB->getConnection()->createStatement(query);
@@ -131,12 +130,10 @@ list<Student> CourseDB::getEnrollmentList(int courseID){
 
    ResultSet *rs = stmt->executeQuery();
 
-   list<Student> enrolledStudents = {};
+   list<int> enrolledStudents = {};
    while(rs->next()){
-      Student stu(-1, "", "", "", {});
-      stu.setName(rs->getString(1));
 
-      enrolledStudents.push_back(stu);
+      enrolledStudents.push_back(rs->getInt(1));
    }
    return enrolledStudents;
 }

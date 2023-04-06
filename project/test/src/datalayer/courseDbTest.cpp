@@ -71,43 +71,51 @@ BOOST_AUTO_TEST_CASE(get_CourseId_by_CourseCode_InstructorName) {
 
 BOOST_AUTO_TEST_CASE(get_EnrollmentList) {
     CourseDB *inTest = CourseDB::getInstance();
-	list<Student> expected = {
-		Student(-1, "Michel Marshall", "", "", {}),
-		Student(-1, "Glenda Forbes", "", "", {}),
-		Student(-1, "Jeff Marsh", "", "", {}),
-		Student(-1, "Ingrid Rose", "", "", {}),
-		Student(-1, "Susanne Theriault", "", "", {}),
-		Student(-1, "Annette Jacobs", "", "", {}),
-		Student(-1, "Jodi James", "", "", {}),
-		Student(-1, "Jayne Butler", "", "", {}),
-		Student(-1, "Jamie Milne", "", "", {}),
-		Student(-1, "Edna Daigle", "", "", {}),
-		Student(-1, "Gene Davidson", "", "", {}),
-		Student(-1, "Melissa McRae", "", "", {}),
-		Student(-1, "Charmaine Turgeon", "", "", {}),
-		Student(-1, "Rosaire Young", "", "", {}),
-		Student(-1, "Brendan Maltais", "", "", {}),
-		Student(-1, "Jordan Mercer", "", "", {}),
-		Student(-1, "Vicky Levasseur", "", "", {}),
-		Student(-1, "Cheryl Lloyd", "", "", {}),
-		Student(-1, "Ginette Sanderson", "", "", {}),
-		Student(-1, "Aaron Frenette", "", "", {}),
-		Student(-1, "Melissa Tait", "", "", {}),
-		Student(-1, "Emma Nielsen", "", "", {}),
-		Student(-1, "Mark Paul", "", "", {}),
-		Student(-1, "Theresa Cummings", "", "", {}),
-		Student(-1, "Fatima Greene", "", "", {}),
-		Student(-1, "Pierrette Fung", "", "", {}),
-		Student(-1, "Naomi Hodgson", "", "", {})
+
+	list<int> expectedList = {
+		106,
+		110,
+		112,
+		115,
+		122,
+		126,
+		129,
+		134,
+		136,
+		137,
+		141,
+		142,
+		143,
+		146,
+		148,
+		152,
+		157,
+		158,
+		161,
+		163,
+		166,
+		171,
+		172,
+		177,
+		191,
+		192,
+		197
 	};
     
-	list<Student> result = inTest->getEnrollmentList(ENROLLMENT_COURSE_ID);
+	list<int> resultList = inTest->getEnrollmentList(ENROLLMENT_COURSE_ID);
 
-	auto it_expected = expected.begin();
-    for(auto it_result = result.begin(); it_result != result.end(); it_result++){
-        // verify
-        BOOST_CHECK(it_result->getName() == it_expected->getName());
-        it_expected++;
+	// Verify
+	BOOST_CHECK(expectedList.size() == resultList.size());
+
+    // setup
+	std::vector<int> sortedExpectedList(expectedList.begin(), expectedList.end());
+    std::vector<int> sortedResultList(resultList.begin(), resultList.end());
+    std::sort(sortedExpectedList.begin(), sortedExpectedList.end());
+    std::sort(sortedResultList.begin(), sortedResultList.end());
+
+	// verify
+    for (size_t i = 0; i < sortedExpectedList.size(); i++) {
+		BOOST_CHECK(sortedExpectedList[i] == sortedResultList[i]);
     }
 }
 

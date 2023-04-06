@@ -8,6 +8,9 @@
 // Custom header files
 #include "courseController.hpp"
 #include "aggregateDeadline.hpp"
+#include "subscriptionController.hpp"
+#include "taskDb.hpp"
+#include "taskController.hpp"
 
 using namespace std;
 
@@ -41,24 +44,37 @@ bool CourseController::editCourse(int courseId, int instructorId, string courseN
 
     Course updatedCourse(courseId, instructorId, courseName, courseCode, calendarDescription);
 
-    //enrollemnet list, to be added 
-    /*
-    updatedCourse.setCourseId(courseId);
-    updatedCourse.setInstructorId(instructorId);
-    updatedCourse.setCourseName(courseName);
-    updatedCourse.setCourseCode(courseCode);
-    updatedCourse.setCalendarDescription(calendarDescription);*/
-
     return courseDb->updateCourse(updatedCourse);
-
-
 }
 
 // deleteCourse
 bool CourseController::deleteCourse(int courseId) {
-
+    UserController* userController = UserController::getInstance();
     Course delCourse;
     bool deleted = false;
+
+    list<int> students = courseDb->getEnrollmentList(courseId);
+
+    // removed all student subscription
+    for (int studentId: students) {
+        cout << "removing subscription for " << studentId << endl;
+        if (this->subscriptionController->removeSubscription(courseId, studentId)) {
+            cout << "successfully deleted subscription" << endl;
+        } else {
+            cout << "susbcrpition was not delted" << endl;
+        }
+    }
+    // TODO: we should not have to pass a userID to filter tasks by user
+
+    // Delete all tasks associated with the course
+    // TODO: decide if this should associate the tasks with the instructor instead of deleting them
+    cout << "removing tasks" << endl;
+    list<Task> taskList = taskDb->getFilteredTasks(-1, courseId, -1, -1, -1, userController->getCurrentUser());
+    cout << taskList.size() << endl;
+    for (Task task : taskList) {
+        cout << "removing course task " << task.getTaskName() << endl;
+        this->taskController->deleteTask(task.getTaskId());
+    }
 
     delCourse = courseDb->getCourseInfo(courseId);
     deleted = courseDb->deleteCourse(delCourse);
@@ -106,6 +122,7 @@ vector<Course> CourseController::getInstructorCourses(int instructorId) {
 }
 
 // TODO: this should only return courses that the user is not subscribed to
+// TODO: this function should be part of subscriptionController
 vector<Course> CourseController::getAvailableCourses() {
     CourseDB* courseDB = CourseDB::getInstance();
     list<int> courseIdList = courseDB->getAllCourseIDs();

@@ -13,6 +13,8 @@
 #include "courseDb.hpp"
 #include "taskDb.hpp"
 #include "userController.hpp"
+#include "subscriptionController.hpp"
+#include "taskController.hpp"
 using namespace std;
 
 
@@ -45,6 +47,8 @@ class CourseController
 
         CourseDB *courseDb = CourseDB::getInstance();
         TaskDB *taskDb = TaskDB::getInstance();
+        SubscriptionController *subscriptionController = SubscriptionController::getInstance();
+        TaskController *taskController = TaskController::getInstance();
 };
 
 #endif

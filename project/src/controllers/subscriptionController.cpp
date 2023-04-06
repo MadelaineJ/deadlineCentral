@@ -34,7 +34,7 @@ void SubscriptionController::addSubscription(int courseId, int userId) {
 }
 
 // removeSubscription
-void SubscriptionController::removeSubscription(int courseId, int userId) {
+bool SubscriptionController::removeSubscription(int courseId, int userId) {
     this->subscriptionDB->deleteSubscription(userId, courseId);
 }
 

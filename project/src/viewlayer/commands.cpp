@@ -358,9 +358,11 @@ void handleCreateCourse(){
 void handleDeleteCourse(){
     int courseId;
 
+    vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
+    printCourseList(courseList);
+   
     cout << "Enter the ID of the course to delete: ";
     cin >> courseId;
-
 
     if (courseController->deleteCourse(courseId)) {
         cout << "Course deleted successfully!" << endl;
@@ -373,7 +375,6 @@ void handleDeleteCourse(){
 }
 
 
-// TODO: add checking so the user doesn't have to update the whole thing
 void handleEditCourse(){
 
     int courseId;

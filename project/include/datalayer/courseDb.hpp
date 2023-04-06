@@ -25,7 +25,7 @@ class CourseDB
         int createCourse(Course C);
         bool updateCourse(Course C);
         bool deleteCourse(Course C);
-        list<Student> getEnrollmentList(int courseID);
+        list<int> getEnrollmentList(int courseID);
         Course getCourseInfo(int courseID);
         list<AggregateDeadline> aggregateDeadlines(int courseID, string date);
         list<int> getInstructorCourses(int instructorId);

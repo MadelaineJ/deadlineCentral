@@ -22,7 +22,7 @@ class SubscriptionController
         
         void addSubscription(int courseId, int userId);
 
-        void removeSubscription(int courseId, int userId);
+        bool removeSubscription(int courseId, int userId);
 
         vector<Course> viewCurrentSubscriptions(int userId);
 
