@@ -4,7 +4,6 @@
 #include <termios.h>
 #include <unistd.h>
 
-
 // Custom header files
 #include "taskController.hpp"
 #include "taskDb.hpp"

@@ -281,7 +281,7 @@ void handleEditTask(){
         getline(cin, name);
         cout << "Enter the new task description: ";
         getline(cin, description);
-        cout << "Enter the new task due date (YYYY-MM-DD): ";
+        cout << "Enter the new task due date (MM/DD/YYY): ";
         getline(cin, dueDate);
         cout << "Enter the new task weight (as a decimal): ";
         cin >> weight;
@@ -424,7 +424,7 @@ void handleViewCourses() {
 void handleSubscribeCourse(){
 
     int courseCode;
-    vector<Course> courseList = courseController->getAvailableCourses();
+    vector<Course> courseList = subscriptionController->viewAvailableSubscriptions(userController->getCurrentUser());
     printCourseList(courseList);
 
     cout << "which course do you want to subscribe to?" << endl;

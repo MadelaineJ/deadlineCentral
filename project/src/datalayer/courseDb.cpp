@@ -162,7 +162,8 @@ Course CourseDB::getCourseInfo(int courseID){
       course.setCourseCode(rs->getString(4));
       course.setCalendarDescription(rs->getString(5));
    }
-
+   controllerDB->getConnection()->terminateStatement(stmt);
+   controllerDB->disconnect();
    return course;
 }
 

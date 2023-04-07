@@ -21,7 +21,7 @@ SubscriptionDB::SubscriptionDB() {}
 SubscriptionDB::~SubscriptionDB() {}
 
 // returns a list of all courses not currently subscribed to by the student
-list<Course> SubscriptionDB::getAvailableCourseList(int studentId) {
+vector<Course> SubscriptionDB::getAvailableCourseList(int studentId) {
     // query DB table Courses to return list of all courses
     ControllerDb *controllerDB = ControllerDb::getInstance();
     controllerDB->connect();
@@ -41,7 +41,7 @@ list<Course> SubscriptionDB::getAvailableCourseList(int studentId) {
 
     ResultSet *rs = stmt->executeQuery();
 
-    list<Course> availableCourses = {};
+    vector<Course> availableCourses = {};
     while(rs->next()){
         Course course(-1, -1, "", "", "");
         course.setCourseId(rs->getInt(1));

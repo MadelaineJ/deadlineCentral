@@ -46,6 +46,6 @@ vector<Course> SubscriptionController::viewCurrentSubscriptions(int userId) {
 }
 
 // viewAvailableSubscriptions
-void SubscriptionController::viewAvailableSubscriptions() {
-
+vector<Course> SubscriptionController::viewAvailableSubscriptions(int userId) {
+    return this->subscriptionDB->getAvailableCourseList(userId);
 }

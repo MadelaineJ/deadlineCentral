@@ -1,13 +1,45 @@
-project files for TeamWon
-to run deadline central:
+# Project files for Deadline Central
+
+
+## To run deadline central:
 `make run`
 
-to run deadline central unit tests: (note right now this runs a couple sqrt tests)
+*See instructions for using the application at the end*
+
+
+## To clean all bin/ and build/ files:
+`make clean`
+
+## To Run deadline central unit tests:
 `make test`
+Note: this will freeze for 10-30 seconds. It is slow but will finish eventually
 
-to run demo db example application:
-`make run-example
+Note: The makefile to create the testing executable is not set up perfectly, so it is best practice to do a
+`make clean`
+before running `make test` to guarantee that you have the latest changes.
+
+Note2: You should reset the database (instructions below), before running the tests. In an ideal world we would have two database accounts, one for
+unit tests and one for running the application.
 
 
-Right now there are some square root calculator files in the repo. This was so I could get the makefile working with
-multiple test files. It can be removed once more tests have been added.
+## Reset The Database Data
+sqlplus team1/teamwon1@192.168.18.58:1539/XEPDB1
+@../createTables_auto.sql
+
+Or from the csci375/Project repo:
+@createTables_auto.sql
+
+The sqlplus command should NOT prompt you for a username or password. It should connect you directly to oracle. If it doesn't it means the database is down,
+likely because someone restarted Kit4.
+Because the VM only exists on Madelaine's Liux account (jonesme), please ping her to turn it back on. It should only take a few minutes.
+
+
+### Testing accounts:
+You can check the createTables_auto.sql for more user accounts. Use the email and password to login to deadline central.
+You can also create your own account as an instructor or as a student.
+#### Instructor
+email: RorieGabrielson@example.com
+password: passwordRor
+#### Student
+email: MerleHuang@example.com
+password: passwordMer

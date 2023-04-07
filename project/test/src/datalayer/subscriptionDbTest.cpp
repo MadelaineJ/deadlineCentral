@@ -35,7 +35,7 @@ BOOST_AUTO_TEST_CASE(getAvailableCourseList) {
         Course(2011, 1006, "Logic and Foundations", "MATH 123", "An introduction to higher level mathematical thinking and techniques vital for success in mathematics and computer science. Topics include fundamental counting principles, combinations and permutations, symbolic logic, set theory, elementary number theory, one-to-one and onto functions. Essential mathematical proof techniques are emphasized: direct proof, proof by contradiction and mathematical induction. (4:0:0)"),
     };
 
-    list<Course> result = inTest->getAvailableCourseList(101);
+    vector<Course> result = inTest->getAvailableCourseList(101);
 
     // compare results to expected
     auto it_expected = expected.begin();

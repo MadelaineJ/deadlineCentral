@@ -21,7 +21,7 @@ class SubscriptionDB
         static SubscriptionDB* getInstance(); // gets the single instance of this class
         ~SubscriptionDB();
 
-        list<Course> getAvailableCourseList(int studentId);
+        vector<Course> getAvailableCourseList(int studentId);
         list<Course> getCourseSubscriptions(int studentID);
         bool deleteSubscription(int studentID, int courseID);
         bool createSubscription(int studentID, int courseID);

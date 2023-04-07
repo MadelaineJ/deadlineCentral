@@ -275,6 +275,8 @@ list<Task> TaskDB::getFilteredTasks(int typeFilter, int courseFilter, int comple
         }
         filteredTasks.push_back(task);
     }
+
+    controllerDB->getConnection()->terminateStatement(stmt);
     controllerDB->disconnect();
     return filteredTasks;
 }

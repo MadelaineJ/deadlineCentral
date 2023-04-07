@@ -1,12 +1,11 @@
 GIT repository for csci375/Team1/Project
-
+For build instructions please see csci375/Project/project/README.md
 
 Git work flow full instructions: https://docs.google.com/document/d/1yDrKHy_FKFAiht0kuio0eLCiNl0PRdey8jiubZBCX9M/edit?usp=sharing
 
 
 # Important note about Makefiles
-This project has two makefiles. One in csci375/Project and one in csci375/Project/project. If you confuse them you will lose all your un-commited work.
-Probably there is a way to fix that, but right now it is a problem
+This project has two makefiles. One in csci375/Project and one in csci375/Project/project.
 
 - csci375/Project/makefile is for git submission (explained below)
 - csci375/Project/project/Makefile is for project compilation (explained in csci375/Project/project/README)

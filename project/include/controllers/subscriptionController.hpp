@@ -26,7 +26,7 @@ class SubscriptionController
 
         vector<Course> viewCurrentSubscriptions(int userId);
 
-        void viewAvailableSubscriptions();
+        vector<Course> viewAvailableSubscriptions(int userId);
     
     private:
         SubscriptionController();
