@@ -36,7 +36,7 @@ void handleViewAccount() {
     user.printUserInfo();
 }
 
-// TODO: implement ability to change password
+// TODO: implement ability to change password (have to deal with re-hashing it)
 void handleUpdateAccount() {
     cout << "handling updateAccount" << endl;
     handleViewAccount();
@@ -116,24 +116,40 @@ void handleLogin(){
     }
 }
 
-// task commands
-
+// Task commands
 // Creates a personal Task
 void handleCreateTask(){
     string name, description, dueDate;
     double weight;
-    
-    cout << "Enter the task name: ";
+
+    cout << "Enter the new task name: ";
     getline(cin, name);
     cout << "Enter the task description: ";
     getline(cin, description);
-    cout << "Enter the task due date (MM/DD/YYYY): ";
-    getline(cin, dueDate);
+
+    bool validDate = false;
+    while (!validDate) {
+        cout << "Enter the task due date (MM/DD/YYYY): ";
+        getline(cin, dueDate);      
+        if (dateValidator(dueDate)) {
+            validDate = true;
+        } else {
+            cout << "Error: Invalid Date Format. Please Try Again" << endl;
+        }
+    }
+
     cout << "Enter the task weight (as a decimal): ";
     cin >> weight;
     cin.ignore(numeric_limits<streamsize>::max(), '\n');
 
-    taskController->createUserTask(userController->getCurrentUser(), name, description, dueDate, weight);
+    if (taskController->createUserTask(userController->getCurrentUser(), name, description, dueDate, weight)) 
+    {
+        cout << "Successfully Create task: '" << name << "'" << endl;
+    } else {
+        cout << "Error Creating task: '" << name << "'" << endl;
+        cout << "Please Try again" << endl;
+    }
+
 }
 
 
@@ -147,8 +163,18 @@ void handleCreateCourseTask() {
     getline(cin, name);
     cout << "Enter the task description: ";
     getline(cin, description);
-    cout << "Enter the task due date (MM/DD/YYYY): ";
-    getline(cin, dueDate);
+
+    bool validDate = false;
+    while (!validDate) {
+        cout << "Enter the task due date (MM/DD/YYYY): ";
+        getline(cin, dueDate);      
+        if (dateValidator(dueDate)) {
+            validDate = true;
+        } else {
+            cout << "Error: Invalid Date Format. Please Try Again" << endl;
+        }
+    }
+
     cout << "Enter the task weight (as a decimal): ";
     cin >> weight;
             
@@ -164,10 +190,10 @@ void handleCreateCourseTask() {
         cout << "You can create a course in the course menu" << endl;
     }
 
-    if (taskController->createCourseTask(name, type, courseList[courseId-1].getCourseId(), description, dueDate, weight)) {
-        cout << "Successfully added task: '" << name << "' to course: '" << courseList[courseId-1].getCourseName() << "'" << endl;
+    if (taskController->createCourseTask(name, type, courseList[courseId].getCourseId(), description, dueDate, weight)) {
+        cout << "Successfully added task: '" << name << "' to course: '" << courseList[courseId].getCourseName() << "'" << endl;
     } else {
-        cout << "Error adding task: '" << name << "' to course: '" << courseList[courseId-1].getCourseName() << "'" << endl;
+        cout << "Error adding task: '" << name << "' to course: '" << courseList[courseId].getCourseName() << "'" << endl;
         cout << "Please Try again" << endl;
     }
     
@@ -241,7 +267,6 @@ void handleViewAllTasks() {
     filterTaskController->printTaskList();
 }
 
-
 void handleDeleteTask(){
 
     int taskId;
@@ -288,8 +313,16 @@ void handleEditTask(){
         getline(cin, name);
         cout << "Enter the new task description: ";
         getline(cin, description);
-        cout << "Enter the new task due date (MM/DD/YYY): ";
-        getline(cin, dueDate);
+        bool validDate = false;
+        while (!validDate) {
+            cout << "Enter the task due date (MM/DD/YYYY): ";
+            getline(cin, dueDate);      
+            if (dateValidator(dueDate)) {
+                validDate = true;
+            } else {
+                cout << "Error: Invalid Date Format. Please Try Again" << endl;
+            }
+        }
         cout << "Enter the new task weight (as a decimal): ";
         cin >> weight;
         cout << "Enter the new task type (1 = Homework, 2 = Quiz, 3 = Exam, 4 = Project): ";
@@ -307,7 +340,6 @@ void handleEditTask(){
 }
 
 // course commands
-
 // TODO: add error checking fot incorrect course or task ids
 // TODO: add validation checking "are you sure" etc
 void handleAddExistingTask() {
@@ -315,24 +347,44 @@ void handleAddExistingTask() {
 
     int courseId, taskId;
     handleViewAllTasks();
-    cout << "Enter Task Id for Task to be added: ";
-    cin >> taskId;
-    
+    cout << "Which Task would you like to add?" << endl;
+    list<Task> tasks = filterTaskController->getTaskList();
+    vector<Task> taskList = vector<Task>(tasks.begin(), tasks.end());
+
+    // Choose Task
+    if (taskList.size() != 0) {
+        taskId = chooseTask(taskList);
+    } else {
+        cout << "You have no existing tasks" << endl;
+    }
+
     Task task = taskController->getTaskInfo(taskId);
     task.printTaskInfo();
-    
+
+    // If it was a personal Task then choose task type
     if (task.getTaskType() >= 10) {
         CommandHandler commandHandler;
         cout << "Choose Task Type" << endl;
         int type = commandHandler.manageChooseTaskType();
         task.setTaskType(type);
     }
-    task.printTaskInfo();
+    // Choose course
     cout << "Which course would you like to add the task to?" << endl;
+    vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
+    if (courseList.size() != 0) {
+        courseId = chooseCourse(courseList);
+    } else {
+        cout << "You have no courses to delete" << endl;
+    }
 
-
-    task.setTaskOwner(courseId);
-    courseController->addTask(task);
+    if (taskController->createCourseTask(task.getTaskName(), task.getTaskType(), courseId, 
+        task.getTaskDescription(), task.getDueDate(), task.getWeight())) 
+    {
+        cout << "Successfully added task: '" << task.getTaskName() << "' to course: '" << courseList[courseId].getCourseName() << "'" << endl;
+    } else {
+        cout << "Error adding task: '" << task.getTaskName() << "' to course: '" << courseList[courseId].getCourseName() << "'" << endl;
+        cout << "Please Try again" << endl;
+    }
 }
 
 void handleCreateCourse(){
@@ -351,7 +403,6 @@ void handleCreateCourse(){
     else {
         cout << "Error creating course. Please try again." << endl;
     }
-
 }
 
 void handleDeleteCourse(){
@@ -605,6 +656,7 @@ int chooseCourse(vector<Course> courseList) {
         bool validInput = false;
 
         while (!validInput) {
+            cout << "==== Enter Course Number ====" << endl;
             cout << ">>> "; 
             cin >> courseId;
             if ((cin.fail()) || ((courseId < courseList.size()+1) && (courseId > 0))) {
@@ -629,9 +681,10 @@ int chooseTask(vector<Task> taskList) {
         bool validInput = false;
 
         while (!validInput) {
+            cout << "==== Enter Task Number ====" << endl;
             cout << ">>> "; 
             cin >> taskId;
-            if ((cin.fail()) && ((taskId < taskList.size()+1) && (taskId > 0))) {
+            if ((cin.fail()) || (((taskId < taskList.size()+1) && (taskId > 0)))) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 validInput = true;
@@ -640,5 +693,15 @@ int chooseTask(vector<Task> taskList) {
             }
         }          
     }
-    return taskId-1;  
+    return taskList[taskId-1].getTaskId();
+}
+
+// Returns true if the user entered date is in the correct format, false otherwise
+bool dateValidator(string date) {
+    regex dateRegex("^(0[1-9]|1[0-2])/([0-2][0-9]|3[0-1])/\\d{4}$");
+    if(regex_match(date, dateRegex)) {
+        return true;
+    } else {
+        return false;
+    }
 }

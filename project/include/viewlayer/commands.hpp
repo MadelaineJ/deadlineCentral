@@ -53,7 +53,7 @@ void handleViewConsolidatedDeadlines();
 // Helper functions
 int chooseCourse(vector<Course> courseList);
 int chooseTask(vector<Task> taskList);
-
+bool dateValidator(string date);
 
 
 // display formating helper functions
