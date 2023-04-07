@@ -11,12 +11,12 @@
 
 using namespace std;
 
-// todo, update this to be one "start deadline central function"
 void CommandHandler::manageMain() {
     int input;
     do {
         if (userController->getCurrentUser() == -1) // then no one is logged in
         {
+            handleHelp();
             manageLogin();
         }
         mainMenu();
@@ -472,6 +472,5 @@ void CommandHandler::handleHelp() {
     cout << "For example, to choose the 'Manage Account' option in the main menu, enter '1' and press Enter." << std::endl;
     cout << "To return to the main menu from any submenu, select the option that says 'Main Menu' or enter the corresponding number and press Enter." << std::endl;
     cout << "To quit the application, enter '5' from the main menu and press Enter." << std::endl;
-    cout << "The only valid commands in the menus are numbers 1-4 and 5 to quit from the main menu." << std::endl;
 }
 

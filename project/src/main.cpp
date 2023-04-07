@@ -14,6 +14,9 @@
 
 using namespace std;
 
+
+void displayTitle();
+
 int main() {
 
 
@@ -24,9 +27,29 @@ int main() {
     SubscriptionController::getInstance();
     CourseController::getInstance();
 
+    // Display start up message
+    displayTitle();
+
     // start Deadline Central
     CommandHandler commandHandler;
     commandHandler.manageMain();
 
-    cout << "bye!" << endl;
+    cout << "Bye!" << endl;
 }
+
+
+void displayTitle(){
+
+    string title =
+    "  ________                     .___.__  .__                _________                __                .__   \n"
+    "  \\______ \\   ____ _____     __| _/|  | |__| ____   ____   \\_   ___ \\  ____   _____/  |_____________  |  |  \n"
+    "    |    |  \\_/ __ \\__  \\   / __ | |  | |  |/    \\_/ __ \\  /    \\  \\/_/ __ \\ /    \\   __\\_  __ \\__  \\ |  |  \n"
+    "    |____|  \\  ___/ / __ \\_/ /_/ | |  |_|  |   |  \\  ___/  \\     \\___\\  ___/|   |  \\  |  |  | \\// __ \\|  |__\n"
+    "  /_______  /\\___  >____  /\\____ | |____/__|___|  /\\___  >  \\______  /\\___  >___|  /__|  |__|  (____  /____/\n"
+    "          \\/     \\/     \\/      \\/              \\/     \\/          \\/     \\/     \\/                 \\/      \n";
+
+    cout<<title<<endl;
+
+}
+
+

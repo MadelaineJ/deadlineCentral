@@ -29,13 +29,13 @@ SubscriptionController::~SubscriptionController() {
 }
 
 // addSubscription
-void SubscriptionController::addSubscription(int courseId, int userId) {
-	this->subscriptionDB->createSubscription(userId, courseId);
+bool SubscriptionController::addSubscription(int courseId, int userId) {
+	return this->subscriptionDB->createSubscription(userId, courseId);
 }
 
 // removeSubscription
 bool SubscriptionController::removeSubscription(int courseId, int userId) {
-    this->subscriptionDB->deleteSubscription(userId, courseId);
+    return this->subscriptionDB->deleteSubscription(userId, courseId);
 }
 
 // viewCurrentSubscriptions

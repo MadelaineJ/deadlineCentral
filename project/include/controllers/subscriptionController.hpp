@@ -20,7 +20,7 @@ class SubscriptionController
         static SubscriptionController* getInstance(); // gets the single instance of this class
         ~SubscriptionController();
         
-        void addSubscription(int courseId, int userId);
+        bool addSubscription(int courseId, int userId);
 
         bool removeSubscription(int courseId, int userId);
 
