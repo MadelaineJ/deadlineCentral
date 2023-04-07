@@ -30,8 +30,8 @@ TaskController::~TaskController() { }
 // createTask
 bool TaskController::createUserTask(int userId, string name, string description, string dueDate, float weight) {
     Task task(-1, name, 10, userId, description, dueDate, false, weight);
-    this->taskDb->createTask(task);
-}
+    return this->taskDb->createTask(task);
+} 
 
 // createTask
 bool TaskController::createCourseTask(string name, int type, int course, string description, string dueDate, float weight) {
@@ -45,7 +45,6 @@ bool TaskController::updateTask(int ownerId, int taskId, string name, string des
     Task task(taskId, name, type, ownerId, description, dueDate, false, weight);
     return taskDb->updateTask(task);
 }
-
 
 bool TaskController::deleteTask(int taskId) {
     

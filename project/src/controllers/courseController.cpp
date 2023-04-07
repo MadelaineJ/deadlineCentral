@@ -31,11 +31,9 @@ CourseController::CourseController() {}
 CourseController::~CourseController() { }
 
 // createCourse
-int CourseController::createCourse(string name, string description, string code) {
-    CourseDB* courseDB = CourseDB::getInstance();
-    UserController* userController = UserController::getInstance();
+bool CourseController::createCourse(string name, string description, string code, int ownerId) {
 
-    Course newCourse(-1, userController->getCurrentUser(), name, code, description);
+    Course newCourse(-1, ownerId, name, code, description);
     return courseDb->createCourse(newCourse); 
 }
 
@@ -48,8 +46,7 @@ bool CourseController::editCourse(int courseId, int instructorId, string courseN
 }
 
 // deleteCourse
-bool CourseController::deleteCourse(int courseId) {
-    UserController* userController = UserController::getInstance();
+bool CourseController::deleteCourse(int courseId, int userId) {
     Course delCourse;
     bool deleted = false;
 
@@ -62,9 +59,8 @@ bool CourseController::deleteCourse(int courseId) {
     // TODO: we should not have to pass a userID to filter tasks by course
 
     // Delete all tasks associated with the course
-    // TODO: decide if this should associate the tasks with the instructor as personal instead of deleting them
-    cout << "removing tasks" << endl;
-    list<Task> taskList = taskDb->getFilteredTasks(-1, courseId, -1, -1, -1, userController->getCurrentUser());
+    // TODO: decide if this should associate the tasks with the instructor as personal instead of deleting themclearclera
+    list<Task> taskList = taskDb->getFilteredTasks(-1, courseId, -1, -1, -1, userId);
     for (Task task : taskList) {
         this->taskController->deleteTask(task.getTaskId());
     }
@@ -77,21 +73,13 @@ bool CourseController::deleteCourse(int courseId) {
 
 // getCourseInfo
 Course CourseController::getCourseInfo(int courseId) {
-    CourseDB* courseDB = CourseDB::getInstance();
-    return courseDB->getCourseInfo(courseId);
+    return courseDb->getCourseInfo(courseId);
 }
 
 // addTask
-void CourseController::addTask(Task task) {
-    taskDb->updateTaskOwner(task);
- 
-}
-
-// removeTask
-void CourseController::removeTask(int taskId, int instId) {
-
-    Task remTask = taskDb->getTaskInfo(taskId);
-    remTask.setTaskOwner(instId);
+bool CourseController::addTask(Task task) {
+    return taskDb->updateTaskOwner(task);
+    
 }
 
 // aggregateDeadlines
@@ -101,23 +89,9 @@ list<AggregateDeadline> CourseController::aggregateDeadlines(int courseId, strin
 }
 
 vector<Course> CourseController::getInstructorCourses(int instructorId) {
-    CourseDB* courseDB = CourseDB::getInstance();
-    list<int> courseIdList = courseDB->getInstructorCourses(instructorId);
+    list<int> courseIdList = courseDb->getInstructorCourses(instructorId);
     vector<Course> courseList;
     for (int id: courseIdList) {
-        courseList.push_back(this->getCourseInfo(id));
-    }
-
-    return courseList;
-}
-
-// TODO: this should only return courses that the user is not subscribed to
-// TODO: this function should be part of subscriptionController
-vector<Course> CourseController::getAvailableCourses() {
-    CourseDB* courseDB = CourseDB::getInstance();
-    list<int> courseIdList = courseDB->getAllCourseIDs();
-    vector<Course> courseList;
-    for (int id : courseIdList) {
         courseList.push_back(this->getCourseInfo(id));
     }
 

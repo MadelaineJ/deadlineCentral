@@ -12,7 +12,6 @@
 #include "course.hpp"
 #include "courseDb.hpp"
 #include "taskDb.hpp"
-#include "userController.hpp"
 #include "subscriptionController.hpp"
 #include "taskController.hpp"
 using namespace std;
@@ -24,22 +23,21 @@ class CourseController
         static CourseController* getInstance(); // gets the single instance of this class
         ~CourseController();
         
-        int createCourse(string name, string description, string code);
+        bool createCourse(string name, string description, string code, int ownerId);
 
         bool editCourse(int cId, int instId, string Name, string Code, string Description);
 
-        bool deleteCourse(int cId);
+        bool deleteCourse(int courseId, int userId);
 
         Course getCourseInfo(int cId);
 
-        void addTask(Task task);
+        bool addTask(Task task);
 
-        void removeTask(int tId, int cId);
+        bool removeTask(int tId, int cId);
 
         list<AggregateDeadline> aggregateDeadlines(int courseId, string date);
 
         vector<Course> getInstructorCourses(int instructorId);
-        vector<Course> getAvailableCourses();
         
     private:    
         CourseController(); // private to prevent direct instantiation

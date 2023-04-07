@@ -56,6 +56,7 @@ void handleDeleteAccount() {
     string answer;
     cin >> answer;
     if (answer == "y") {
+        cout << "This may take a moment. Please wait..." << endl;
         userController->deleteUser(userController->getCurrentUser());
         cout << "You account Has been deleted" << endl;
         cout << "Goodbye" << endl;
@@ -339,7 +340,7 @@ void handleCreateCourse(){
     cout << "Enter the course code: ";
     getline(cin, code);
 
-    if (courseController->createCourse(name, description, code)) {
+    if (courseController->createCourse(name, description, code, userController->getCurrentUser())) {
         cout << "Course created successfully!" << endl;
     }
     else {
@@ -359,7 +360,7 @@ void handleDeleteCourse(){
         cout << "You have no courses to delete" << endl;
     }
 
-    if (courseController->deleteCourse(courseId)) {
+    if (courseController->deleteCourse(courseId, userController->getCurrentUser())) {
         cout << "Course deleted successfully!" << endl;
     }
     else {

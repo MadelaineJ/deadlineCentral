@@ -16,7 +16,7 @@ TaskDB::TaskDB() {}
 TaskDB::~TaskDB() {}
 
 // inserts a new task into the db
-bool TaskDB::createTask(Task task){
+int TaskDB::createTask(Task task){
     ControllerDb* controllerDB = ControllerDb::getInstance();
     controllerDB->connect();
 
@@ -211,6 +211,7 @@ list<Task> TaskDB::getFilteredTasks(int typeFilter, int courseFilter, int comple
                     << "instructorID = :instructorID "
                     << ") ";
     }
+
 
     bool hasFilter = false; // flag for adjusting query syntax
 

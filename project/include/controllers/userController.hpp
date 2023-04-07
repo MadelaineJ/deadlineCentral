@@ -12,6 +12,7 @@
 
 #include "taskController.hpp"
 #include "subscriptionController.hpp"
+#include "courseController.hpp"
 
 
 // forward declaration
@@ -49,6 +50,7 @@ class UserController
         UserDB* userDb = UserDB::getInstance();
         TaskController *taskController;
         SubscriptionController *subscriptionController;
+        CourseController *courseController = CourseController::getInstance();
 };
 
 #endif

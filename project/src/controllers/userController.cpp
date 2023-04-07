@@ -14,6 +14,7 @@
 #include "userController.hpp"
 #include "taskController.hpp"
 #include "subscriptionController.hpp"
+#include "courseController.hpp"
 #include "userDb.hpp"
 #include "user.hpp"
 #include "student.hpp"
@@ -105,21 +106,30 @@ void UserController::createInstructor(string name, string email, string password
 
 // deleteUser
 void UserController::deleteUser(int userId) {
-    // delete all their personal tasks first
+    // delete personal tasks
     list<int> taskList = this->userDb->getTaskList(getCurrentUser());
 
     for (int taskId: taskList) {
-        cout << "deleting task " << taskId << endl;
         taskController->deleteTask(taskId);
     }
 
-    // delete all their subscriptions
+    if (userId < 1001) {
+        // delete user subscriptions if student
         vector<Course> subscriptions = this->subscriptionController->viewCurrentSubscriptions(userId);
 
-    for (Course course: subscriptions) {
-        cout << "deleting subscription " << course.getCourseId() << endl;
-        subscriptionController->removeSubscription(course.getCourseId(), userId);
+        for (Course course: subscriptions) {
+            subscriptionController->removeSubscription(course.getCourseId(), userId);
+        }
+    // TODO: decide if deleting an instructor should really delete all their courses
+    } else {
+        // delete user's courses if instructor
+        vector<Course> courseList = courseController->getInstructorCourses(userId);
+
+        for (Course course: courseList) {
+            this->courseController->deleteCourse(course.getCourseId(), userId);
+        }
     }
+    // delete the user    
     userDb->deleteUser(userId);
 
 }

@@ -1,5 +1,6 @@
 # Project files for Deadline Central
 
+Note: This project will only run on the kit lab machines because it uses OpenSSL
 
 ## To run deadline central:
 `make run`
