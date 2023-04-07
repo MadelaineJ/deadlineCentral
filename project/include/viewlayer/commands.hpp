@@ -50,6 +50,11 @@ void handleUnsubscribeCourse();
 void handleViewConsolidatedDeadlines();
 
 
+// Helper functions
+int chooseCourse(vector<Course> courseList);
+int chooseTask(vector<Task> taskList);
+
+
 
 // display formating helper functions
 string trimString(string str, int maxLength);

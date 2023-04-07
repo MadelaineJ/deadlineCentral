@@ -28,15 +28,15 @@ TaskController::TaskController(){}
 TaskController::~TaskController() { }
 
 // createTask
-void TaskController::createUserTask(int userId, string name, string description, string dueDate, float weight) {
+bool TaskController::createUserTask(int userId, string name, string description, string dueDate, float weight) {
     Task task(-1, name, 10, userId, description, dueDate, false, weight);
     this->taskDb->createTask(task);
 }
 
 // createTask
-void TaskController::createCourseTask(string name, int type, int course, string description, string dueDate, float weight) {
+bool TaskController::createCourseTask(string name, int type, int course, string description, string dueDate, float weight) {
     Task task(-1, name, type, course, description, dueDate, false, weight);
-    this->taskDb->createTask(task);
+    return this->taskDb->createTask(task);
 }
 
 // editTask

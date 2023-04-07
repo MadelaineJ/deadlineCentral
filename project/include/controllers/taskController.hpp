@@ -21,8 +21,8 @@ class TaskController
         static TaskController* getInstance(); // gets the single instance of this class
         ~TaskController();
         
-        void createUserTask(int userId, string name, string description, string dueDate, float weight);
-        void createCourseTask(string name, int type, int course, string description, string dueDate, float weight);
+        bool createUserTask(int userId, string name, string description, string dueDate, float weight);
+        bool createCourseTask(string name, int type, int course, string description, string dueDate, float weight);
         bool updateTask(int ownerId, int taskId, string name, string description, string dueDate, float weight, int type);
         bool deleteTask(int courseId);
         Task getTaskInfo(int id);

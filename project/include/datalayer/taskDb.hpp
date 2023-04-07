@@ -21,7 +21,7 @@ class TaskDB
     public:
         static TaskDB* getInstance(); // gets the single instance of this class
         ~TaskDB();
-        int createTask(Task task);
+        bool createTask(Task task);
         bool updateTask(Task T);
         bool updateTaskOwner(Task T);
         bool deleteTask(Task T);

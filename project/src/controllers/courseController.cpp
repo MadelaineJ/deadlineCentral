@@ -57,22 +57,15 @@ bool CourseController::deleteCourse(int courseId) {
 
     // removed all student subscription
     for (int studentId: students) {
-        cout << "removing subscription for " << studentId << endl;
-        if (this->subscriptionController->removeSubscription(courseId, studentId)) {
-            cout << "successfully deleted subscription" << endl;
-        } else {
-            cout << "susbcrpition was not delted" << endl;
-        }
+        this->subscriptionController->removeSubscription(courseId, studentId);
     }
-    // TODO: we should not have to pass a userID to filter tasks by user
+    // TODO: we should not have to pass a userID to filter tasks by course
 
     // Delete all tasks associated with the course
-    // TODO: decide if this should associate the tasks with the instructor instead of deleting them
+    // TODO: decide if this should associate the tasks with the instructor as personal instead of deleting them
     cout << "removing tasks" << endl;
     list<Task> taskList = taskDb->getFilteredTasks(-1, courseId, -1, -1, -1, userController->getCurrentUser());
-    cout << taskList.size() << endl;
     for (Task task : taskList) {
-        cout << "removing course task " << task.getTaskName() << endl;
         this->taskController->deleteTask(task.getTaskId());
     }
 
@@ -80,7 +73,6 @@ bool CourseController::deleteCourse(int courseId) {
     deleted = courseDb->deleteCourse(delCourse);
 
     return deleted;
-
 }
 
 // getCourseInfo
@@ -99,7 +91,6 @@ void CourseController::addTask(Task task) {
 void CourseController::removeTask(int taskId, int instId) {
 
     Task remTask = taskDb->getTaskInfo(taskId);
-
     remTask.setTaskOwner(instId);
 }
 
@@ -107,7 +98,6 @@ void CourseController::removeTask(int taskId, int instId) {
 list<AggregateDeadline> CourseController::aggregateDeadlines(int courseId, string date) {
 
     return courseDb->aggregateDeadlines(courseId, date);
-
 }
 
 vector<Course> CourseController::getInstructorCourses(int instructorId) {

@@ -46,13 +46,12 @@ void handleUpdateAccount() {
     cout << "Enter new email: ";
     cin >> email;
 
-
     userController->updateUser(name, email);
 
 }
 void handleDeleteAccount() {
     cout << "Warning, this cannot be undone" << endl;
-    cout << "are you sure you want to delete your account? (y/n): ";
+    cout << "Are you sure you want to delete your account? (y/n): ";
 
     string answer;
     cin >> answer;
@@ -155,12 +154,22 @@ void handleCreateCourseTask() {
     cout << "Choose Task Type" << endl;
     CommandHandler commandHandler;
     type = commandHandler.manageChooseTaskType();
-    handleViewCourses();
     cout << "Which course would you like to add the task to?" << endl;
-    cout << "Enter Course Id: ";
-    cin >> courseId;
+    vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
+    if(courseList.size() != 0) {
+        courseId = chooseCourse(courseList);    
+    } else {
+        cout << "You have no courses to add the task to" << endl;
+        cout << "You can create a course in the course menu" << endl;
+    }
 
-    taskController->createCourseTask(name, type, courseId, description, dueDate, weight);
+    if (taskController->createCourseTask(name, type, courseList[courseId-1].getCourseId(), description, dueDate, weight)) {
+        cout << "Successfully added task: '" << name << "' to course: '" << courseList[courseId-1].getCourseName() << "'" << endl;
+    } else {
+        cout << "Error adding task: '" << name << "' to course: '" << courseList[courseId-1].getCourseName() << "'" << endl;
+        cout << "Please Try again" << endl;
+    }
+    
 }
 
 void handleSortByWeight() {
@@ -193,31 +202,15 @@ void handleFilterByType(int type) {
 
 void handleFilterByCourse() {
     vector<Course> courseList;
+    int courseId;
     if (userController->getCurrentUser() > 1000) {
         courseList = courseController->getInstructorCourses(userController->getCurrentUser());
     } else {
         courseList = subscriptionController->viewCurrentSubscriptions(userController->getCurrentUser());
     }
-    
-    if(courseList.size() != 0) {
-        cout << "==== Choose Course ====" << endl;
-        for (int i = 0; i < courseList.size(); i++) {
-            cout << i+1 << ". " << courseList[i].getCourseName() << endl;
-        }
-        bool validInput = false;
-        int courseId;
-        while (!validInput) {
-            cout << ">>> "; 
-            cin >> courseId;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            if ((courseId < courseList.size()+1) && (courseId > 0)) {
-                validInput = true;
-            } else {
-                cout << "Invalid choice, please try again" << endl;
-            }
-        }
-        filterTaskController->filterTasksByCourse(courseList[courseId-1].getCourseId());
-        filterTaskController->printTaskList();        
+
+    if (courseList.size() != 0) {
+        courseId = chooseCourse(courseList);
     } else {
         if (userController->getCurrentUser() > 1000) {
             cout << "You have no courses to filter by" << endl;
@@ -329,10 +322,8 @@ void handleAddExistingTask() {
         task.setTaskType(type);
     }
     task.printTaskInfo();
-    handleViewCourses();
     cout << "Which course would you like to add the task to?" << endl;
-    cout << "Enter Course Id: ";
-    cin >> courseId;
+
 
     task.setTaskOwner(courseId);
     courseController->addTask(task);
@@ -341,7 +332,6 @@ void handleAddExistingTask() {
 void handleCreateCourse(){
     string name, description, code;
 
-    
     cout << "Enter the course name: ";
     getline(cin, name);
     cout << "Enter the calendar description: ";
@@ -349,7 +339,6 @@ void handleCreateCourse(){
     cout << "Enter the course code: ";
     getline(cin, code);
 
-    
     if (courseController->createCourse(name, description, code)) {
         cout << "Course created successfully!" << endl;
     }
@@ -357,17 +346,18 @@ void handleCreateCourse(){
         cout << "Error creating course. Please try again." << endl;
     }
 
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 void handleDeleteCourse(){
     int courseId;
-
+    
+    cout << "Choose the course to delete" << endl;
     vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
-    printCourseList(courseList);
-   
-    cout << "Enter the ID of the course to delete: ";
-    cin >> courseId;
+    if (courseList.size() != 0) {
+        courseId = chooseCourse(courseList);
+    } else {
+        cout << "You have no courses to delete" << endl;
+    }
 
     if (courseController->deleteCourse(courseId)) {
         cout << "Course deleted successfully!" << endl;
@@ -375,8 +365,6 @@ void handleDeleteCourse(){
     else {
         cout << "Error deleting course. Please try again." << endl;
     }
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 
@@ -386,20 +374,19 @@ void handleEditCourse(){
     string name, description, code;
 
     vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
-    printCourseList(courseList);
+    if (courseList.size() != 0) {
+        courseId = chooseCourse(courseList);
+    } else {
+        cout << "You have no courses to edit" << endl;
+    }
+
     // TODO: user should be able to choose which values they want to edit
-    cout << "Enter the ID of the course to edit: ";
-    cin >> courseId;
     cout << "Enter the new course name: ";
-    cin.ignore();
     getline(cin, name);
     cout << "Enter the new calendar description: ";
-    cin.ignore();
     getline(cin, description);
     cout << "Enter the new course code: ";
-    cin.ignore();
     getline(cin, code);
-
 
     if (courseController->editCourse(courseId, userController->getCurrentUser(), name, code, description)) {
         cout << "Course edited successfully!" << endl;
@@ -423,41 +410,42 @@ void handleViewCourses() {
         vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
         printCourseList(courseList);
     }
-    
 }
 
 void handleSubscribeCourse(){
 
-    int courseCode;
-    vector<Course> courseList = subscriptionController->viewAvailableSubscriptions(userController->getCurrentUser());
-    printCourseList(courseList);
-
+    int courseId;
     cout << "Which course do you want to subscribe to?" << endl;
-    cout << "Enter the course id: ";
-    cin >> courseCode;
+
+    vector<Course> courseList = subscriptionController->viewAvailableSubscriptions(userController->getCurrentUser());
+    if (courseList.size() != 0) {
+        courseId = chooseCourse(courseList);
+    } else {
+        cout << "There are Currently no Courses to Subscribe to" << endl;
+    }
 
     // TODO: add error checking on Course Code
-    if (subscriptionController->addSubscription(courseCode, userController->getCurrentUser())) {
+    if (subscriptionController->addSubscription(courseId, userController->getCurrentUser())) {
         cout << "Subscribed to course successfully!" << endl;
     }
     else {
         cout << "Error subscribing to course. Please try again." << endl;
     }
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-
 }
 
 void handleUnsubscribeCourse(){
-    int courseCode;
-
-    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions(userController->getCurrentUser());
-    printCourseList(courseList);
+    int courseId;
     cout << "which course do you want to unsubscribe from?" << endl;
-    cout << "Enter the courseId: " ;
-    cin >> courseCode;
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    if (subscriptionController->removeSubscription(courseCode, userController->getCurrentUser())) {
+    // let user choose course
+    vector<Course> courseList = subscriptionController->viewCurrentSubscriptions(userController->getCurrentUser());
+    if (courseList.size() != 0) {
+        courseId = chooseCourse(courseList);
+    } else {
+        cout << "There are Currently no Courses to Subscribe to" << endl;
+    }
+
+    // Validate that the subscription was removed
+    if (subscriptionController->removeSubscription(courseId, userController->getCurrentUser())) {
         cout << "Unsubscribed from course successfully!" << endl;
     }
     else {
@@ -468,10 +456,13 @@ void handleUnsubscribeCourse(){
 
 void handleViewConsolidatedDeadlines() {
     int courseId, taskId;
-    handleViewCourses();
     cout << "For which COURSE would you like to see the conflicting deadlines?" << endl;
-    cout << "Enter CourseId: ";
-    cin >> courseId;
+    vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
+    if (courseList.size() != 0) {
+        courseId = chooseCourse(courseList);
+    } else {
+        cout << "You have no courses to delete" << endl;
+    }
 
     filterTaskController->filterTasksByCourse(courseId);
     filterTaskController->printTaskList();
@@ -594,4 +585,52 @@ string getTypeName(int type) {
             return "Personal";
 
     }
+}
+
+
+
+int chooseCourse(vector<Course> courseList) {
+    int courseId;
+    if(courseList.size() != 0) {
+        cout << "==== Choose Course ====" << endl;
+        for (int i = 0; i < courseList.size(); i++) {
+            cout << i+1 << ". " << courseList[i].getCourseName() << endl;
+        }
+        bool validInput = false;
+
+        while (!validInput) {
+            cout << ">>> "; 
+            cin >> courseId;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            if ((courseId < courseList.size()+1) && (courseId > 0)) {
+                validInput = true;
+            } else {
+                cout << "Invalid choice, please try again" << endl;
+            }
+        }      
+    }
+    return courseList[courseId-1].getCourseId();
+}
+
+int chooseTask(vector<Task> taskList) {
+    int taskId;
+    if(taskList.size() != 0) {
+        cout << "==== Choose Task ====" << endl;
+        for (int i = 0; i < taskList.size(); i++) {
+            cout << i+1 << ". " << taskList[i].getTaskName() << endl;
+        }
+        bool validInput = false;
+
+        while (!validInput) {
+            cout << ">>> "; 
+            cin >> taskId;
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            if ((taskId < taskList.size()+1) && (taskId > 0)) {
+                validInput = true;
+            } else {
+                cout << "Invalid choice, please try again" << endl;
+            }
+        }      
+    }
+    return taskId-1;  
 }
