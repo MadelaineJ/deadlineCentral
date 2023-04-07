@@ -28,7 +28,7 @@ TaskController::TaskController(){}
 TaskController::~TaskController() { }
 
 // createTask
-bool TaskController::createUserTask(int userId, string name, string description, string dueDate, float weight) {
+int TaskController::createUserTask(int userId, string name, string description, string dueDate, float weight) {
     Task task(-1, name, 10, userId, description, dueDate, false, weight);
     return this->taskDb->createTask(task);
 } 

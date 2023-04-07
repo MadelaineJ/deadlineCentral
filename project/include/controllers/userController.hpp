@@ -28,9 +28,9 @@ class UserController
 
         string generate_hash(const std::string& password);
         
-        void createStudent(string name, string email, string passwordOriginal);
+        int createStudent(string name, string email, string passwordOriginal);
 
-        void createInstructor(string name, string email, string passwordOriginal);
+        int createInstructor(string name, string email, string passwordOriginal);
 
         void deleteUser(int userId);
 

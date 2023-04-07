@@ -23,7 +23,7 @@ class CourseController
         static CourseController* getInstance(); // gets the single instance of this class
         ~CourseController();
         
-        bool createCourse(string name, string description, string code, int ownerId);
+        int createCourse(string name, string description, string code, int ownerId);
 
         bool editCourse(int cId, int instId, string Name, string Code, string Description);
 

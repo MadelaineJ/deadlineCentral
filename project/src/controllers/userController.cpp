@@ -89,19 +89,19 @@ UserController::~UserController() {
 }
 
 // createStudent
-void UserController::createStudent(string name, string email, string password) {
+int UserController::createStudent(string name, string email, string password) {
     list<int> tasks = {};
     string hashedPassword = generate_hash(password);
     Student* student = new Student(-1, name, hashedPassword, email, tasks);
-    userDb->createUser(*student);
+    return userDb->createUser(*student);
 }
 
 // createInstructor
-void UserController::createInstructor(string name, string email, string password) {
+int UserController::createInstructor(string name, string email, string password) {
     list<int> tasks = {};
     string hashedPassword = generate_hash(password);
     Instructor* instructor = new Instructor(-1, name, hashedPassword, email, tasks);
-    userDb->createUser(*instructor);
+    return userDb->createUser(*instructor);
 }
 
 // deleteUser

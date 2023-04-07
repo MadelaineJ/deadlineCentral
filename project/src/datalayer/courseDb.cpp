@@ -154,7 +154,7 @@ Course CourseDB::getCourseInfo(int courseID){
 
    ResultSet *rs = stmt->executeQuery();
 
-   Course course(0,0,"0", "0", "0");
+   Course course(0,0,"", "", "");
    if(rs->next()){
       course.setCourseId(rs->getInt(1));
       course.setInstructorId(rs->getInt(2));

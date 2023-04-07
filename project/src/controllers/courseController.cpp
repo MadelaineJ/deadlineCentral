@@ -31,7 +31,7 @@ CourseController::CourseController() {}
 CourseController::~CourseController() { }
 
 // createCourse
-bool CourseController::createCourse(string name, string description, string code, int ownerId) {
+int CourseController::createCourse(string name, string description, string code, int ownerId) {
 
     Course newCourse(-1, ownerId, name, code, description);
     return courseDb->createCourse(newCourse); 

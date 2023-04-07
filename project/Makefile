@@ -66,6 +66,7 @@ test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTe
 	--run_test=userDatabase \
 	--run_test=subscriptionDatabase \
 	--run_test=filterTaskController \
+	--run_test=userControllerTest \
 		-- bin/test
 
 run-example: directories ${BINARY}/exampleProg ${SOURCE}/databaseTest.cpp
@@ -209,8 +210,6 @@ ${INCLUDE}/${MODEL}/user.hpp
 # ${TESTS}/${SOURCE}/${DATALAYER}/taskDbTest.cpp ${SOURCE}/${DATALAYER}/taskDb.cpp ${SOURCE}/${MODEL}/task.cpp \
 # and then change the file locations and names.
 
-
-# TODO remove the sqrtTest compilation
 # Testing executable
 ${TESTS}/${BINARY}/deadlineCentralTest: ${BINARY}/deadlineCentral \
 ${INCLUDE}/${DATALAYER}/userDb.hpp ${INCLUDE}/${DATALAYER}/courseDb.hpp ${INCLUDE}/${DATALAYER}/taskDb.hpp ${INCLUDE}/${DATALAYER}/subscriptionDb.hpp \
@@ -231,8 +230,9 @@ ${INCLUDE}/${MODEL}/user.hpp
     ${TESTS}/${SOURCE}/${DATALAYER}/userDbTest.cpp ${SOURCE}/${DATALAYER}/userDb.cpp ${SOURCE}/${MODEL}/user.cpp ${SOURCE}/${MODEL}/student.cpp ${SOURCE}/${MODEL}/instructor.cpp \
 	${TESTS}/${SOURCE}/${DATALAYER}/subscriptionDbTest.cpp ${SOURCE}/${DATALAYER}/subscriptionDb.cpp \
 	${TESTS}/${SOURCE}/${CONTROL}/filterTaskControllerTest.cpp ${SOURCE}/${CONTROL}/filterTaskController.cpp \
+	${TESTS}/${SOURCE}/${CONTROL}/userControllerTest.cpp ${SOURCE}/${CONTROL}/userController.cpp \
 	${SOURCE}/${CONTROL}/courseController.cpp ${SOURCE}/${CONTROL}/subscriptionController.cpp \
-	${SOURCE}/${CONTROL}/taskController.cpp ${SOURCE}/${CONTROL}/userController.cpp \
+	${SOURCE}/${CONTROL}/taskController.cpp \
 	${TESTS}/${SOURCE}/main.cpp \
 	$(CFLAGS) $(CRYPTO) $(LFLAGS)
 

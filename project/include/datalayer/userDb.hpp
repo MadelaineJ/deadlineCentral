@@ -19,8 +19,8 @@ class UserDB
     public:
         static UserDB* getInstance();
         ~UserDB();
-        bool createUser(Student U);
-        bool createUser(Instructor U);
+        int createUser(Student U);
+        int createUser(Instructor U);
         bool updateUser(User U, int userID);
         bool deleteUser(int userID);
         User getUserInfoById(int userID);

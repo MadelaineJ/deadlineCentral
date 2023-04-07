@@ -1,4 +1,4 @@
-// Unit tests for courseDb.cpp
+// Unit tests for filterTaskController.cpp
 
 // required libraries
 #include <boost/test/unit_test.hpp>
@@ -91,8 +91,4 @@ BOOST_AUTO_TEST_CASE(FilterTasksByTypeTest)
     userController->deleteUser(userId);
 }
 
-
-
-
-	
 BOOST_AUTO_TEST_SUITE_END()

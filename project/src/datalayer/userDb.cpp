@@ -1,5 +1,7 @@
 #include "userDb.hpp"
 
+#include <sstream>
+
 UserDB* UserDB::instance = nullptr;
 
 UserDB* UserDB::getInstance(){
@@ -12,35 +14,71 @@ UserDB* UserDB::getInstance(){
 UserDB::UserDB(){}
 UserDB::~UserDB(){}
 
-bool UserDB::createUser(Student user){
-   ControllerDb* controllerDB = ControllerDb::getInstance();
-   controllerDB->connect();
+int UserDB::createUser(Student user) {
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
 
-   string query = "INSERT INTO Students (name, email, password) VALUES ('"
-      + user.getName() + "', '"
-      + user.getEmail() + "', '"
-      + user.getPassword() + "')";
+    stringstream queryBuilder;
+    queryBuilder << "INSERT INTO Students (name, email, password) "
+                 << "VALUES (:1, :2, :3) "
+                 << "RETURNING studentId INTO :4 ";
 
-   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+    string query = queryBuilder.str();
+    Statement* stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setString(1, user.getName());
+    stmt->setString(2, user.getEmail());
+    stmt->setString(3, user.getPassword());
+    stmt->registerOutParam(4, OCCIINT);  // Register the return generated ID
+
+   stmt->executeUpdate();
+   
+   int gen_courseID = -1; //initialize to centinal value
+
+   // Retrieve the auto-generated ID
+   gen_courseID = stmt->getInt(4);
+
+   // Commit the transaction or changes will revert after connection is closed
    controllerDB->getConnection()->commit();
+
    controllerDB->disconnect();
-   return rowCount;
+
+   return gen_courseID;
 }
 
-bool UserDB::createUser(Instructor user){
-   ControllerDb* controllerDB = ControllerDb::getInstance();
-   controllerDB->connect();
 
-   string query = "INSERT INTO Instructors (name, email, password) VALUES ('"
-      + user.getName() + "', '"
-      + user.getEmail() + "', '"
-      + user.getPassword() + "')";
+int UserDB::createUser(Instructor user) {
+    ControllerDb* controllerDB = ControllerDb::getInstance();
+    controllerDB->connect();
 
-   int rowCount = controllerDB->getStatement()->executeUpdate(query);
+    stringstream queryBuilder;
+    queryBuilder << "INSERT INTO Instructors (name, email, password) "
+                 << "VALUES (:1, :2, :3) "
+                 << "RETURNING instructorID INTO :4 ";
+
+    string query = queryBuilder.str();
+    Statement* stmt = controllerDB->getConnection()->createStatement(query);
+
+    stmt->setString(1, user.getName());
+    stmt->setString(2, user.getEmail());
+    stmt->setString(3, user.getPassword());
+    stmt->registerOutParam(4, OCCIINT);  // Register the return generated ID
+
+   stmt->executeUpdate();
+   
+   int gen_courseID = -1; //initialize to centinal value
+
+   // Retrieve the auto-generated ID
+   gen_courseID = stmt->getInt(4);
+
+   // Commit the transaction or changes will revert after connection is closed
    controllerDB->getConnection()->commit();
+
    controllerDB->disconnect();
-   return rowCount;
+
+   return gen_courseID;
 }
+
 
 bool UserDB::updateUser(User U, int userID){
    ControllerDb* controllerDB = ControllerDb::getInstance();
@@ -126,7 +164,7 @@ User UserDB::getUserInfoById(int userID){
    user.setTaskList(this->getTaskList(userID));
    return user;
 }
-// getting user info was written by chat gpt using the following prompt:
+// getting user info was written by chatGPT 3.5 using the following prompt:
 /*
 I'm trying to write a sql query that gets user information based on the email address. 
 I have 2 user types, student and instructor. I have no way of knowing in the code if the 
