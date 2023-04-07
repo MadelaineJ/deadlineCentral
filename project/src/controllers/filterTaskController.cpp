@@ -233,7 +233,6 @@ void FilterTaskController::printTaskList() {
 //Todo: decide if this chunk of code is worth the speed loss
   //  Calculate the maximum width of each column
     for (Task task : taskList) {
-        idWidth = max(idWidth, (int)to_string(task.getTaskId()).length());
         nameWidth = max(nameWidth, (int)task.getTaskName().length());
         typeWidth = max(typeWidth, (int)task.getTypeName().length());
         ownerWidth = max(ownerWidth, (int)getCourseOwnerName(task.getTaskOwner(), task.getTaskType()).length());
@@ -244,7 +243,6 @@ void FilterTaskController::printTaskList() {
     }
 
     // Print the table headers
-    cout << setw(idWidth) << "ID" << " | ";
     cout << setw(nameWidth) << "Name" << " | ";
     cout << setw(typeWidth) << "Type" << " | ";
     cout << setw(ownerWidth) << "Course" << " | ";
@@ -254,7 +252,6 @@ void FilterTaskController::printTaskList() {
     cout << setw(weightWidth) << "Weight" << endl;
 
     // Print the separator
-    cout << string(idWidth, '-') << "-+-";
     cout << string(nameWidth, '-') << "-+-";
     cout << string(typeWidth, '-') << "-+-";
     cout << string(ownerWidth, '-') << "-+-";
@@ -271,7 +268,6 @@ void FilterTaskController::printTaskList() {
     }
     // Print the table rows
     for (Task task : this->taskList) {
-        cout << setw(idWidth) << task.getTaskId() << " | ";
         cout << setw(nameWidth) << task.getTaskName() << " | ";
         cout << setw(typeWidth) << task.getTypeName() << " | ";
         cout << setw(ownerWidth) << getCourseOwnerName(task.getTaskOwner(), task.getTaskType()) << " | ";

@@ -44,3 +44,12 @@ password: passwordRor
 #### Student
 email: MerleHuang@example.com
 password: passwordMer
+
+
+## Interesting Use case for viewing aggregated deadlines
+
+email: RorieGabrielson@example.com
+password: passwordRor
+
+course: CSCI 265 - Software Engineering 
+task: CSCI 265 Participation

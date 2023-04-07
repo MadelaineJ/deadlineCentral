@@ -248,7 +248,14 @@ void handleDeleteTask(){
 
     handleViewAllTasks();
     cout << "Enter the ID of the task to delete: ";
-    cin >> taskId;
+    list<Task> tasks = filterTaskController->getTaskList();
+    vector<Task> taskList = vector<Task>(tasks.begin(), tasks.end());
+    if (taskList.size() != 0) {
+        cout << "Which Task would you like to Delete?" << endl;
+        taskId = chooseTask(taskList);
+    } else {
+        cout << "You haven no courses" << endl;
+    }
 
     if (taskController->deleteTask(taskId)) {
         cout << "Task deleted successfully!" << endl;
@@ -256,8 +263,6 @@ void handleDeleteTask(){
     else {
         cout << "Error deleting task. Please try again." << endl;
     }
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 void handleEditTask(){
@@ -269,9 +274,12 @@ void handleEditTask(){
     // show all user tasks
     filterTaskController->filterTasksByType(10);
     filterTaskController->printTaskList();
+    list<Task> tasks = filterTaskController->getTaskList();
+    vector<Task> taskList = vector<Task>(tasks.begin(), tasks.end());
     if (filterTaskController->getTaskList().size() > 0) {
         cout << "Enter the ID of the task to edit: ";
-        cin >> taskId;
+        taskId = chooseTask(taskList);
+
         Task task = taskController->getTaskInfo(taskId);
         // TODO: add check if task doesn't exist or if they enter a string
         // TODO: user should be able to choose which values they want to edit
@@ -294,11 +302,8 @@ void handleEditTask(){
             cout << "Error editing task. Please try again." << endl;
         }
     } else {
-        cout << "you can only edit personal tasks" << endl;
+        cout << "You have no Tasks to Edit" << endl;
     }
-    
-
-    cin.ignore(numeric_limits<streamsize>::max(), '\n');
 }
 
 // course commands
@@ -462,14 +467,19 @@ void handleViewConsolidatedDeadlines() {
     if (courseList.size() != 0) {
         courseId = chooseCourse(courseList);
     } else {
-        cout << "You have no courses to delete" << endl;
+        cout << "You have no courses" << endl;
     }
 
     filterTaskController->filterTasksByCourse(courseId);
     filterTaskController->printTaskList();
+    list<Task> tasks = filterTaskController->getTaskList();
+    vector<Task> taskList = vector<Task>(tasks.begin(), tasks.end());
     cout << "For which TASK would you like to see the conflicting deadlines?" << endl;
-    cout << "Enter TaskId: ";
-    cin >> taskId;
+    if (taskList.size() != 0) {
+        taskId = chooseTask(taskList);
+    } else {
+        cout << "This course has no tasks to filter by" << endl;
+    }
 
     // TODO: add error checking for courseID
     Task task = taskController->getTaskInfo(taskId);
@@ -491,14 +501,12 @@ void printCourseList(vector<Course> courseList) {
     int descriptionWidth = 65;
 
     // Print the table headers
-    cout << setw(idWidth) << "ID" << " | ";
     cout << setw(nameWidth) << "Course Name" << " | ";
     cout << setw(courseCode) << "Course Code" << " | ";
     cout << setw(instructorWidth) << "Instructor" << " | ";
     cout << setw(descriptionWidth) << "Description" << endl;
 
     // Print the separator
-    cout << string(idWidth, '-') << "-+-";
     cout << string(nameWidth, '-') << "-+-";
     cout << string(courseCode, '-') << "-+-";
     cout << string(courseCode, '-') << "-+-";
@@ -510,7 +518,6 @@ void printCourseList(vector<Course> courseList) {
     // Print the table rows
     for (Course course : courseList) {
         string description = trimString(course.getCalendarDescription(), descriptionWidth);
-        cout << setw(idWidth) << course.getCourseId() << " | ";
         cout << setw(nameWidth) << course.getCourseName() << " | ";
         cout << setw(courseCode) << course.getCourseCode() << " | ";
         cout << setw(instructorWidth) << getInstructorName(course.getInstructorId()) << " | ";
@@ -588,8 +595,6 @@ string getTypeName(int type) {
     }
 }
 
-
-
 int chooseCourse(vector<Course> courseList) {
     int courseId;
     if(courseList.size() != 0) {
@@ -602,8 +607,9 @@ int chooseCourse(vector<Course> courseList) {
         while (!validInput) {
             cout << ">>> "; 
             cin >> courseId;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            if ((courseId < courseList.size()+1) && (courseId > 0)) {
+            if ((cin.fail()) || ((courseId < courseList.size()+1) && (courseId > 0))) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 validInput = true;
             } else {
                 cout << "Invalid choice, please try again" << endl;
@@ -625,13 +631,14 @@ int chooseTask(vector<Task> taskList) {
         while (!validInput) {
             cout << ">>> "; 
             cin >> taskId;
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            if ((taskId < taskList.size()+1) && (taskId > 0)) {
+            if ((cin.fail()) && ((taskId < taskList.size()+1) && (taskId > 0))) {
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
                 validInput = true;
             } else {
                 cout << "Invalid choice, please try again" << endl;
             }
-        }      
+        }          
     }
     return taskId-1;  
 }
