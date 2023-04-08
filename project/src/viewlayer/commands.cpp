@@ -116,6 +116,12 @@ void handleLogin(){
     }
 }
 
+
+void handleLogout() {
+    userController->setCurrentUser(-1);
+    cout << "You have been logged out" << endl;
+}
+
 // Task commands
 // Creates a personal Task
 void handleCreateTask(){

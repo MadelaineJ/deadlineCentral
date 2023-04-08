@@ -12,6 +12,7 @@ void handleUpdateAccount();
 void handleDeleteAccount();
 void handleCreateAccount(int userType);
 void handleLogin();
+void handleLogout();
 
 
 

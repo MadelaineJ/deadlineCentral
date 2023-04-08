@@ -109,9 +109,12 @@ void CommandHandler::manageAccount() {
                 handleUpdateAccount();
                 break;
             case 3:
+                handleLogout();
+                return;
+            case 4:
                 handleDeleteAccount();
                 break;
-            case 4:
+            case 5:
                 return;
                 break;
             default:
@@ -379,8 +382,9 @@ void CommandHandler::accountMenu() {
     cout << "===== ACCOUNT MENU =====" << std::endl;
     cout << "1. View Account Info" << std::endl;
     cout << "2. Update Account Info" << std::endl;
-    cout << "3. Delete Account" << std::endl;
-    cout << "4. Main Menu" << std::endl;
+    cout << "3. Log Out" << std::endl;
+    cout << "4. Delete Account" << std::endl;
+    cout << "5. Main Menu" << std::endl;
 }
 
 void CommandHandler::userTypeMenu() {

@@ -135,6 +135,7 @@ list<int> CourseDB::getEnrollmentList(int courseID){
 
       enrolledStudents.push_back(rs->getInt(1));
    }
+   controllerDB->disconnect();
    return enrolledStudents;
 }
 
