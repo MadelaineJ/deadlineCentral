@@ -6,7 +6,7 @@
 #include "aggregateDeadline.hpp"
 
 
-// Account
+// Account handlers
 void handleViewAccount();
 void handleUpdateAccount();
 void handleDeleteAccount();
@@ -14,16 +14,16 @@ void handleCreateAccount(int userType);
 void handleLogin();
 void handleLogout();
 
-
-
-// Task
+// Task Handlers
 void handleCreateTask();
 void handleDeleteTask();
 void handleEditTask();
 
+// task viewing
 void handleViewAllTasks();
 void handleViewTask();
 
+// task sorting
 void handleSortTasks();
 void handleSortByWeight();
 void handleSortByName();
@@ -31,6 +31,7 @@ void handleSortByType();
 void handleSortByDate();
 void handleSortByOwner();
 
+// Task filtering
 void handleFilterTasks();
 void handleFilterByType(int type);
 void handleFilterByCourse();
@@ -45,7 +46,6 @@ void handleEditCourse();
 void handleViewCourses();
 void handleCreateCourseTask();
 void handleAddExistingTask();
-
 void handleSubscribeCourse();
 void handleUnsubscribeCourse();
 void handleViewConsolidatedDeadlines();

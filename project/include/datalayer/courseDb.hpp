@@ -10,6 +10,8 @@
 #include <sstream> // for string building the SQL query
 #include <regex> // check date strings are correct format
 
+
+// custom header files
 #include "course.hpp"
 #include "student.hpp"
 #include "aggregateDeadline.hpp"
@@ -29,8 +31,6 @@ class CourseDB
         Course getCourseInfo(int courseID);
         list<AggregateDeadline> aggregateDeadlines(int courseID, string date);
         list<int> getInstructorCourses(int instructorId);
-        list<int> getAllCourseIDs();
-
         // helper functions
         int getCourseID(std::string courseCode, std::string instructorName);
     private:

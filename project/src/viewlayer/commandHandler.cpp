@@ -1,13 +1,16 @@
+// This file handles printing menus and directing users through different menus
+
+// required libraries
 #include <iostream>
 #include <string>
 #include <cstring>
 #include <ctime>
 #include <limits>
+
 // custom header files
 #include "commandHandler.hpp"
 #include "commands.hpp"
 #include "userController.hpp"
-
 
 using namespace std;
 
@@ -120,7 +123,6 @@ void CommandHandler::manageAccount() {
             default:
                 cout << "Invalid input\n";
                 break;
-            
         }
     } while(1);
 }
@@ -216,7 +218,6 @@ int CommandHandler::manageChooseTaskType() {
     do {
         chooseTaskTypeMenu();
         input = getUserInput();
- //       printf("\033[2J\033[H");
         switch (input) {
             case 1:
                 return 0;

@@ -1,6 +1,7 @@
 #ifndef INSTRUCTOR_HPP
 #define INSTRUCTOR_HPP
 
+// custom header files
 #include "user.hpp"
 
 class Instructor : public User

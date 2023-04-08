@@ -1,7 +1,8 @@
 // handles connection and query sending to database
 
+// required libraries
 #include <iostream>
-#include "occi.h"  // Oracle's C++ call level interface library package
+#include "occi.h"
 #include <termios.h>
 #include <unistd.h>
 
@@ -37,7 +38,6 @@ ControllerDb::~ControllerDb() { }
 
 /*
 * establishes connection to the oracle database using connection parameters defined in controllerDb.hpp
-* todo: this should probably return the result set (rs) so the other db layers can make use of it
 * author: Brandon & Madelaine
 */ 
 string ControllerDb::connect() {

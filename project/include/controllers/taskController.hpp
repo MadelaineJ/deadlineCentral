@@ -8,7 +8,6 @@
 #include <termios.h>
 #include <unistd.h>
 
-
 // custom header files
 #include "taskDb.hpp"
 

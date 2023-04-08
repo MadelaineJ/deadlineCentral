@@ -1,5 +1,7 @@
+// custom header files
 #include "userDb.hpp"
 
+// required libraries
 #include <sstream>
 
 UserDB* UserDB::instance = nullptr;
@@ -45,7 +47,6 @@ int UserDB::createUser(Student user) {
 
    return gen_courseID;
 }
-
 
 int UserDB::createUser(Instructor user) {
     ControllerDb* controllerDB = ControllerDb::getInstance();

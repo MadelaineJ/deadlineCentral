@@ -1,4 +1,4 @@
-//Included custom header files
+// custom header files
 #include "courseDb.hpp"
 #include "course.hpp"
 #include "instructor.hpp"
@@ -295,35 +295,4 @@ list<int> CourseDB::getInstructorCourses(int instructorId) {
     }
     controllerDB->disconnect();
     return instructorCourseList;
-}
-
-// Returns all courses in the database
-// TODO: should only be "current courses"
-
-list<int> CourseDB::getAllCourseIDs()
-{
-    // Establish a connection to the database
-    ControllerDb* controllerDB = ControllerDb::getInstance();
-    controllerDB->connect();
-
-    // Build the SQL query to retrieve all course IDs
-    stringstream queryBuilder;
-    queryBuilder << "SELECT courseId "
-                 << "FROM Courses";
-
-    string query = queryBuilder.str();
-    Statement *stmt = controllerDB->getConnection()->createStatement(query);
-
-    // Execute the query and store the results in a list of integers
-    list<int> courseList ;
-    ResultSet *rs = stmt->executeQuery();
-    int courseID = -1;
-    while(rs->next()){
-        courseID = rs->getInt(1);
-        courseList.push_back(courseID);
-    }
-
-    // Disconnect from the database and return the list of course IDs
-    controllerDB->disconnect();
-    return courseList;
 }

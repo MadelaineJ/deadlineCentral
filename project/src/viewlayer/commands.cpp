@@ -1,3 +1,5 @@
+// This file handles getting user input and calling appropriate controller classes
+
 #include <iostream>
 #include <list>
 #include <algorithm>
@@ -13,13 +15,12 @@
 #include "subscriptionController.hpp"
 #include "courseController.hpp"
 #include "aggregateDeadline.hpp"
-
-// models
 #include "task.hpp"
 #include "course.hpp"
 
 using namespace std;
 
+// static reference to controllers
 UserController *userController = UserController::getInstance();
 TaskController *taskController = TaskController::getInstance();
 FilterTaskController *filterTaskController = FilterTaskController::getInstance();
@@ -49,6 +50,7 @@ void handleUpdateAccount() {
     userController->updateUser(name, email);
 
 }
+
 void handleDeleteAccount() {
     cout << "Warning, this cannot be undone" << endl;
     cout << "Are you sure you want to delete your account? (y/n): ";
@@ -65,6 +67,7 @@ void handleDeleteAccount() {
         cout << "You account has NOT been deleted" << endl;
     }
 }
+
 void handleCreateAccount(int userType) {
     bool goodPassword = false;
 
@@ -150,7 +153,7 @@ void handleCreateTask(){
 
     if (taskController->createUserTask(userController->getCurrentUser(), name, description, dueDate, weight)) 
     {
-        cout << "Successfully Create task: '" << name << "'" << endl;
+        cout << "Successfully Created task: '" << name << "'" << endl;
     } else {
         cout << "Error Creating task: '" << name << "'" << endl;
         cout << "Please Try again" << endl;
@@ -202,7 +205,6 @@ void handleCreateCourseTask() {
         cout << "Error adding task: '" << name << "' to course: '" << courseList[courseId].getCourseName() << "'" << endl;
         cout << "Please Try again" << endl;
     }
-    
 }
 
 void handleSortByWeight() {
@@ -217,7 +219,6 @@ void handleSortByType() {
     filterTaskController->sortTasksByType();
     filterTaskController->printTaskList();
 }
-
 void handleSortByDate() {
     cout << "handleSortByDate" << endl;
     filterTaskController->sortTasksByDate();
@@ -227,7 +228,6 @@ void handleSortByOwner() {
     filterTaskController->sortTasksByOwner();
     filterTaskController->printTaskList();
 }
-
 void handleFilterByType(int type) {
     filterTaskController->filterTasksByType(type);
     filterTaskController->printTaskList();
@@ -279,6 +279,7 @@ void handleDeleteTask(){
 
     handleViewAllTasks();
     cout << "Enter the ID of the task to delete: " << endl;
+
     list<Task> tasks = filterTaskController->getTaskList();
     vector<Task> taskList = vector<Task>(tasks.begin(), tasks.end());
     if (taskList.size() != 0) {
@@ -306,7 +307,7 @@ void handleEditTask(){
     if (userController->getCurrentUser() > 1000) {
         filterTaskController->findAllUserTasks();
     } else {
-        // studnets can only edit personal tasks
+        // students can only edit personal tasks
         filterTaskController->filterTasksByType(10);
     }
     
@@ -319,7 +320,6 @@ void handleEditTask(){
 
         Task task = taskController->getTaskInfo(taskId);
         type = task.getTaskType();
-        // TODO: add check if task doesn't exist or if they enter a string
         // TODO: user should be able to choose which values they want to edit
         cout << "Enter the new task name: ";
         cin.ignore();
@@ -343,7 +343,6 @@ void handleEditTask(){
             cout << "Choose Task Type" << endl;
             type = commandHandler.manageChooseTaskType();
         } 
-
 
         if (taskController->updateTask(userController->getCurrentUser(), taskId, name, description, dueDate, weight, type)) {
             cout << "Task edited successfully!" << endl;
@@ -385,6 +384,7 @@ void handleAddExistingTask() {
         int type = commandHandler.manageChooseTaskType();
         task.setTaskType(type);
     }
+
     // Choose course
     cout << "Which course would you like to add the task to?" << endl;
     vector<Course> courseList = courseController->getInstructorCourses(userController->getCurrentUser());
@@ -499,8 +499,6 @@ void handleSubscribeCourse(){
     } else {
         cout << "There are Currently no Courses to Subscribe to" << endl;
     }
-
-    // TODO: add error checking on Course Code
     Course course = courseController->getCourseInfo(courseId);
     if (subscriptionController->addSubscription(courseId, userController->getCurrentUser())) {
         cout << "Subscribed to " << course.getCourseName() << " successfully!" << endl;
@@ -553,7 +551,6 @@ void handleViewConsolidatedDeadlines() {
         cout << "This course has no tasks to filter by" << endl;
     }
 
-    // TODO: add error checking for courseID
     Task task = taskController->getTaskInfo(taskId);
     string date = task.getDueDate();
     list<AggregateDeadline> deadlines = courseController->aggregateDeadlines(courseId, date);
@@ -563,7 +560,8 @@ void handleViewConsolidatedDeadlines() {
 }
 
 
-// TODO: Display Description
+// note: this function is based off the printTaskList function in filterTasksController.cpp, 
+// which was written primarily by chatGPT
 // TODO : implement viewing an individual course and showing description
 void printCourseList(vector<Course> courseList) {
     int idWidth = 4;
@@ -616,6 +614,8 @@ string getInstructorName(int id) {
     return instructor.getName();
 }
 
+// note: this function is based off the printTaskList function in filterTasksController.cpp, 
+// which was written primarily by chatGPT
 void printAggregateDeadlines(list<AggregateDeadline> deadlineList) {
     int typeWidth = 14;
     int dateWidth = 12;
@@ -646,7 +646,8 @@ void printAggregateDeadlines(list<AggregateDeadline> deadlineList) {
         }
     }
 }
-// Note, this function is duplicated in task.cpp and should be refactored to avoid duplication
+
+// TODO: this function is duplicated in task.cpp and should be refactored to avoid duplication
 string getTypeName(int type) {
     switch (type) {
         case 0:

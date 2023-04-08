@@ -230,8 +230,8 @@ void FilterTaskController::printTaskList() {
     int completionWidth = 9;
     int weightWidth = 8;
 
-//Todo: decide if this chunk of code is worth the speed loss
-  //  Calculate the maximum width of each column
+    // TODO: decide if this chunk of code is worth the speed loss
+    // Calculate the maximum width of each column
     for (Task task : taskList) {
         nameWidth = max(nameWidth, (int)task.getTaskName().length());
         typeWidth = max(typeWidth, (int)task.getTypeName().length());

@@ -5,14 +5,14 @@
 ----------------------------------------------------------------------------------------------------------------------------
 Using Deadline Central:                                                                                                     
 ----------------------------------------------------------------------------------------------------------------------------	
-	This project is meant to be used as  a task tracking application where                                                  
-	users can login and view the upcoming tasks/assignments from their                                                      
-	current courses as well as any personal tasks they create.                                                              
+	This project is a task tracking application where students can login and view the upcoming tasks/assignments from their                                                      
+	current courses as well as any personal tasks they create. Instructors can create courses and                                                               
 	                                                                                                                        
 ----------------------------------------------------------------------------------------------------------------------------
 Trouble-shooting:                                                                                                           
 ----------------------------------------------------------------------------------------------------------------------------                                                                                                                           
-    If you end up in a menu you don't want to be selecting the "BACK" or "RETURN" option will return you to prevouis menus. 
+    If you end up in a menu you don't want to be selecting the "BACK" or "<> Menu" option will return you to prevous menu.
+    There are many instances where you cannot return to previous menu until the current use case is completed.
     
     If you are ever stuck and using the command 'ctl C' dosen't work you have two options:
         1) Close the terminal window and relaunch the application.
@@ -26,13 +26,49 @@ Trouble-shooting:
 ----------------------------------------------------------------------------------------------------------------------------
 List of known issues:                                                                                                       
 ----------------------------------------------------------------------------------------------------------------------------                                                                                                         
-    - resizing the terminal window will result in input being read (even thought there is none)
-    - students can delete/edit course tasks (they aren't suppose to be able to)
-    - any user can delete a course if they know the course ID                         
+    - resizing the terminal window will result in input being read (even thought there is none)                      
     - filtering tasks by course is very slow (can take up to 1 minute)
     - if user ID is less that 1001 then the user is a student (thus only a limited number of student can be supported)
-    - *ONCE* segmentation fault when filtering task by type
-    - *ONCE* segmentation fault when subscribing to a course as a student (after doing task filtering/sorting)
-    - lack of error checking
+    - user cannot choose which values to edit, all values must be edited for tasks and courses
                                                                                                                                                                                                             
 ----------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------------------------------------------------------------------------------
+TODO:                                                                                                       
+----------------------------------------------------------------------------------------------------------------------------       
+    There is one major functionality that was not implemented, and several minor additions left to do.
+
+    Major Use Cases:
+    - Marking a personal task as complete
+        - This would involve adding menu options to the task menu
+    - Marking a course task as complete
+        - This would involve reworking the database to add a new schema, and making a copy of each course task for all students
+        that have subscribed to the course
+
+    Minor Changes:
+    - Allowing instructors to view enrollment list
+    - Allowing instructors to see how many students are in their course
+    - Allowing users to choose which values they want to edit when editing a course or task 
+    - Improving the speed of filtering and sorting task list
+    - Allowing users to view tasks and courses individually instead of in a list
+
+    Code Quality:
+    - Writing unit tests for all controller functions
+    - Writing unit tests for commands.cpp
+    - Writing end-to-end tests using a bash script to run the deadlineCentral executable, pass userinput and check the output
+    - Breaking up commands.cpp into different files (most likely by object they impact)
+    - Adding function comments to all functions explaining their purpose, author, return value and parameters
+    - Adding comments to top of each .cpp file
+    - Making all variable names consistent
+    - Make sure controllers make use of other controllers where possible instead of DB class functions
+    - Decided whether creating or updating object functions should take an object or a series of object attributes and be
+        consistent. Currently Deadline Central uses both methods
+    
+    Extra:
+    - There are some TODO comments/question in .cpp files throughout the project. These should be addressed and resolved
+
+                                                                                                                                                                                                            
+----------------------------------------------------------------------------------------------------------------------------
+
+
+

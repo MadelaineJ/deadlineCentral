@@ -4,7 +4,6 @@
 #include <termios.h>
 #include <unistd.h>
 
-
 // Custom header files
 #include "courseController.hpp"
 #include "aggregateDeadline.hpp"
@@ -59,7 +58,7 @@ bool CourseController::deleteCourse(int courseId, int userId) {
     // TODO: we should not have to pass a userID to filter tasks by course
 
     // Delete all tasks associated with the course
-    // TODO: decide if this should associate the tasks with the instructor as personal instead of deleting themclearclera
+    // TODO: decide if this should associate the tasks with the instructor as personal instead of deleting them altogether
     list<Task> taskList = taskDb->getFilteredTasks(-1, courseId, -1, -1, -1, userId);
     for (Task task : taskList) {
         this->taskController->deleteTask(task.getTaskId());

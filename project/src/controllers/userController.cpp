@@ -8,8 +8,6 @@
 #include <sstream>
 #include <iomanip>
 
-
-
 // Custom header files
 #include "userController.hpp"
 #include "taskController.hpp"
@@ -120,7 +118,7 @@ void UserController::deleteUser(int userId) {
         for (Course course: subscriptions) {
             subscriptionController->removeSubscription(course.getCourseId(), userId);
         }
-    // TODO: decide if deleting an instructor should really delete all their courses
+    // TODO: decide if deleting an instructor should really delete all their courses or just mark it as "no instructor"
     } else {
         // delete user's courses if instructor
         vector<Course> courseList = courseController->getInstructorCourses(userId);
@@ -156,8 +154,8 @@ User UserController::getUserInfo(int userId, string email) {
 bool UserController::validateCredentials(string email, string password) {
     User user = this->getUserInfo(-1, email);
 
-    // Note, this or statement is required because the dummy data is not hashed.
-    // Any new user created in DeadlineCentral Will have a hashed password
+    // Note, the or statement is required because the dummy data is not hashed.
+    // Any new user created in DeadlineCentral will have a hashed password
 
     if ((user.getPassword() == password) || (user.getPassword() == generate_hash(password))) {
         this->currentUser = user.getUserId();
@@ -167,12 +165,12 @@ bool UserController::validateCredentials(string email, string password) {
     }
 }
 
-
+// used to see which user is currently logged in
 int UserController::getCurrentUser() {
     return this->currentUser;
 }
 
-//todo, remove this
+// used to set the currently logged in user
 void UserController::setCurrentUser(int userId) {
     this->currentUser = userId;
 }
