@@ -59,7 +59,6 @@ ${BUILDS}/student.o ${BUILDS}/task.o ${BUILDS}/user.o ${BUILDS}/commands.o
 # and change the name
 test: directories ${BINARY}/deadlineCentral ${TESTS}/${BINARY}/deadlineCentralTest
 	${TESTS}/${BINARY}/deadlineCentralTest --log_level=all \
-	--run_test=math \
 	--run_test=controllerDB \
 	--run_test=taskDatabase \
 	--run_test=courseDB \

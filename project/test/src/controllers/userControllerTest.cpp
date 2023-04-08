@@ -23,7 +23,7 @@ BOOST_AUTO_TEST_SUITE(userControllerTest)
 // This unit test was written using Chat GPT-4 with the following prompt:
 /*
 Note: the specifications for the Db classes and functions named below were pasted in their entirety to ChatGPT
-but were only listed here for brevity.
+but were only listed here for brevity. Additonally, the version GPT-4 gave had to be modified but only slightly
 
 can you write a Boost library C++ function for this deleteUser function?
 

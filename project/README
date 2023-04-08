@@ -1,7 +1,38 @@
 # Project files for Deadline Central
 
-Note: This project will only run on the kit lab machines because it uses OpenSSL
+Note: This project will only run on the kit lab machines (any of them) because it uses OpenSSL
 
+
+# Directory Structure
+The main directory contains:
+- a 'project' folder -> with all source code and the makefile. 
+- createTables_auto.sql -> contains the sql scripts to create tables and populate database
+- developmentReadme.md -> contains git workflow instructions for developers
+- makefile -> has scripts for automatically updating local repo and pushing updates from another branch (see developmentReadme.md)
+- todo.txt -> contains a description of the use of the product, trouble-shooting, and know-issues
+The project folder contains:
+- This README
+- Makefile -> for building deadline central and the testing executable
+- bin folder -> will contain the DeadlineCentral executable after building the project
+- build folder -> will contain the .o files for all .cpp files after building the project
+- include folder -> contains header files for the controllers, datalayer, models, and "viewlayer" (command line)
+- src folder -> contains all cpp files for the controllers, datalayer, models, and "viewlayer" (command line) and main.cpp
+The Test folder contains:
+- bin folder -> will contain the DeadlineCentralTest executable after building the project
+- build -> will contain testing related .o files 
+- include -> contains the testing header files
+- src folder -> contains the testing .cpp files and the main.cpp testing file
+The src and include folders:
+Deadline central is broken down into 4 modules:
+- controllers -> responsible for the business logic
+- datalayer -> responsible for making connections to the database
+- models -> classes for the objects in deadlineCentral (user, student, instructor, course, task)
+- viewlayer -> cpp files responsible for getting user input and creating terminal out. The "viewlayer" is all command line
+
+Note that the testing exe and DeadlineCentral are compiled seperately and require different compilation processes
+
+# How to run and compile Deadline Central
+Note all commands should be run from this directory: csci375/Project/project
 ## To run deadline central:
 `make run`
 
@@ -15,15 +46,27 @@ Note: This project will only run on the kit lab machines because it uses OpenSSL
 `make test`
 Note: this will freeze for 10-30 seconds. It is slow but will finish eventually
 
+You can run the unit tests for only one file with the following command (from csci375/Project/project directory):
+    test/bin/deadlineCentralTest --log_level=all --run_test=<testname> bin/test
+replace test name will one of the following available tests:
+#### Available tests:
+    controllerDB
+    taskDatabase
+    courseDB
+    userDatabase
+    subscriptionDatabase
+    filterTaskController
+    userControllerTest
+
 Note: The makefile to create the testing executable is not set up perfectly, so it is best practice to do a
 `make clean`
 before running `make test` to guarantee that you have the latest changes.
 
-Note2: You should reset the database (instructions below), before running the tests. In an ideal world we would have two database accounts, one for
-unit tests and one for running the application.
-
+Note2: You should reset the database (instructions below), before running the tests. In an ideal world we would have two database accounts, 
+one for unit tests and one for running the application. The tests should also be spinning up their own data that they clean up afterwards
 
 ## Reset The Database Data
+You can reset the database by entering these commands:
 sqlplus team1/teamwon1@192.168.18.58:1539/XEPDB1
 @../createTables_auto.sql
 
@@ -44,7 +87,6 @@ password: passwordRor
 #### Student
 email: MerleHuang@example.com
 password: passwordMer
-
 
 ## Interesting Use case for viewing aggregated deadlines
 
