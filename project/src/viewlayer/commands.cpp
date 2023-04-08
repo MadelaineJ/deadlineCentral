@@ -278,7 +278,7 @@ void handleDeleteTask(){
     int taskId;
 
     handleViewAllTasks();
-    cout << "Enter the ID of the task to delete: ";
+    cout << "Enter the ID of the task to delete: " << endl;
     list<Task> tasks = filterTaskController->getTaskList();
     vector<Task> taskList = vector<Task>(tasks.begin(), tasks.end());
     if (taskList.size() != 0) {
@@ -303,15 +303,22 @@ void handleEditTask(){
     int type;
 
     // show all user tasks
-    filterTaskController->filterTasksByType(10);
+    if (userController->getCurrentUser() > 1000) {
+        filterTaskController->findAllUserTasks();
+    } else {
+        // studnets can only edit personal tasks
+        filterTaskController->filterTasksByType(10);
+    }
+    
     filterTaskController->printTaskList();
     list<Task> tasks = filterTaskController->getTaskList();
     vector<Task> taskList = vector<Task>(tasks.begin(), tasks.end());
     if (filterTaskController->getTaskList().size() > 0) {
-        cout << "Enter the ID of the task to edit: ";
+        cout << "Enter the ID of the task to edit: " << endl;
         taskId = chooseTask(taskList);
 
         Task task = taskController->getTaskInfo(taskId);
+        type = task.getTaskType();
         // TODO: add check if task doesn't exist or if they enter a string
         // TODO: user should be able to choose which values they want to edit
         cout << "Enter the new task name: ";
@@ -331,8 +338,12 @@ void handleEditTask(){
         }
         cout << "Enter the new task weight (as a decimal): ";
         cin >> weight;
-        cout << "Enter the new task type (1 = Homework, 2 = Quiz, 3 = Exam, 4 = Project): ";
-        cin >> type;
+        if (task.getTaskType() != 10) {
+            CommandHandler commandHandler;
+            cout << "Choose Task Type" << endl;
+            type = commandHandler.manageChooseTaskType();
+        } 
+
 
         if (taskController->updateTask(userController->getCurrentUser(), taskId, name, description, dueDate, weight, type)) {
             cout << "Task edited successfully!" << endl;
@@ -444,6 +455,7 @@ void handleEditCourse(){
     }
 
     // TODO: user should be able to choose which values they want to edit
+    cin.ignore(numeric_limits<streamsize>::max(), '\n');
     cout << "Enter the new course name: ";
     getline(cin, name);
     cout << "Enter the new calendar description: ";
@@ -665,10 +677,12 @@ int chooseCourse(vector<Course> courseList) {
             cout << "==== Enter Course Number ====" << endl;
             cout << ">>> "; 
             cin >> courseId;
-            if ((cin.fail()) || ((courseId < courseList.size()+1) && (courseId > 0))) {
+            if ((courseId < courseList.size()+1) && (courseId > 0)) {
+                validInput = true;
+            } else if (cin.fail()) {
                 cin.clear();
                 cin.ignore(numeric_limits<streamsize>::max(), '\n');
-                validInput = true;
+                cout << "Invalid choice, please try again" << endl;
             } else {
                 cout << "Invalid choice, please try again" << endl;
             }
@@ -690,10 +704,12 @@ int chooseTask(vector<Task> taskList) {
             cout << "==== Enter Task Number ====" << endl;
             cout << ">>> "; 
             cin >> taskId;
-            if ((cin.fail()) || (((taskId < taskList.size()+1) && (taskId > 0)))) {
-                cin.clear();
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            if (((taskId < taskList.size()+1) && (taskId > 0))) {
                 validInput = true;
+            } else if (cin.fail()) { // if they didn't enter an int
+                cin.clear();
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');                
+                cout << "Invalid choice, please try again" << endl;
             } else {
                 cout << "Invalid choice, please try again" << endl;
             }
