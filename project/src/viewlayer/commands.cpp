@@ -491,8 +491,9 @@ void handleSubscribeCourse(){
 
     int courseId;
     cout << "Which course do you want to subscribe to?" << endl;
-
     vector<Course> courseList = subscriptionController->viewAvailableSubscriptions(userController->getCurrentUser());
+    printCourseList(courseList);
+
     if (courseList.size() != 0) {
         courseId = chooseCourse(courseList);
     } else {
@@ -500,8 +501,10 @@ void handleSubscribeCourse(){
     }
 
     // TODO: add error checking on Course Code
+    Course course = courseController->getCourseInfo(courseId);
     if (subscriptionController->addSubscription(courseId, userController->getCurrentUser())) {
-        cout << "Subscribed to course successfully!" << endl;
+        cout << "Subscribed to " << course.getCourseName() << " successfully!" << endl;
+        cout << "Tasks for " << course.getCourseName() << " have been added to your tasks list" << endl;
     }
     else {
         cout << "Error subscribing to course. Please try again." << endl;
